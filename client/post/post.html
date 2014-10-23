@@ -1,0 +1,95 @@
+<template name="post">
+
+		<div class="span7">
+		  
+			<div class="media">
+			 	<a class="close" data-dismiss="modal">x</a>	
+					<a class="pull-left" href="">
+						<img class="media-object" src="/{{owner}}.jpg" width="60px"/>	
+					</a>	
+					<div class="media-body">
+						
+						<h4 class="media-heading">{{profile.name}}</h4>
+					
+					  	<p>{{text}}</p>
+						<div class="media">
+		
+						
+								
+									
+						<span class="badge badge-success"></span>
+						<h4 class="media-heading">
+						{{#if checklike}}
+							<a class="likebtn muted"><small>unlike</small></a>
+						{{else}}
+							<a class="likebtn muted"><small>like</small></a>
+						{{/if}}						
+						</h4>
+									
+									{{#if likeCount}}
+										{{likeCount}} Like This
+									{{/if}}
+						
+							 
+						</div>
+
+					</div>
+			
+	   		</div>
+			
+		
+		<div class="postcomment cmnt">	
+			<ul class ="unstyled">
+			{{#each CommentTexts}}
+				{{>postcomment }}
+			{{/each}}
+		  	</ul>
+					<input class="comment input-xlarge" type="text" name="comment" placeholder="Write a comment..." id="comment">
+		</div>
+			
+			
+		</div>
+</template>
+
+
+<template name="postcomment">
+
+
+<li class ="well">
+	<a class="close" data-dismiss="modal">x</a>
+	<a class ="pull-left" href="">
+		<img src="/{{owner}}.jpg" width="30px" class="img-rounded" alt=""/>
+	</a>
+	
+	<p class="muted commentUser">{{profile.name}}</p>
+	
+	<p class="muted commentText">{{text}} </p>
+
+	<div class="media">
+		
+						
+								
+									
+						<span class="badge badge-success"></span>
+						<h4 class="media-heading">
+						{{#if checklike}}
+							<a class="commentlikebtn muted"><small>unlike</small></a>
+						{{else}}
+							<a class="commentlikebtn muted"><small>like</small></a>
+						{{/if}}						
+						</h4>
+									
+									{{#if likeCount}}
+										{{likeCount}} Like This
+									{{/if}}
+						
+							 
+						</div>
+
+</li>
+
+
+</template>
+
+
+

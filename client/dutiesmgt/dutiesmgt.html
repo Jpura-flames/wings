@@ -1,0 +1,211 @@
+<template name="dutiesmgt">
+{{#if showdutieform}}
+		{{>dutiesmgtForm}}
+{{/if}}
+
+{{#if dutiedelete}}
+	{{>dutiedeleteprompt}}
+{{/if}}
+		<div class="span7">
+			<div class="container-fluid">
+			 				
+					<div class="row-fluid">
+						
+						<div class="page-header">
+							<h1>Duties <small>Management</small></h1>
+						<button class="btn btn-large btn-success adddutiebtn">Add Dutie</button>		
+					 	</div>	
+						
+						<div class="well">
+								{{#each eventList}}
+									<div class="" >
+										{{>dutiesmgtinforow}}
+									</div>
+								{{/each}}
+							
+						</div>
+				</div>
+			
+	   		</div>
+			
+		</div>
+</template>
+
+
+
+<template name="dutiesmgtinforow">
+	<div class="dutieinforow" id="dutieinforow">
+	<ul class="unstyled well">
+		<li>
+
+			<p class="eventname">{{eventname}}</p>
+	
+			<p class="muted commentText"> {{eventdatetime}} </p>
+		
+		</li>
+	        
+		<a herf="" name="photo" id="photo" class="btn-small btn-info photo">Assign Photographer</a>
+		<a herf="" name="aw" id="aw" class="btn-small btn-warning aw">Assign Aritcle Writer</a>
+		<a herf="" name="gd" id="gd" class="btn-small btn-success gd">Assign Graphic Designer</a>
+		<a herf="" name="cordi" id="cordi" class="btn-small btn-inverse cordi">Assign Cordinator</a>
+	</ul>	
+		
+			{{#each eventDutie}}
+				{{>assigndutiesmgt}}
+			{{/each}}
+	</div>
+
+</template>
+
+<template name="assigndutiesmgt">
+	<div class="assigndutiesmgt" id="assigndutiesmgt">
+		<ul class="unstyled well">
+			<li>
+<a herf="" name="del" id="del" class="btn-small btn-danger del">Not Ready </a>				
+				{{dutiename}}
+				{{confirmation}}
+				{{dutieMem.name}}
+				
+<a herf="" name="delete" id="delete" class="btn-small btn-danger delete pull-right">Delete </a>							
+<a herf="" name="update" id="update" class="btn-small btn-warning update pull-right">Update</a>
+			
+			</li>
+		</ul>		
+			
+	</div>
+</template>
+
+
+<template name="dutiesmgtForm">
+	
+	<div id="adddutie" name="adddutie" class="modal-backdrop adddutie dutiesmgtForm">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+
+				{{#if updateDutie}}
+					<h4>Update Dutie</h4>
+				{{else}}
+					{{#if job}}
+						<h4>{{assignType}}</h4>
+					{{else}}
+						<h4>Add Dutie</h4>
+					{{/if}}
+				{{/if}}			
+			</div>
+			<div class="modal-body">
+	<ul class="unstyled">
+
+				{{#if job}}
+				{{else}}
+				<label for="name">Dutie Type </label><br>
+			<select name="dutietype" id="dutietype" class="dutietype">
+				
+				<option value="Photography">Photography</option>
+				<option value="Article Writing">Article Writing</option>
+				<option value="IT">IT</option>
+				<option value="HRM">HRM</option>
+				<option value="Marketing">Marketing</option>
+				<option value="Finance">Finance</option>
+				<option value="Cordinator">Coordinator</option>
+			</select>
+				
+				{{/if}}	
+				
+
+
+				<label for="name">Dutie Description </label>
+				<input class="input input-xlarge dutiedesc" type="text" name="dutiedesc" value="{{updateDutieinfo.dutiedesc}}" id="eventname">
+
+			{{#if editing_dutie_data}}
+
+
+			<label for="name">Event</label>
+				<input class="input input-xlarge eventname" type="text" name="eventname" value="{{events.eventname}}" id="eventname2">
+				<label for="name">Date & Time </label>
+				
+<div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control datentime" name="datentime" value="{{events.eventdatetime}}"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+
+<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+</script>
+
+			{{else}}
+				<label for="name">Event</label>
+				<input class="input input-xlarge eventname" type="text" name="eventname" value="{{updateDutieinfo.event}}" id="eventname">
+
+				<label for="name">Date & Time </label>
+				
+<div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control datentime" name="datentime" value="{{updateDutieinfo.datetime}}"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+
+<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+</script>
+			{{/if}}
+
+				<label for="name">Member</label><br>
+				<select name="member" id="member" class="member">
+					{{#each mem}}
+						<option value="{{parent}}">{{name}}</option>
+					{{/each}}	
+				</select><br>
+				
+
+			<label for="name">Dutie Status </label><br>
+			<select name="dutiestatus" id="dutiestatus" class="dutiestatus">
+				<option value="Future">Future</option>
+				<option value="Done">Done</option>
+			</select>
+	
+	</ul>
+				
+			</div>
+
+			<div class="modal-footer">
+					{{#if updateDutie}}
+					<a herf="" name="update" id="update" class="btn btn-warning update">Update</a>
+					{{else}}
+					<a herf="" name="save" id="save" class="btn btn-success save">Save</a>
+					{{/if}}
+					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
+			</div>
+	</div>
+</template>
+
+<template name="dutiedeleteprompt">
+	<div id="deluser" name="deluser" class="modal-backdrop deluser span4 ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+				<h4>Delete User</h4>				
+			</div>
+		<div class="modal-body">
+	<ul class="unstyled">
+		<li>
+				
+				
+		</li>
+	</ul>
+		<div class="modal-footer">
+					<label for="name">Are you sure want to delete this dutie?</label><br><br>
+					<a herf="" name="del" id="del" class="btn btn-danger del">Delete</a>
+				
+					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
+			</div>
+		</div>
+	</div>
+</template>

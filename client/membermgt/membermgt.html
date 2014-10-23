@@ -1,0 +1,273 @@
+<template name="membermgt">
+{{#if showprofform}}
+		{{>profileForm}}
+{{/if}}
+	
+{{#if showaddmemform}}
+		{{>addMemberForm}}
+{{/if}}
+
+{{#if memberdelform}}
+		{{>userdeleteprompt}}
+{{/if}}
+
+{{#if showchangepwform}}
+		{{>changepasswordform}}
+{{/if}}
+
+		<div class="page-header span9">
+				<h1>Member Profile <small>Management</small></h1>
+		<a herf="" name="addmember" id="addmember" class="btn btn-success addmember">Add New Member</a>	
+		</div>	
+		<div class="span7">
+		<ul class="unstyled" id="postlist">
+			{{#each Users}}
+				{{>membermgtProfile}}
+			 {{/each}}
+			
+		</ul>
+		</div>
+		
+			
+			
+		
+</template>
+
+<template name="membermgtProfile">
+		<div class="media well span3 membermgtProfile">
+			<a class="close" data-dismiss="modal">x</a>
+  			<div class="pull-left">
+    			<img class="media-object" src="/{{_id}}.jpg" width="60px">
+  			</div>
+  			<div class="media-body">
+				{{#if profile}}
+				
+					<h4 class="media-heading">{{profile.name}}</h4>
+
+				{{#each membersInfoAll}}
+							
+					{{>memberprofinfo}}
+							
+				{{/each}}
+				{{else}}				
+    				<h4 class="media-heading">{{username}}</h4>
+				{{/if}}
+    				<p>
+				
+					{{#if profile.job.photo}}
+					Photographer<br>
+					{{/if}}
+					{{#if profile.job.it}}
+					IT<br>	
+					{{/if}}
+					{{#if profile.job.aw}}
+					Article Writer<br>	
+					{{/if}}
+					{{#if profile.job.mkt}}
+					Marketer<br>	
+					{{/if}}
+					{{#if profile.job.hr}}
+					HR Manager<br>
+					{{/if}}
+					{{#if profile.job.fin}}
+					Fin Manager<br>
+					{{/if}}
+						{{#each emails}}
+							{{address}}
+						{{/each}}
+						
+
+					{{#if profile}}
+					<a herf="" name="save" id="save" class="btn btn-primary btn-xs save">Update Member Info</a>
+					<a herf="" name="chngpw" id="chngpw" class="btn btn-warning btn-xs chngpw">Change Password   </a>
+							{{else}}
+					<a herf="" name="save" id="save" class="btn btn-warning btn-xs save">Add Member Info</a>
+					{{/if}}
+					
+					
+										
+				</p>
+			
+ 			 </div>
+		</div>
+
+</template>
+
+<template name="memberprofinfo">
+				
+					<div class="media-body span3">
+					<a class="close" data-dismiss="modal">x</a>
+						<h4 class="media-heading"></h4>
+					  		<p></p>
+				
+					</div>
+</template>
+
+<template name="profileForm">
+	<div id="profileinfo" name="profileinfo" class="modal-backdrop profileinfo profileForm">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+				<h4>Profile Information</h4>				
+			</div>
+			<div class="modal-body">
+	<ul class="unstyled">
+		<li>
+				<label for="name">Name </label>
+				<input class="input input-xlarge name" type="text" name="name" value="{{profile.name}}" id="name">
+		</li>
+
+		<li>
+				<label for="name">Mobile </label>
+				<input class="input input-xlarge mobile" type="text" name="mobile" value="{{profile.mobile}}" id="mobile">
+		</li>
+
+		<li>
+				<label for="name">twitter Id</label>
+				<input class="input input-xlarge twitterid" type="text" name="twitterid" value="{{profile.twitterid}}" id="twitterid">
+		</li>
+
+		<li>
+				<label for="name">Faculty </label><br>
+				<select name="faculty" id="faculty" class="faculty">
+				<option value="fmsc">FMSC</option>
+				<option value="fas">FAS</option>
+				<option value="fms">FMS</option>
+				<option value="fa">FA</option>
+			</select>
+		</li>
+
+		
+		<li>
+				<label for="name">Jobs</label><br>
+			<input type="checkbox" class="pg"><label for="name"> Photographer</label>
+			<input type="checkbox" class="aw"><label for="name"> Article Writer</label><br>
+			<input type="checkbox" class="it"><label for="name"> IT</label>
+			<input type="checkbox" class="hr"><label for="name"> HR</label><br>
+			<input type="checkbox" class="mkt"><label for="name"> MKT</label>
+			<input type="checkbox" class="fin"><label for="name"> Finance</label>
+		</li>
+		<li>
+				<label for="name">Admin Role</label><br>
+				<select name="adminroles" id="adminroles" class="adminroles">
+				<option value="none">None</option>				
+				<option value="pg">PG</option>
+				<option value="aw">AW</option>
+				<option value="it">IT</option>
+				<option value="gd">GD</option>
+				<option value="mkt">MKT</option>
+				<option value="hr">HR</option>
+				<option value="all">All</option>
+			</select>
+		</li>
+
+	</ul>
+				
+			</div>
+
+			<div class="modal-footer">
+
+		{{#if profile}}
+						<a herf="" name="update" id="update" class="btn btn-warning update">Update</a>
+		{{else}}			
+						<a herf="" name="save" id="save" class="btn btn-success save">Save</a>
+					
+		{{/if}}
+					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
+			</div>
+	</div>
+</template>
+
+<template name="addMemberForm">
+	<div id="addevent" name="addevent" class="modal-backdrop addevent">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+				<h4>New Member Information</h4>				
+			</div>
+			<div class="modal-body">
+	<ul class="unstyled">
+		<li>
+				<label for="name">Name </label>
+				<input class="input input-xlarge name" type="text" name="name" value="" id="name">
+		</li>
+		<li>
+				<label for="name">Username </label>
+				<input class="input input-xlarge uname" type="text" name="uname" value="" id="uname">
+		</li>
+		<li>
+				<label for="name">E-mail </label>
+				<input class="input input-xlarge e-mail" type="e-mail" name="e-mail" value="" id="e-mail">
+		</li>
+		<li>
+				<label for="name">Password </label>
+				<input class="input input-xlarge password password1" type="password" name="password1" value="" id="uname">
+		</li>
+		<li>
+				<label for="name">Re-enter Password </label>
+				<input class="input input-xlarge password password2" type="password" name="password2" value="" id="password2">
+		</li>
+		
+	</ul>
+				
+			</div>
+
+			<div class="modal-footer">
+	
+					<a herf="" name="save" id="save" class="btn btn-success save">Save</a>
+				
+					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
+			</div>
+	</div>
+</template>
+
+<template name="userdeleteprompt">
+	<div id="deluser" name="deluser" class="modal-backdrop deluser span4 ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+				<h4>Delete User</h4>				
+			</div>
+		<div class="modal-body">
+	<ul class="unstyled">
+		<li>
+				
+				
+		</li>
+	</ul>
+		<div class="modal-footer">
+					<label for="name">Are you sure want to delete this user?</label><br><br>
+					<a herf="" name="del" id="del" class="btn btn-danger del">Delete</a>
+				
+					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="changepasswordform">
+	<div id="profileinfo2" name="profileinfo2" class="modal-backdrop profileinfo2 span4 ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+				<h4>Change User Password</h4>				
+			</div>
+		<div class="modal-body">
+	<ul class="unstyled">
+		
+		<li>
+				<label for="name">Enter New Password </label>
+				<input class="input input-xlarge password newpassword" type="password" name="newpassword" value="" id="uname">
+		</li>
+		<li>
+				<label for="name">Re-Enter Password </label>
+				<input class="input input-xlarge password renewpassword" type="password" name="renewpassword" value="" id="uname">
+		</li>
+	</ul>
+		
+	</div>
+		<div class="modal-footer">
+					
+					<a herf="" name="chngepw" id="chngepw" class="btn btn-warning chngepw">Confirm</a>
+				
+					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
+			</div>
+		
+	</div>
+</template>

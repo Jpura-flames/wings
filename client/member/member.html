@@ -1,0 +1,90 @@
+<template name="member">
+{{#if showmsg}}
+		{{>sendmessageform}}	
+{{/if}}
+		<div class="page-header span9">
+				<h1>Member<small> Profile</small></h1>
+		
+		</div>	
+		<div class="span7">
+			<ul class="unstyled" id="postlist">
+			 	{{#each Users}}
+					{{>memberProfile}}
+			 	{{/each}}
+			
+			</ul>
+		</div>
+</template>
+
+<template name="memberProfile">
+		<div class="media well span3 membermgtProfile">
+			
+  			<div class="pull-left">
+    			<img class="media-object" src="/{{_id}}.jpg" width="60px">
+  			</div>
+  			<div class="media-body">
+				{{#if profile}}
+				
+				<h4 class="media-heading">{{profile.name}}</h4>
+				
+				{{else}}				
+    				<h4 class="media-heading">{{username}}</h4>
+				{{/if}}
+    				<p>
+				
+					{{#if profile.job.photo}}
+					Photographer<br>
+					{{/if}}
+					{{#if profile.job.it}}
+					IT<br>	
+					{{/if}}
+					{{#if profile.job.aw}}
+					Article Writer<br>	
+					{{/if}}
+					{{#if profile.job.mkt}}
+					Marketer<br>	
+					{{/if}}
+					{{#if profile.job.hr}}
+					HR Manager<br>
+					{{/if}}
+					{{#if profile.job.fin}}
+					Fin Manager<br>
+					{{/if}}
+						{{#each emails}}
+							{{address}}
+						{{/each}}				
+					<a herf="" name="sendmsg" id="sendmsg" class="btn btn-primary sendmsg">Send Message</a>					
+				</p>
+			
+ 			 </div>
+		</div>
+
+</template>
+
+
+<template name="sendmessageform">
+	<div id="sendmessage" name="sendmessage" class="modal-backdrop sendmessage1 span4 ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+				<h4>Send Message for {{ownerinfo._id}} </h4>				
+			</div>
+		<div class="modal-body">
+	
+		<div class="modal-footer foot">
+			<ul class="unstyled">
+				<li>
+					<label for="name" class="pull-left">Message </label> 
+					<input class="input input-xlarge name" type="text" name="name" value="" id="name">
+				</li>	
+			</ul>
+
+					<br><br>
+					<a herf="" name="send" id="send" class="btn btn-primary send">Send</a>
+				
+					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
+			</div>
+		</div>
+	</div>
+</template>
+
+

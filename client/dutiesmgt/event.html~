@@ -1,0 +1,94 @@
+<template name="event">
+{{#if showeventform}}
+		{{>eventForm}}
+{{/if}}
+		<div class="span7">
+			<div class="container-fluid">
+			 				
+					<div class="row-fluid">
+						
+						<div class="page-header">
+							<h1>Events <small>Management</small></h1>
+						<button class="btn btn-large btn-success addevenbtn">Add Event</button>		
+					 	</div>	
+						
+						
+								{{#each eventList}}
+									<div class="" >
+										{{>eventinforow}}
+									</div>
+								{{/each}}
+							
+
+				</div>
+			
+	   		</div>
+			
+		</div>
+</template>
+
+
+<template name="eventinforow">
+	<div class="eventinforow" id="eventinforow">
+	<ul class="unstyled well">
+		<li>
+
+			<p class="eventname">{{eventname}}</p>
+	
+			<p class="muted commentText"> {{eventdatetime}} </p>
+
+		
+		</li>
+	</ul>	
+	</div>
+
+</template>
+
+<template name="eventForm">
+	<div id="addevent" name="addevent" class="modal-backdrop addevent">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+				<h4>Add Event</h4>				
+			</div>
+			<div class="modal-body">
+	<ul class="unstyled">
+				<label for="name">Event Name </label>
+				<input class="input input-xlarge eventname" type="text" name="eventname" value="{{events.eventname}}" id="eventname">
+
+				<label for="name">Date & Time </label>
+				<input class="input input-xlarge datentime" type="text" name="datentime" value="{{events.eventdatetime}}" id="datentime">
+
+			<div class="input-group datetimepicker">
+    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+    <input class="set-due-date form-control" type="text"/>
+</div>
+				
+				<label for="name">Venue</label>
+				<input class="input input-xlarge venue" type="text" name="venue" value="{{events.venue}}" id="venue">
+				<label for="name">Client </label>
+				<input class="input input-xlarge client" type="text" name="Client" value="{{events.client}}" id="Client">		
+				<label for="name">Contact</label>
+				<input class="input input-xlarge contact" type="text" name="contact" value="{{events.contact}}" id="contact">
+				<label for="name">Event Cordinator </label>
+				<input class="input input-xlarge eventcor" type="text" name="eventcor" value="{{events.eventcordinator}}" id="eventcor">	
+			<label for="name">Event Status </label>
+			<select name="status" id="status" class="status">
+				<option value="Future">Future</option>
+				<option value="Coverd">Coverd</option>
+			</select>
+	
+	</ul>
+				
+			</div>
+
+			<div class="modal-footer">
+				{{#if editing_event_data}}
+					<a herf="" name="delete" id="delete" class="btn btn-danger delete">Delete</a>
+					<a herf="" name="save" id="save" class="btn btn-warning save">Update</a>
+				{{else}}
+					<a herf="" name="save" id="save" class="btn btn-success save">Save</a>
+				{{/if}}
+					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
+			</div>
+	</div>
+</template>

@@ -1,0 +1,21 @@
+<head>
+  <title>Wings</title>
+</head>
+
+<body>
+{{>navigation}}
+
+	<div class="">
+		{{#if currentUser}}
+		<div class="span3">
+		{{> sidebar}}
+		</div>
+	
+		<div class="span7">
+  		{{ yeild}}
+	
+		</div>
+	</div>
+
+</body>
+

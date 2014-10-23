@@ -1,0 +1,38 @@
+<template name="member">
+	
+		<div class="page-header span9">
+				<h1>Member Profile <small>Management</small></h1>
+						
+		</div>	
+		
+		<ul class="unstyled" id="postlist">
+			{{#each Members}}
+				{{>memberProfile}}
+			 {{/each}}
+		</ul>
+	
+</template>
+
+<template name="memberProfile">
+
+			<div class="media well span3">
+			 	<div class="span2">	
+					<a class="" href="">
+						<img class="media-object" src="/{{_id}}.jpg" width="60px"/>	
+						
+					</a>	
+				</div>
+					<div class="media-body">
+						<h4 class="media-heading">{{_id}}</h4>
+					  	<p>
+						
+						{{#each emails}}
+							{{address}}
+						{{/each}}
+						</p>
+					</div>
+			
+	   		</div>
+
+
+</template>
