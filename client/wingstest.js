@@ -54,5 +54,10 @@ this.route('dutiesmgt', {
   this.route('myduties', {
     path: '/myduties'
   })
-
+  this.route('chat', {
+    path: '/chat',
+    waitOn: function(){
+      this.subscribe('chats')
+    }
+  });
 })

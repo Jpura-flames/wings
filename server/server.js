@@ -28,6 +28,9 @@ Meteor.publish("Likes",function(){
 	return Likes.find({});
 })
 
+Meteor.publish('chats', function(){
+	return Chats.find({}, {sort: {createdAt: -1}});
+});
 
 Meteor.publish("Messages",function(){
 	return Messages.find({});

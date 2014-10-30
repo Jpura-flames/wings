@@ -1,4 +1,24 @@
 <template name="chat">
+  <h1>Chat</h1>
+  <div class="col-md-12 " id="chat-form-wrap">
 
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col-xs-10">
+      <input type="text" name="message" placeholder="Message" autocomplete="off" class="form-control" id="chat-message">
+    </div>
+    <div class="col-xs-2">
+      <input class="pmessage btn btn-primary form-control" type="button" id="chat-submit" value="Send">
+    </div>
+  </div>
 
+  </div>
+  <div class="col-md-12 well" id="chat">
+    <ul class="unstyled">
+      {{#each messages}}
+      <li>
+        {{chatMessage}} | {{relativeTime}}
+      </li>
+      {{/each}}
+    </ul>
+  </div>
 </template>
