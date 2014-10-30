@@ -253,11 +253,11 @@
 		
 		<li>
 				<label for="name">Enter New Password </label>
-				<input class="input input-xlarge password newpassword" type="newpassword" name="newpassword" value="" id="uname">
+				<input class="input input-xlarge password newpassword" type="password" name="newpassword" value="" id="uname">
 		</li>
 		<li>
 				<label for="name">Re-Enter Password </label>
-				<input class="input input-xlarge password renewpassword" type="renewpassword" name="renewpassword" value="" id="uname">
+				<input class="input input-xlarge password renewpassword" type="password" name="renewpassword" value="" id="uname">
 		</li>
 	</ul>
 		

@@ -1,95 +1,105 @@
 <template name="post">
-
+{{#if showpostdeleteprompt}}
+	{{>postdeleteprompt}}
+{{/if}}
 		<div class="span7">
 		  
 			<div class="media">
-			 	<a class="close" data-dismiss="modal">x</a>	
+			 	<a class="close close2" data-dismiss="modal">x</a>	
 					<a class="pull-left" href="">
-						<img class="media-object" src="/{{owner}}.jpg" width="60px"/>	
+						{{#if profile}}
+    						<img class="media-object" src="/{{profile.parent}}.png" width="60px">
+    					{{else}}
+    						<img class="media-object" src="/default.png" width="60px">
+    					{{/if}}
 					</a>	
 					<div class="media-body">
 						
 						<h4 class="media-heading">{{profile.name}}</h4>
 					
 					  	<p>{{text}}</p>
-						<div class="media">
-		
-						
-								
-									
+						<div class="media">				
 						<span class="badge badge-success"></span>
 						<h4 class="media-heading">
-						{{#if checklike}}
-							<a class="likebtn muted"><small>unlike</small></a>
+						{{#if checklike}}	
+							<a class="likebtn muted cursorHand"><small>unlike</small></a>
 						{{else}}
-							<a class="likebtn muted"><small>like</small></a>
+							<a class="likebtn muted cursorHand"><small>like</small></a>
 						{{/if}}						
-						</h4>
-									
-									{{#if likeCount}}
-										{{likeCount}} Like This
-									{{/if}}
-						
-							 
+						</h4>	
+										<span class="badge badge-info">{{likeCount}}</span><br> 
+							
 						</div>
-
 					</div>
-			
 	   		</div>
 			
 		
 		<div class="postcomment cmnt">	
-			<ul class ="unstyled">
+			
+					<input class="comment input-xlarge textarea" type="text" name="comment" placeholder="Write a comment..." id="comment">
+
+					<ul class ="unstyled">
 			{{#each CommentTexts}}
 				{{>postcomment }}
 			{{/each}}
 		  	</ul>
-					<input class="comment input-xlarge" type="text" name="comment" placeholder="Write a comment..." id="comment">
 		</div>
 			
 			
 		</div>
 </template>
-
 
 <template name="postcomment">
 
 
 <li class ="well">
-	<a class="close" data-dismiss="modal">x</a>
+	<a class="close close1" data-dismiss="modal">x</a>
 	<a class ="pull-left" href="">
-		<img src="/{{owner}}.jpg" width="30px" class="img-rounded" alt=""/>
+		<img src="/{{profile.parent}}.png" width="30px" class="img-rounded" alt=""/>
 	</a>
-	
+								
 	<p class="muted commentUser">{{profile.name}}</p>
 	
 	<p class="muted commentText">{{text}} </p>
 
 	<div class="media">
-		
-						
-								
-									
+											
 						<span class="badge badge-success"></span>
 						<h4 class="media-heading">
 						{{#if checklike}}
-							<a class="commentlikebtn muted"><small>unlike</small></a>
+							<a class="commentlikebtn muted cursorHand"><small>unlike</small></a>
 						{{else}}
-							<a class="commentlikebtn muted"><small>like</small></a>
+							<a class="commentlikebtn muted cursorHand"><small>like</small></a>
 						{{/if}}						
 						</h4>
 									
 									{{#if likeCount}}
-										{{likeCount}} Like This
-									{{/if}}
-						
-							 
+										<span class="badge badge-info">{{likeCount}}</span>
+									{{/if}}						 
 						</div>
 
 </li>
-
-
 </template>
 
-
-
+<template name="postdeleteprompt">
+	<div id="deluser" name="deluser" class="modal-backdrop deluser span4 ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+				<h4>Delete User</h4>				
+			</div>
+		<div class="modal-body">
+	<ul class="unstyled">
+		<li>
+				
+				
+		</li>
+	</ul>
+		<div class="modal-footer">
+					<label for="name">Are you sure want to delete this post?</label><br><br>
+					<a herf="" name="del" id="del" class="btn btn-danger del">Delete</a>
+				
+					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
+			</div>
+		</div>
+	</div>
+</template>

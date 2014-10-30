@@ -1,159 +1,150 @@
 if(Meteor.isClient){
 	Session.setDefault('appName','Event Manager');
 	Session.setDefault('showeventform', false);	
-
+	Session.setDefault('confirmation', false);	
 Template.duties.rendered = function(){
 
 	Deps.autorun(function(){
 	Meteor.subscribe("Duties");
-	Meteor.subscribe("Members");	
+	Meteor.subscribe("Members");
+	Meteor.subscribe("Events");	
 	})	
 }
 
 
-Template.dutiesinforow.rendered = function(){
+Template.dutiesinforow.chekdutieStat = function(){
 
-	var memberdata = Members.findOne({parent:this.data.member});
+	var dutie = Duties.findOne({_id:this._id});
+		if(dutie.dutiestatus === null)
+		{
+			var dutiestatus = 'not decided';
+		}
+		else
+		{
+			var dutiestatus = null;
+			
+		}
+		return dutiestatus;
 }
 
-Template.dutiesinforow.memberData = function(){
-	return Members.findOne({parent:this.data.member});
-}
+Template.duties.confirmation = function(){
 
-Template.eventForm.rendered = function(){
-
-	//var events = Events.findOne({_id:Session.get(editing_event_data)});	
-}
-
+		return Session.get('confirmation');
+	}
 
 Template.duties.dutieList = function(){
 
 	return Duties.find();
 }
 
+Template.dutiesinforow.memberData = function(){
 
-Template.eventForm.events({
-	'click .save':function(evt, tmpl){
+	var mem = Duties.findOne({_id:this._id});
+	var memid= mem.member;
+	var showmember = Members.findOne({parent:memid});
 	
-	var eventname = tmpl.find('.eventname').value;
-	var eventdatentime = tmpl.find('.datentime').value;
-	var venue = tmpl.find('.venue').value;
-	var client = tmpl.find('.client').value;
-	var contact = tmpl.find('.contact').value;
-	var eventcordinator = tmpl.find('.eventcor').value;
-	var eventstatus = tmpl.find('.status').value;
-	var addeddate = new Date();
+	return showmember; 
+}
+
+Template.dutiesinforow.adminData = function(){
+
+	var duti = Duties.findOne({_id:this._id});
+	var eventId= duti.event;
+	var showevent = Events.findOne({_id:eventId});
 	
+	return showevent; 
+}
+Template.dutiesinforow.dutieEvent = function(){
+
+	var duti = Duties.findOne({_id:this._id});
+	var eventId= duti.event;
+	var showevent = Events.findOne({_id:eventId});
 	
-	var userid = Meteor.userId();
-	var options = {eventname:eventname,
-			eventdatetime:eventdatentime,
-			venue:venue,
-			client:client,
-			contact:contact,
-			eventcordinator:eventcordinator,
-			eventstatus:eventstatus,
-			addeddate:addeddate,
-			userid:userid		
-			};
-	if(Session.get('editing_event_data'))
-	{
-		var id = Session.get('editing_event_data');
-		Meteor.call('updateEvent',options,id);
-		alert('Event Successfully Updated');
-		Session.set('showeventform',false);
-	}
-	else{
-		Meteor.call('addEvent',options);
-	}
-	
-	Session.set('showeventform',false);
-	Session.set('editing_event_data',null);
+	return showevent; 
+}
+Template.dutiesinforow.events({  
+	'click .close': function(evt,tmpl){
+		Meteor.call('deleteDutie',tmpl.data._id);
+	},
+
+	'click .confirm': function(evt,tmpl){
+
+		var duti = Duties.findOne({_id:tmpl.data._id});
+		var dutiestat = 'doing';
+		var updatedutie ={dutiename:duti.dutiename,
+			dutiedesc:duti.dutiedesc,
+			event:duti.event,
+			datetime:duti.datetime,
+			member:duti.member,
+			dutiestatus:dutiestat,
+			addeddate:duti.addeddate
+		};
+		
+		Meteor.call('updateDutie2',tmpl.data._id,updatedutie);
+		
+	},
+
+	'click .reject': function(evt,tmpl){
+		var duti = Duties.findOne({_id:tmpl.data._id});
+		var dutieStatus = 'not doing';
+		var updatedutie ={dutiename:duti.dutiename,
+			dutiedesc:duti.dutiedesc,
+			event:duti.event,
+			datetime:duti.datetime,
+			member:duti.member,
+			dutiestatus:dutieStatus,
+			addeddate:duti.addeddate
+		};
+
+		Meteor.call('updateDutie2',tmpl.data._id,updatedutie);
+		
+	},
+
+	'click .edit': function(evt,tmpl){
+
+		Session.set('confirmation',true);
+		Session.set('dutiedata',tmpl.data._id);
+}
+
+})
+
+Template.confirmationdialog.events({  
+	'click .close': function(evt,tmpl){
+		Session.set('confirmation',false);
 },
-	'click .cancel':function(evt, tmpl){
-		Session.set('showeventform',false);
-		Session.set('editing_event_data',null);
-},
-	'click .close':function(evt, tmpl){
-	Session.set('showeventform',false);
-},	
 
-	'click .delete':function(evt, tmpl){
-	var id = Session.get('editing_event_data');
-	Meteor.call('removeEvent',id);
-	alert('Event Successfully Deleted');
-	Session.set('showeventform',false);
-}
+	'click .confirm': function(evt,tmpl){
 
+		var duti = Duties.findOne({_id:Session.get('dutiedata')});
+		var dutiestat = 'doing';
+		var updatedutie ={dutiename:duti.dutiename,
+			dutiedesc:duti.dutiedesc,
+			event:duti.event,
+			datetime:duti.datetime,
+			member:duti.member,
+			dutiestatus:dutiestat,
+			addeddate:duti.addeddate
+		};
+		
+		Meteor.call('updateDutie2',Session.get('dutiedata'),updatedutie);
+		Session.set('confirmation',false);
+	},
 
+	'click .reject': function(evt,tmpl){
+		var duti = Duties.findOne({_id:Session.get('dutiedata')});
+		var dutieStatus = 'not doing';
+		var updatedutie ={dutiename:duti.dutiename,
+			dutiedesc:duti.dutiedesc,
+			event:duti.event,
+			datetime:duti.datetime,
+			member:duti.member,
+			dutiestatus:dutieStatus,
+			addeddate:duti.addeddate
+		};
+
+		Meteor.call('updateDutie2',Session.get('dutiedata'),updatedutie);
+		Session.set('confirmation',false);
+	}
 })
-
-
-Template.eventinforow.events({
-	'dblclick .eventinforow':function(evt, tmpl){
-	Session.set('editing_event_data',tmpl.data._id);
-	Session.set('showeventform',true);
-	
-	
-}
-
-})
-
-Template.eventForm.events = function(){
-	return Events.findOne({_id:Session.get('editing_event_data')});
-}
-
-
-Template.eventForm.editing_event_data= function(){
-
-		return Session.get('editing_event_data');
-}
-
-
-Template.eventForm.renderd = function(){
-	//var events = Events.FindOne({_id:Session.get('editing_event_data')}); 
-	$('.status').val(events.eventstatus);
-}
-
-
-Template.event.showeventform = function(){
-
-	return Session.get('showeventform');
-}	
-
-
-Template.event.events({
-	'click .addevenbtn':function(evt, tmpl){
-	Session.set('showeventform',true);
-	
-}	
-})
-
-var updateEvent = function(options){
-	
-	var event = {
-			eventname:options.eventname,
-			eventdatetime:options.eventdatetime,
-			venue:options.venue,
-			client:options.client,
- 			contact:options.contact,
-			eventcordinator:options.eventcordinator,
-			eventstatus:options.eventstatus,
-			addeddate:options.addeddate,
-			userId:options.userid
-			
-			
-						};
-			
-	Meteor.call('updateProject',event);
-				
-			return true;
-
-}
-
-
-
-
-
 
 }

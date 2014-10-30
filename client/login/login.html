@@ -1,0 +1,39 @@
+<template name="login">
+	
+  {{#if currentUser}}
+<div class="userlogged">
+		 You logged as
+
+    {{#if memberProfileData}}
+
+          {{memberProfileData.name}}
+          ({{memberData.username}})
+  
+    {{else}}
+  
+          {{memberData.username}}
+ 
+
+    {{/if}}
+ </div>
+    <a href='/' class='pull-right btn btn-default btn-sm logout'>Logout</a>
+	{{else}}
+		
+<form class="form-inline" role="form">
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputEmail2">Email address</label>
+    <input type="email" class="form-control usermail" id="exampleInputEmail2" placeholder="Enter Username">
+  </div>
+ 
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputPassword2">Password</label>
+    <input type="password" class="form-control password" id="exampleInputPassword2" placeholder="Password">
+  </div>
+  
+  <button type="" class="btn btn-default btn-sm userlogin">Sign in</button>
+</form>
+
+
+	{{/if}}
+
+</template>

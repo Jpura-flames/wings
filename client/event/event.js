@@ -2,7 +2,7 @@ if(Meteor.isClient){
 	Session.setDefault('appName','Event Manager');
 	Session.setDefault('showeventform', false);	
 
-Template.event.rendered = function(){
+Template.eventpage.rendered = function(){
 
 	Deps.autorun(function(){
 	Meteor.subscribe("Events");
@@ -12,14 +12,101 @@ Template.event.rendered = function(){
 
 Template.eventForm.rendered = function(){
 
-	var events = Events.findOne({_id:Session.get(editing_event_data)},{sort:{eventdatetime:-1}});
-	$('.status').val(events.eventstatus);	
+	var latestevents = Events.findOne({_id:Session.get(editing_event_data)},{sort:{eventdatetime:-1}});
+	$('.status').val(latestevents.eventstatus);	
 }
 
-Template.event.eventList = function(){
-
-	return Events.find();
+Template.eventpage.eventList = function(){
+	return Events.find({}, {sort: {eventdatetime: 1}});
 }
+
+Template.eventinforow.eventDay = function(){
+	var showevent = Events.findOne({_id:this._id});
+	var eventdatetime = showevent.eventdatetime.length;
+
+	var eventDay = showevent.eventdatetime.substring(8,10);		
+	return eventDay;
+}
+
+Template.eventinforow.eventYear = function(){
+	var showevent = Events.findOne({_id:this._id});
+	var eventdatetime = showevent.eventdatetime.length;
+
+	var eventYear = showevent.eventdatetime.substring(0,4);		
+	return eventYear;
+}
+
+Template.eventinforow.eventTime = function(){
+	var showevent = Events.findOne({_id:this._id});
+	var eventdatetime = showevent.eventdatetime.length;
+
+	var eventTime = showevent.eventdatetime.substring(10);		
+	return eventTime;
+}
+
+Template.eventinforow.eventMonth = function(){
+	var showevent = Events.findOne({_id:this._id});
+	var eventdatetime = showevent.eventdatetime.length;
+
+	
+		var eventMonth = showevent.eventdatetime.substring(5,7);
+
+		if(eventMonth === '01')
+		{
+			var eventMonthstr = 'Jan';
+		}
+		if(eventMonth === '02')
+		{
+			var eventMonthstr = 'Feb';
+		}
+		if(eventMonth === '03')
+		{
+			var eventMonthstr = 'Mar';
+		}
+		if(eventMonth === '04')
+		{
+			var eventMonthstr = 'Apr';
+		}
+		if(eventMonth === '05')
+		{
+			var eventMonthstr = 'May';
+		}
+		if(eventMonth === '06')
+		{
+			var eventMonthstr = 'June';
+		}
+		if(eventMonth === '07')
+		{
+			var eventMonthstr = 'July';
+		}
+		if(eventMonth === '08')
+		{
+			var eventMonthstr = 'Aug';
+		}
+		if(eventMonth === '09')
+		{
+			var eventMonthstr = 'Sep';
+		}
+		if(eventMonth === '10')
+		{
+			var eventMonthstr = 'Oct';
+		}
+		if(eventMonth === '11')
+		{
+			var eventMonthstr = 'Nov';
+		}
+		if(eventMonth === '12')
+		{
+			var eventMonthstr = 'Dec';
+		}
+
+
+		return eventMonthstr;
+
+	
+}
+
+
 
 Template.eventinforow.events({
 	'dblclick .eventinforow':function(evt, tmpl){
@@ -90,10 +177,18 @@ Template.eventForm.events({
 
 
 
-Template.eventForm.events = function(){
+Template.eventForm.latestevents = function(){
 	return Events.findOne({_id:Session.get('editing_event_data')});
 }
 
+Template.eventinforow.eventdate = function(){
+	var levent= Events.findOne({_id:this.data._id});
+	
+	var date = levent.eventdatetime;
+	
+	return date;	
+
+}
 
 Template.eventForm.editing_event_data= function(){
 		
@@ -106,7 +201,7 @@ Template.eventForm.editing_event_data= function(){
 
 
 
-Template.event.events({
+Template.eventpage.events({
 	'click .addevenbtn':function(evt, tmpl){
 	Session.set('showeventform',true);
 	

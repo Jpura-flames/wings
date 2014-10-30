@@ -1,0 +1,39 @@
+p.commentUser{
+	margin-left:40px;
+	margin-top:30px;
+}
+
+.commentpost{
+	margin-left:100px;
+}
+
+.comment{
+	margin-left:40px;
+	margin-top:10px;
+}
+p.commentText{
+	margin-left:60px;
+}
+.postcomment{
+	margin-left:100px;
+	margin-top:10px;
+}
+.cmnt{
+
+	margin-bottom:50px;
+}
+
+#postList{
+ 	height:80vh;
+	overflow-y:scroll;
+	overflow-x:hidden;
+}
+.msgtext{
+	background-color: white;
+	border: 2px solid;
+ 	border-radius: 10px;
+    
+}
+.msgtext .p{
+	color: black;
+}

@@ -1,7 +1,5 @@
-<template name="event">
-{{#if showeventform}}
-		{{>eventForm}}
-{{/if}}
+<template name="eventpage">
+
 		<div class="span7">
 			<div class="container-fluid">
 			 				
@@ -18,6 +16,8 @@
 										{{>eventinforow}}
 									</div>
 								{{/each}}
+
+								
 							
 						</div>
 				</div>
@@ -37,7 +37,7 @@
 	
 			<p class="muted commentText"> {{eventdatetime}} </p>
 
-		
+			{{eventdate}}
 		</li>
 	</ul>	
 	</div>
@@ -53,10 +53,10 @@
 			<div class="modal-body">
 	<ul class="unstyled">
 				<label for="name">Event Name </label>
-				<input class="input input-xlarge eventname" type="text" name="eventname" value="{{events.eventname}}" id="eventname">
+				<input class="input input-xlarge eventname" type="text" name="eventname" value="{{latestevents.eventname}}" id="eventname">
 
 				<label for="name">Date & Time </label>
-				<input class="input input-xlarge datentime" type="text" name="datentime" value="{{events.eventdatetime}}" id="datentime">
+				<input class="input input-xlarge datentime" type="text" name="datentime" value="{{latestevents.eventdatetime}}" id="datentime">
 
 			<div class="input-group datetimepicker">
     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -64,13 +64,13 @@
 </div>
 				
 				<label for="name">Venue</label>
-				<input class="input input-xlarge venue" type="text" name="venue" value="{{events.venue}}" id="venue">
+				<input class="input input-xlarge venue" type="text" name="venue" value="{{latestevents.venue}}" id="venue">
 				<label for="name">Client </label>
-				<input class="input input-xlarge client" type="text" name="Client" value="{{events.client}}" id="Client">		
+				<input class="input input-xlarge client" type="text" name="Client" value="{{latestevents.client}}" id="Client">		
 				<label for="name">Contact</label>
-				<input class="input input-xlarge contact" type="text" name="contact" value="{{events.contact}}" id="contact">
+				<input class="input input-xlarge contact" type="text" name="contact" value="{{latestevents.contact}}" id="contact">
 				<label for="name">Event Cordinator </label>
-				<input class="input input-xlarge eventcor" type="text" name="eventcor" value="{{events.eventcordinator}}" id="eventcor">	
+				<input class="input input-xlarge eventcor" type="text" name="eventcor" value="{{latestevents.eventcordinator}}" id="eventcor">	
 			<label for="name">Event Status </label>
 			<select name="status" id="status" class="status">
 				<option value="Future">Future</option>

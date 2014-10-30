@@ -12,6 +12,11 @@ Template.membermgt.rendered = function(){
 	})	
 }
 
+Template.changepasswordform.userData = function(){
+
+	return Meteor.users.findOne({_id:Session.get('memberdeldata')});
+}
+
 Template.membermgt.Users= function(){
 // ,{sort:{date:-1}
  	return Meteor.users.find({});   
@@ -158,7 +163,7 @@ Template.profileForm.events({
 	var addeddate = new Date();
 	var parent = Session.get('memberdata');
 	var adminrole = tmpl.find('.adminroles').value;
-	var profile = Members.findOne({parent:Session.get('memberdata')});;
+	var profile = Members.findOne({parent:Session.get('memberdata')});
 	var id = profile._id;
 
 	var photo = tmpl.find('.pg').checked;
@@ -256,14 +261,14 @@ Template.addMemberForm.events({
 	'click .save': function(evt, tmpl){
 	
 
-	var name =  tmpl.find('.name').value;
 	var uname = tmpl.find('.uname').value;
 	var email = tmpl.find('.e-mail').value;
 	var password = tmpl.find('.password1').value;
 	var repassword = tmpl.find('.password2').value;
-	if(name=== "" || uname === "" || email === '' || password === '' || repassword === ''  ){	
+	if(uname === "" || email === '' || password === '' || repassword === ''  ){	
 		alert("Form Data Cannot be null!!");
-	}else
+	}
+	else
 	{		
 		if(password === repassword  ){
 
@@ -320,29 +325,50 @@ Template.changepasswordform.events({
 	'click .chngepw':function(evt, tmpl){
 	
 	var uid = Session.get('memberdeldata');
+	var uname = tmpl.find('.uname').value;
 	var pword =  tmpl.find('.newpassword').value;
 	var repword =  tmpl.find('.renewpassword').value;
-	
-	if(pword === '' || repword === '')
+	if(uname === '')
 	{
-		alert('Enter New Password in Both text boxes!!');
-		
+		alert('Username cannon be null!!');
+
 	}
-	else
-	{
-		if(pword === repword)
+
+		else
 		{
+
+			if(pword === '' || repword === '')
+			{
+				alert('Enter New Password in Both text boxes!!');
+		
+			}
+		else
+		{
+			if(pword === repword)
+			{
 			Meteor.call('changeuserpassword',uid,pword);
+			
 			alert('Password Changed');
 			Session.set('showchangepwform', false);
 			
-		}
-		else
-		{
+			}
+			else
+			{
 			alert('Password Mismatch');
 			$('.newpassword').value(null);
 			$('.renewpassword').value(null);
+			}
+			
 		}
+			//Meteor.call('changeusername',uid,uname);
+
+
+			var profile = {
+								username:uname
+							};
+						
+			Meteor.users.update(uid, {username:uname});
+			alert('Username Changed!!');
 	}
 	
 	

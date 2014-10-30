@@ -28,6 +28,10 @@ Meteor.publish("Likes",function(){
 	return Likes.find({});
 })
 
+
+Meteor.publish("Messages",function(){
+	return Messages.find({});
+})
 Meteor.methods({
 	
 		'addPost':function(options){
@@ -175,16 +179,26 @@ Meteor.methods({
 			Accounts.setPassword(userId, newPassword)
 						return true;
 },
+
+	'changeusername' : function(userId,uname){
+						
+				var profile = {
+								username:uname,
+								}		
+			Meteor.users(userId, profile)
+						return true;
+},
+
+
 	'removeUser':function(uid){
 		Meteor.users.remove({_id:uid});
 		Members.remove({parent:uid});
 	},
 
-	'userLoggin' : function(login){
+	'userLoggin' : function(email,password){
+		var pw = password;
 
-	var email= login.email;
-	var password= login.password;
-	
+	Meteor.loginWithPassword(email, pw);
 	
 },
 	'addDutie':function(options){
@@ -197,6 +211,7 @@ Meteor.methods({
 			member:options.member,
 			dutiestatus:options.dutiestatus,
 			addeddate:options.addeddate,
+			admin:Meteor.userId(),
 			confirmation: confirm
 			};
 
@@ -211,18 +226,57 @@ Meteor.methods({
 			datetime:options.datetime,
 			member:options.member,
 			dutiestatus:options.dutiestatus,
-			addeddate:options.addeddate,
+			addeddate:options.addeddate
 			};
 	
 			Duties.update(id,updatedatadutie);
 },
 
+'updateDutie2':function(id,duti){
+		var updatedutie ={dutiename:duti.dutiename,
+			dutiedesc:duti.dutiedesc,
+			event:duti.event,
+			datetime:duti.datetime,
+			member:duti.member,
+			dutiestatus:duti.dutiestatus,
+			addeddate:duti.addeddate
+		};
+			Duties.update(id,updatedutie);
+},
+
 	'deleteDutie':function(id){
 
 			Duties.remove({_id:id});
+},
+	'sendmsg':function(sendmsg){
+
+			Messages.insert(sendmsg);
+
+},
+
+	'sendsms':function(sendmsg,phnnumber){
+
+	var ACCOUNT_SID = 'ACa4b5c3569649439acd2703053ab4bca7';
+	var AUTH_TOKEN = '3c89fda0b5cb78814a0173c60c694c42';
+
+	var twilio = Twilio(ACCOUNT_SID, AUTH_TOKEN);
+
+	twilio.sendSms({
+    to:phnnumber, // Any number Twilio can deliver to
+    from: '+15015880376', // A number you bought from Twilio and can use for outbound communication
+    body: sendmsg // body of the SMS message
+  }, function(err, responseData) { //this function is executed when a response is received from Twilio
+    if (!err) { // "err" is an error received during the request, if any
+      // "responseData" is a JavaScript object containing data received from Twilio.
+       //A sample response from sending an SMS message is here (click "JSON" to see how the data appears in JavaScript):
+       //http://www.twilio.com/docs/api/rest/sending-sms#example-1
+      console.log(responseData.from); // outputs "+14506667788"
+      console.log(responseData.body); // outputs "word to your mother."  '
+    
+    }
+});
+
+
 }
 
 })
-
-
-

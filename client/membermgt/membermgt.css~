@@ -1,8 +1,8 @@
 
 
-.sendmessage{
+.profform{
 	width:350px;
-	height:250px;
+	height:550px;
 }
 
 .profileinfo2{

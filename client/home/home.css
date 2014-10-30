@@ -22,3 +22,10 @@ p.commentText{
 	overflow-y:scroll;
 	overflow-x:hidden;
 }
+
+.textarea[type="text"] {
+    width: 450px;
+    height: 25px;
+    display: block;
+    margin-bottom: 10px;
+}

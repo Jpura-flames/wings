@@ -14,4 +14,6 @@ meteorhacks:kadira
 mrt:bootstrap-3
 deepwell:bootstrap-datepicker2
 mrt:bootstrap-2-datetimepicker
+mrt:moment
+mrt:twilio-meteor
 

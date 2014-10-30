@@ -2,7 +2,7 @@ if(Meteor.isClient){
 	Session.setDefault('appName','Event Manager');
 	Session.setDefault('showeventform', false);	
 
-Template.event.rendered = function(){
+Template.eventpage.rendered = function(){
 
 	Deps.autorun(function(){
 	Meteor.subscribe("Events");
@@ -12,14 +12,16 @@ Template.event.rendered = function(){
 
 Template.eventForm.rendered = function(){
 
-	var events = Events.findOne({_id:Session.get(editing_event_data)},{sort:{eventdatetime:+1}});
-	$('.status').val(events.eventstatus);	
+	var latestevents = Events.findOne({_id:Session.get(editing_event_data)},{sort:{eventdatetime:-1}});
+	$('.status').val(latestevents.eventstatus);	
 }
 
-Template.event.eventList = function(){
+Template.eventpage.eventList = function(){
 
 	return Events.find();
 }
+
+
 
 Template.eventinforow.events({
 	'dblclick .eventinforow':function(evt, tmpl){
@@ -90,10 +92,19 @@ Template.eventForm.events({
 
 
 
-Template.eventForm.events = function(){
+Template.eventForm.latestevents = function(){
 	return Events.findOne({_id:Session.get('editing_event_data')});
 }
 
+Template.eventinforow.eventdate = function(){
+	var levent= Events.findOne({_id:this.data._id});
+	
+	var date = levent.eventdatetime;
+	
+
+	return date;	
+
+}
 
 Template.eventForm.editing_event_data= function(){
 		
@@ -106,7 +117,7 @@ Template.eventForm.editing_event_data= function(){
 
 
 
-Template.event.events({
+Template.eventpage.events({
 	'click .addevenbtn':function(evt, tmpl){
 	Session.set('showeventform',true);
 	

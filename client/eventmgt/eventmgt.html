@@ -9,7 +9,7 @@
 						
 						<div class="page-header">
 							<h1>Events <small>Management</small></h1>
-						<button class="btn btn-large btn-success addevenbtn">Add Event</button>		
+						<button class="btn btn-large btn-info addevenbtn">Add Event</button>		
 					 	</div>	
 						
 						<div class="">
@@ -34,11 +34,30 @@
 	
 		<li class="well">
 
-			<p class="eventname">{{eventname}}</p>
-	
-			<p class="muted commentText"> {{eventdatetime}} </p>
+			<dl class="dl-horizontal">
+			<dt>
+			<h2 class='pull-left Dateshow'>
+				<span class="date2">
+					<span class="month">
+						{{eventMonth}}
+					</span>
+					<span class="day">
+						{{eventDay}}
+					</span>
+				</span>  
+			</h2>
+			</dt>
 
-			<a herf="" name="updateform" id="updateform" class="btn btn-warning pull-right updateform">Update</a>
+			<dd><p class="eventname">{{eventname}}</p></dd>
+			
+			
+  				<dt>Venue 	 			: </dt> <dd>{{venue}}</dd>
+  				<dt>Time			: </dt> <dd>{{eventTime}}</dd>
+  				<dt>Coordinator 		: </dt> <dd>{{eventcordinator}}</dd>
+  				<dt>Organizer 		: </dt> <dd>{{client}}</dd>
+  				<dt>Contact 		: </dt> <dd>{{contact}}</dd>
+			</dl>
+			<a herf="" name="updateform" id="updateform" class="btn btn-warning updateform">Update</a>
 		</li>
 		
 	
@@ -55,7 +74,7 @@
 			<div class="modal-body">
 	<ul class="unstyled">
 				<label for="name">Event Name </label>
-				<input class="input input-xlarge eventname" type="text" name="eventname" value="{{events.eventname}}" id="eventname">
+				<input class="input input-xlarge textarea2 eventname" type="text" name="eventname" value="{{events.eventname}}" id="eventname">
 
 				<label for="name">Date & Time </label>
 <div class="form-group">
@@ -72,18 +91,15 @@
             });
         </script>
 
-
-
-
 				
 				<label for="name">Venue</label>
-				<input class="input input-xlarge venue" type="text" name="venue" value="{{events.venue}}" id="venue">
+				<input class="input input-xlarge textarea2 venue" type="text" name="venue" value="{{events.venue}}" id="venue">
 				<label for="name">Client </label>
-				<input class="input input-xlarge client" type="text" name="Client" value="{{events.client}}" id="Client">		
+				<input class="input input-xlarge textarea2 client" type="text" name="Client" value="{{events.client}}" id="Client">		
 				<label for="name">Contact</label>
-				<input class="input input-xlarge contact" type="text" name="contact" value="{{events.contact}}" id="contact">
+				<input class="input input-xlarge textarea2 contact" type="text" name="contact" value="{{events.contact}}" id="contact">
 				<label for="name">Event Cordinator </label>
-				<input class="input input-xlarge eventcor" type="text" name="eventcor" value="{{events.eventcordinator}}" id="eventcor">	
+				<input class="input input-xlarge textarea2 eventcor" type="text" name="eventcor" value="{{events.eventcordinator}}" id="eventcor">	
 			<label for="name">Event Status </label>
 			<select name="status" id="status" class="status">
 				<option value="Future">Future</option>

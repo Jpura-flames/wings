@@ -19,8 +19,7 @@ Template.home.events({
        var posttxt = tmpl.find('.posttexts').value;
 	var options = {text:posttxt, parent:null};
 	Meteor.call('addPost',options)
-	$('.posttexts').val("").select.focus();	
-	
+	$('.posttexts').val("").select.focus();		
     
     }
  

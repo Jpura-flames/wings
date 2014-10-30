@@ -13,7 +13,8 @@
 						
 						<div class="page-header">
 							<h1>Duties <small>Management</small></h1>
-						<button class="btn btn-large btn-success adddutiebtn">Add Dutie</button>		
+						<button class="btn btn-large btn-success adddutiebtn">Add Dutie</button>
+								
 					 	</div>	
 						
 						<div class="well">
@@ -61,13 +62,24 @@
 	<div class="assigndutiesmgt" id="assigndutiesmgt">
 		<ul class="unstyled well">
 			<li>
-<a herf="" name="del" id="del" class="btn-small btn-danger del">Not Ready </a>				
+
+{{#if checkdutiestat}}
+	<a herf="" name="del" id="del" class="btn-small btn-warning del">Not Ready</a>	
+	{{else}}
+		{{#if showdutiestat}}
+			<a herf="" name="del" id="del" class="btn-small btn-success del">{{showdutiestatus}}</a>
+		{{else}}
+			<a herf="" name="del" id="del" class="btn-small btn-danger del">{{showdutiestatus}}</a>
+		{{/if}}
+{{/if}}		
+
 				{{dutiename}}
-				{{confirmation}}
 				{{dutieMem.name}}
 				
 <a herf="" name="delete" id="delete" class="btn-small btn-danger delete pull-right">Delete </a>							
 <a herf="" name="update" id="update" class="btn-small btn-warning update pull-right">Update</a>
+
+
 			
 			</li>
 		</ul>		
@@ -80,6 +92,7 @@
 	
 	<div id="adddutie" name="adddutie" class="modal-backdrop adddutie dutiesmgtForm">
 			<div class="modal-header">
+
 				<a class="close" data-dismiss="modal">x</a>
 
 				{{#if updateDutie}}
@@ -111,21 +124,20 @@
 				
 				{{/if}}	
 				
-
-
 				<label for="name">Dutie Description </label>
-				<input class="input input-xlarge dutiedesc" type="text" name="dutiedesc" value="{{updateDutieinfo.dutiedesc}}" id="eventname">
+				<input class="input input-xlarge textarea2 dutiedesc" type="text" name="dutiedesc" value="{{updateDutieinfo.dutiedesc}}" id="eventname">
 
 			{{#if editing_dutie_data}}
 
 
 			<label for="name">Event</label>
-				<input class="input input-xlarge eventname" type="text" name="eventname" value="{{events.eventname}}" id="eventname2">
+			 	<input class="input input-xlarge textarea2 eventid" for="exampleInputEmail2" id="eventid" type="text" value="{{events._id}}">
+				<input class="input input-xlarge textarea2 eventname" type="text" name="eventname" value="{{events.eventname}}" id="eventname2">
 				<label for="name">Date & Time </label>
 				
 <div class="form-group">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control datentime" name="datentime" value="{{events.eventdatetime}}"/>
+                    <input type='text' class="form-control textarea2 datentime" name="datentime" value="{{events.eventdatetime}}"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
@@ -139,13 +151,13 @@
 
 			{{else}}
 				<label for="name">Event</label>
-				<input class="input input-xlarge eventname" type="text" name="eventname" value="{{updateDutieinfo.event}}" id="eventname">
+				<input class="input input-xlarge textarea2 eventname" type="text" id="eventid2" name="eventname" value="{{updateDutieinfo.event}}">
 
 				<label for="name">Date & Time </label>
 				
 <div class="form-group">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control datentime" name="datentime" value="{{updateDutieinfo.datetime}}"/>
+                    <input type='text' class="form-control textarea2 datentime" name="datentime" value="{{updateDutieinfo.datetime}}"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
@@ -165,12 +177,6 @@
 					{{/each}}	
 				</select><br>
 				
-
-			<label for="name">Dutie Status </label><br>
-			<select name="dutiestatus" id="dutiestatus" class="dutiestatus">
-				<option value="Future">Future</option>
-				<option value="Done">Done</option>
-			</select>
 	
 	</ul>
 				

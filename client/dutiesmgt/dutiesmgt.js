@@ -20,12 +20,10 @@ Template.dutiesmgtForm.rendered = function(){
 	})
 
 	var dutie = Duties.findOne({_id:Session.get('updateDutie')});
-	//alert(dutie.dutiename);
+	
 	$('.dutietype').val(dutie.dutiename);
 	$('.dutiestatus').val(dutie.dutiestatus);
 	$('.member').val(dutie.member);
-
-	
 }
 
 Template.dutiesmgtinforow.job= function(){
@@ -89,15 +87,49 @@ Template.assigndutiesmgt.dutieMem = function(){
 
 Template.dutiesmgt.eventList = function(){
 
-	return Events.find();
+	return Events.find({}, {sort: {eventdatetime: -1}});
 }
 
 Template.dutiesmgtinforow.eventDutie = function(){
 
-	return Duties.find({event:this.eventname});
+	return Duties.find({event:this._id});
 }
 
+Template.assigndutiesmgt.checkdutiestat = function(){
 
+	var dutie = Duties.findOne({_id:this._id});
+		if(dutie.dutiestatus === null)
+		{
+			var dutiestatus = dutie.dutiestatus;
+		}
+		else
+		{
+			var dutiestatus = null;
+		}
+		return dutiestatus;
+}
+
+Template.assigndutiesmgt.showdutiestat = function(){
+
+	var dutie = Duties.findOne({_id:this._id});
+		if(dutie.dutiestatus === 'doing')
+		{
+			var dutiestatus = dutie.dutiestatus;
+		}
+		else
+		{
+			var dutiestatus = null;
+			
+		}
+		return dutiestatus;
+}
+
+Template.assigndutiesmgt.showdutiestatus = function(){
+
+	var dutie = Duties.findOne({_id:this._id});
+		
+		return dutie.dutiestatus;
+}
 Template.dutiedeleteprompt.events({
 
 	'click .del':function(evt, tmpl){
@@ -151,13 +183,24 @@ Template.dutiesmgtForm.events({
 	{
 		dutiename = tmpl.find('.dutietype').value;
 	}
+	var dutiedesc = tmpl.find('.dutiedesc').value;
+	var event = tmpl.find('.eventid').value;
+	var member = tmpl.find('.member').value;
+	var datetime = tmpl.find('.datentime').value;
+	var eventData = Events.findOne({_id:event});
+	var memberdata = Members.findOne({parent:member});
 
+	alert(eventData.eventname);
+	alert(memberdata.mobile);
+
+	var msg ='You are assign to event '+eventData.eventname +', Date:'+ datetime+ ' Duration: ' +dutiedesc+'.' ;
+	var phnnumber= memberdata.mobile;
 	
 	var dutiedesc = tmpl.find('.dutiedesc').value;
-	var event = tmpl.find('.eventname').value;
+	
 	var datetime = tmpl.find('.datentime').value;
 	var member = tmpl.find('.member').value;
-	var dutiestatus = tmpl.find('.dutiestatus').value;
+	var dutiestatus = null;
 	var addeddate = new Date();
 	
 	var userid = Meteor.userId();
@@ -171,6 +214,7 @@ Template.dutiesmgtForm.events({
 			};
 	
 		Meteor.call('addDutie',options);
+		Meteor.call('sendsms',msg,phnnumber);
 		alert('Dutie Successfully Added');
 		Session.set('showdutieform',false);
 		Session.set('editing_dutie_data',null);

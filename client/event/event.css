@@ -4,10 +4,49 @@
 }
 
 .eventname{
-	font-size:30px;
+	
+margin: 0px 0 0 0px;
 
 }
+.Dateshow{
+margin-top: 0px;
+}
 
+/*Datetime Show********************************************************************************/
 
+.date2
+{
+float: left;
+height: 80px;
+width: 80px;
+background: White;
+margin-right: 10px;
+padding-top: 0px;
+line-height: normal;
+ border: 2px solid;
+ border-radius: 10px;
+}
+
+.date2 .month
+{
+background: black;
+display: block;
+text-align: center;
+color: #FFF;
+font-size: 20px;
+padding-top: 2px;
+text-transform: uppercase;
+ border-radius: 8px;
+}
+
+.date2 .day
+{
+display: block;
+text-align: center;
+padding : -5px 0 10px 0;
+color: #222;
+font-size: 40px;
+font-weight: bold;
+}
 
 

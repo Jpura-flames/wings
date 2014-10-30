@@ -20,11 +20,16 @@
 		<div class="media well span3 membermgtProfile">
 			
   			<div class="pull-left">
-    			<img class="media-object" src="/{{_id}}.jpg" width="60px">
+  				{{#if profile}}
+    			<img class="media-object" src="/{{profile.parent}}.png" width="60px">
+    			{{else}}
+    			<img class="media-object" src="/default.png" width="60px">
+    			{{/if}}
+    			
   			</div>
   			<div class="media-body">
 				{{#if profile}}
-				
+
 				<h4 class="media-heading">{{profile.name}}</h4>
 				
 				{{else}}				
@@ -52,8 +57,10 @@
 					{{/if}}
 						{{#each emails}}
 							{{address}}
-						{{/each}}				
-					<a herf="" name="sendmsg" id="sendmsg" class="btn btn-primary sendmsg">Send Message</a>					
+						{{/each}}	
+						{{#if thisuser}}
+							<a herf="" name="sendmsg" id="sendmsg" class="btn btn-primary sendmsg">Send Message</a>		
+						{{/if}}			
 				</p>
 			
  			 </div>
@@ -66,7 +73,7 @@
 	<div id="sendmessage" name="sendmessage" class="modal-backdrop sendmessage1 span4 ">
 			<div class="modal-header">
 				<a class="close" data-dismiss="modal">x</a>
-				<h4>Send Message for {{ownerinfo._id}} </h4>				
+				<h4>Send Message to {{ownerinfo.name}} </h4>				
 			</div>
 		<div class="modal-body">
 	
@@ -74,7 +81,7 @@
 			<ul class="unstyled">
 				<li>
 					<label for="name" class="pull-left">Message </label> 
-					<input class="input input-xlarge name" type="text" name="name" value="" id="name">
+					<input class="input input-xlarge msgtext" type="text" name="msgtext" value="" id="name">
 				</li>	
 			</ul>
 

@@ -1,6 +1,4 @@
-
-	Session.setDefault('appName','Event Manager');
-	Session.setDefault('showeventform', false);	
+Session.setDefault('showeventform', false);	
 
 Template.eventmgt.rendered = function(){
 
@@ -22,7 +20,7 @@ Template.eventmgtForm.rendered = function(){
 
 Template.eventmgt.eventList = function(){
 
-	return Events.find();
+	return Events.find({}, {sort: {eventdatetime: 1}});
 }
 
 
@@ -139,3 +137,89 @@ var updateEvent = function(options){
 
 }
 
+Template.eventmgtinforow.eventDay = function(){
+	var showevent = Events.findOne({_id:this._id});
+	var eventdatetime = showevent.eventdatetime.length;
+
+	var eventDay = showevent.eventdatetime.substring(8,10);		
+	return eventDay;
+}
+
+Template.eventmgtinforow.eventYear = function(){
+	var showevent = Events.findOne({_id:this._id});
+	var eventdatetime = showevent.eventdatetime.length;
+
+	var eventYear = showevent.eventdatetime.substring(0,4);		
+	return eventYear;
+}
+
+Template.eventmgtinforow.eventTime = function(){
+	var showevent = Events.findOne({_id:this._id});
+	var eventdatetime = showevent.eventdatetime.length;
+
+	var eventTime = showevent.eventdatetime.substring(10);		
+	return eventTime;
+}
+
+Template.eventmgtinforow.eventMonth = function(){
+	var showevent = Events.findOne({_id:this._id});
+	var eventdatetime = showevent.eventdatetime.length;
+
+	
+		var eventMonth = showevent.eventdatetime.substring(5,7);
+
+		
+		if(eventMonth === '01')
+		{
+			var eventMonthstr = 'Jan';
+		}
+		if(eventMonth === '02')
+		{
+			var eventMonthstr = 'Feb';
+		}
+		if(eventMonth === '03')
+		{
+			var eventMonthstr = 'Mar';
+		}
+		if(eventMonth === '04')
+		{
+			var eventMonthstr = 'Apr';
+		}
+		if(eventMonth === '05')
+		{
+			var eventMonthstr = 'May';
+		}
+		if(eventMonth === '06')
+		{
+			var eventMonthstr = 'June';
+		}
+		if(eventMonth === '07')
+		{
+			var eventMonthstr = 'July';
+		}
+		if(eventMonth === '08')
+		{
+			var eventMonthstr = 'Aug';
+		}
+		if(eventMonth === '09')
+		{
+			var eventMonthstr = 'Sep';
+		}
+		if(eventMonth === '10')
+		{
+			var eventMonthstr = 'Oct';
+		}
+		if(eventMonth === '11')
+		{
+			var eventMonthstr = 'Nov';
+		}
+		if(eventMonth === '12')
+		{
+			var eventMonthstr = 'Dec';
+		}
+
+
+		return eventMonthstr;
+
+	
+}

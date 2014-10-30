@@ -20,15 +20,20 @@ Router .map( function () {
     path: '/post'
   });
 
-  this.route('event', {
-    path: '/event'
+  this.route('eventpage', {
+    path: '/eventpage'
   });
 
 this.route('eventmgt', {
     path: '/eventmgt'
   });
+
   this.route('duties', {
     path: '/duties'
+  });
+
+this.route('dutiesmgt', {
+    path: '/dutiesmgt'
   });
 
   this.route('member', {

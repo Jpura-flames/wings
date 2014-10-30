@@ -20,7 +20,7 @@
 		<div class="media well span3 membermgtProfile">
 			
   			<div class="pull-left">
-    			<img class="media-object" src="/{{_id}}.jpg" width="60px">
+    			<img class="media-object" src="/default.png" width="60px">
   			</div>
   			<div class="media-body">
 				{{#if profile}}
@@ -66,7 +66,7 @@
 	<div id="sendmessage" name="sendmessage" class="modal-backdrop sendmessage1 span4 ">
 			<div class="modal-header">
 				<a class="close" data-dismiss="modal">x</a>
-				<h4>Send Message for {{ownerinfo}} </h4>				
+				<h4>Send Message for {{ownerinfo._id}} </h4>				
 			</div>
 		<div class="modal-body">
 	

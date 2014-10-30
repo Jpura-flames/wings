@@ -1,4 +1,3 @@
-
 Router .map( function () {
   this.route('splash', {
     path: '/'      
@@ -20,8 +19,8 @@ Router .map( function () {
     path: '/post'
   });
 
-  this.route('event', {
-    path: '/event'
+  this.route('eventpage', {
+    path: '/eventpage'
   });
 
 this.route('eventmgt', {
@@ -44,4 +43,12 @@ this.route('dutiesmgt', {
     path: '/membermgt'
   });
 
-} )
+  this.route('messages', {
+    path: '/messages'
+  }),
+
+  this.route('myduties', {
+    path: '/myduties'
+  })
+
+})

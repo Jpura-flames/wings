@@ -1,13 +1,44 @@
 .adddutie{
 	width:350px;
 	height:850px;
+	background: black;
 }
-
 .dutiename{
 	font-size:30px;
-
+}
+#eventid{
+	display: none;
 }
 
+#eventid2{
+	display: none;
+}
+.cursorHand{
+
+	cursor: pointer;
+	cursor: hand; 
+}
+
+.textarea2[type="text"] {
+    width: 300px;
+    height: 25px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.emailinput[type="e-mail"] {
+    width: 300px;
+    height: 25px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.pword[type="password"] {
+    width: 300px;
+    height: 25px;
+    display: block;
+    margin-bottom: 10px;
+}
 
 
 

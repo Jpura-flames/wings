@@ -1,0 +1,36 @@
+<template name="messages">
+		<div class="span7">
+		  <div class="page-header span9">
+				<h1>Messages<small> </small></h1>
+		
+			</div>
+			<div class="media">
+			 		
+						{{#each gotMessages}}
+							{{>msgbody}}
+						{{/each}}
+					  	
+	   		</div>	
+		</div>
+</template>
+
+<template name="msgbody">
+	<ul class='unstyled'>
+<li class ="well span6">
+	<a class="close" data-dismiss="modal">x</a>
+		<a class ="pull-left" href="">
+			<img src="/default.png" width="45px" class="img-rounded" alt=""/>
+		</a>
+		<p class="muted commentUser pull-right">{{sentDate}}</p>
+			<p class="muted commentUser">{{sendprofile}}</p>	
+			
+				<span class="label label-info">{{msgtext}}</span>
+			
+			
+			
+	</li>
+</ul>
+</template>
+
+
+

@@ -17,7 +17,7 @@
 
 		<div class="page-header span9">
 				<h1>Member Profile <small>Management</small></h1>
-		<a herf="" name="addmember" id="addmember" class="btn btn-success addmember">Add New Member</a>	
+		<a herf="" name="addmember" id="addmember" class="btn btn-info addmember">Add New Member</a>	
 		</div>	
 		<div class="span7">
 		<ul class="unstyled" id="postlist">
@@ -37,19 +37,25 @@
 		<div class="media well span3 membermgtProfile">
 			<a class="close" data-dismiss="modal">x</a>
   			<div class="pull-left">
-    			<img class="media-object" src="/{{_id}}.jpg" width="60px">
+    			{{#if profile}}
+    			<img class="media-object" src="/{{profile.parent}}.png" width="60px">
+    			{{else}}
+    			<img class="media-object" src="/default.png" width="60px">
+    			{{/if}}
+
   			</div>
   			<div class="media-body">
 				{{#if profile}}
-				
+							{{profile.parent}}
 					<h4 class="media-heading">{{profile.name}}</h4>
-
+					
 				{{#each membersInfoAll}}
 							
 					{{>memberprofinfo}}
 							
 				{{/each}}
 				{{else}}				
+
     				<h4 class="media-heading">{{username}}</h4>
 				{{/if}}
     				<p>
@@ -78,14 +84,14 @@
 						
 
 					{{#if profile}}
+					
+					<a herf="" name="chngpw" id="chngpw" class="btn btn-info btn-xs chngpw">Change Username & Password</a>
 					<a herf="" name="save" id="save" class="btn btn-primary btn-xs save">Update Member Info</a>
-					<a herf="" name="chngpw" id="chngpw" class="btn btn-warning btn-xs chngpw">Change Password   </a>
+							
 							{{else}}
 					<a herf="" name="save" id="save" class="btn btn-warning btn-xs save">Add Member Info</a>
 					{{/if}}
 					
-					
-										
 				</p>
 			
  			 </div>
@@ -104,7 +110,7 @@
 </template>
 
 <template name="profileForm">
-	<div id="profileinfo" name="profileinfo" class="modal-backdrop profileinfo profileForm">
+	<div id="profileinfo" name="profileinfo" class="modal-backdrop profileinfo profform">
 			<div class="modal-header">
 				<a class="close" data-dismiss="modal">x</a>
 				<h4>Profile Information</h4>				
@@ -113,17 +119,17 @@
 	<ul class="unstyled">
 		<li>
 				<label for="name">Name </label>
-				<input class="input input-xlarge name" type="text" name="name" value="{{profile.name}}" id="name">
+				<input class="input input-xlarge textarea2 name" type="text" name="name" value="{{profile.name}}" id="name">
 		</li>
 
 		<li>
 				<label for="name">Mobile </label>
-				<input class="input input-xlarge mobile" type="text" name="mobile" value="{{profile.mobile}}" id="mobile">
+				<input class="input input-xlarge textarea2 mobile" type="text" name="mobile" value="{{profile.mobile}}" id="mobile">
 		</li>
 
 		<li>
 				<label for="name">twitter Id</label>
-				<input class="input input-xlarge twitterid" type="text" name="twitterid" value="{{profile.twitterid}}" id="twitterid">
+				<input class="input input-xlarge textarea2 twitterid" type="text" name="twitterid" value="{{profile.twitterid}}" id="twitterid">
 		</li>
 
 		<li>
@@ -167,9 +173,9 @@
 			<div class="modal-footer">
 
 		{{#if profile}}
-						<a herf="" name="update" id="update" class="btn btn-warning update">Update</a>
+						<a herf="" name="update" id="update" class="btn btn-info update">Update</a>
 		{{else}}			
-						<a herf="" name="save" id="save" class="btn btn-success save">Save</a>
+						<a herf="" name="save" id="save" class="btn btn-info save">Save</a>
 					
 		{{/if}}
 					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
@@ -185,25 +191,22 @@
 			</div>
 			<div class="modal-body">
 	<ul class="unstyled">
-		<li>
-				<label for="name">Name </label>
-				<input class="input input-xlarge name" type="text" name="name" value="" id="name">
-		</li>
+		
 		<li>
 				<label for="name">Username </label>
-				<input class="input input-xlarge uname" type="text" name="uname" value="" id="uname">
+				<input class="input input-xlarge textarea2 uname" type="text" name="uname" value="" id="uname">
 		</li>
 		<li>
 				<label for="name">E-mail </label>
-				<input class="input input-xlarge e-mail" type="e-mail" name="e-mail" value="" id="e-mail">
+				<input class="input input-xlarge textarea2 e-mail" type="e-mail" name="e-mail" value="" id="e-mail">
 		</li>
 		<li>
 				<label for="name">Password </label>
-				<input class="input input-xlarge password password1" type="password" name="password1" value="" id="uname">
+				<input class="input input-xlarge pword password password1" type="password" name="password1" value="" id="uname">
 		</li>
 		<li>
 				<label for="name">Re-enter Password </label>
-				<input class="input input-xlarge password password2" type="password" name="password2" value="" id="password2">
+				<input class="input input-xlarge pword password password2" type="password" name="password2" value="" id="password2">
 		</li>
 		
 	</ul>
@@ -212,7 +215,7 @@
 
 			<div class="modal-footer">
 	
-					<a herf="" name="save" id="save" class="btn btn-success save">Save</a>
+					<a herf="" name="save" id="save" class="btn btn-info save">Save</a>
 				
 					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
 			</div>
@@ -242,29 +245,34 @@
 	</div>
 </template>
 
+
 <template name="changepasswordform">
 	<div id="profileinfo2" name="profileinfo2" class="modal-backdrop profileinfo2 span4 ">
 			<div class="modal-header">
 				<a class="close" data-dismiss="modal">x</a>
-				<h4>Change User Password</h4>				
+				<h4>Change Username & Password</h4>				
 			</div>
 		<div class="modal-body">
 	<ul class="unstyled">
+		<li>
+				<label for="name">Username </label>
+				<input class="input input-xlarge textarea2 uname" type="text" name="uname" value="{{userData.username}}" id="">
+		</li>
 		
 		<li>
 				<label for="name">Enter New Password </label>
-				<input class="input input-xlarge password newpassword" type="password" name="newpassword" value="" id="uname">
+				<input class="input input-xlarge pword password newpassword" type="password" name="newpassword" value="" id="">
 		</li>
 		<li>
 				<label for="name">Re-Enter Password </label>
-				<input class="input input-xlarge password renewpassword" type="password" name="renewpassword" value="" id="uname">
+				<input class="input input-xlarge pword password renewpassword" type="password" name="renewpassword" value="" id="">
 		</li>
 	</ul>
 		
 	</div>
 		<div class="modal-footer">
 					
-					<a herf="" name="chngepw" id="chngepw" class="btn btn-warning chngepw">Confirm</a>
+					<a herf="" name="chngepw" id="chngepw" class="btn btn-info chngepw">Confirm</a>
 				
 					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
 			</div>
