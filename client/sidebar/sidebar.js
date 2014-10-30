@@ -6,45 +6,45 @@ Template.sidebar.rendered = function(){
 	})	
 
 	var memdata = Members.findOne({parent:Meteor.userId()});
-	if(memdata.adminrole ==='none')
+	if(memdata && memdata && memdata.adminrole ==='none')
 	{
 		alert('none');
 	}
 
-	if(memdata.adminrole ==='pg')
+	if(memdata && memdata.adminrole ==='pg')
 	{
 		Session.set('dutiemgt',true);
 	}
 
-	if(memdata.adminrole ==='aw')
+	if(memdata && memdata.adminrole ==='aw')
 	{
 		Session.set('dutiemgt',true);
 	}
 
-	if(memdata.adminrole ==='it')
+	if(memdata && memdata.adminrole ==='it')
 	{
 		Session.set('dutiemgt',true);	
 	}
 
-	if(memdata.adminrole ==='gd')
+	if(memdata && memdata.adminrole ==='gd')
 	{
 		Session.set('dutiemgt',true);
 	}
 
-	if(memdata.adminrole ==='mkt')
+	if(memdata && memdata.adminrole ==='mkt')
 	{
 		Session.set('dutiemgt',true);
 		
 	}	
 
-	if(memdata.adminrole ==='hr')
+	if(memdata && memdata.adminrole ==='hr')
 	{
 		Session.set('membermgt',true);
 		Session.set('eventmgt',true);
 		Session.set('dutiemgt',true);
 	}
 
-	if(memdata.adminrole ==='all')
+	if(memdata && memdata.adminrole ==='all')
 	{
 		Session.set('membermgt',true);
 		Session.set('eventmgt',true);
@@ -67,5 +67,26 @@ Template.sidebar.eventmgt = function(){
 Template.sidebar.dutiemgt = function(){
 
 	return Session.get('dutiemgt');
+}
+
+var navs = {
+  "home":"News Feeds",
+  "member":"Members",
+  "membermgt":"Members Profile Management",
+  "eventpage":"Events",
+  "eventmgt":"Events Management",
+  "myduties":"My Duties",
+  "duties":"Duties",
+  "dutiesmgt":"Duties Managenent",
+  "chat":"Chat",
+  "groups":"Groups"
+};
+
+Template.sidebar.navList = function(){
+	return _.pairs(navs);
+}
+
+Template.sidebar.isActive = function(){
+	return Router.current().path == "/"+ this[0]
 }
 

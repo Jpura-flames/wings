@@ -161,16 +161,17 @@ Meteor.methods({
 	},
 
 	'addUser' : function(profile){
-	
-	var profile = {
-			username:profile.uname,
-			email:profile.email,
-			password:profile.password,			
+		check(profile, Match.Any)
+
+			var profile = {
+				username:profile.uname,
+				email:profile.email,
+				password:profile.password,			
 			};
 
 						
 			Accounts.createUser(profile);
-						return true;
+		return true;
 },
 
 

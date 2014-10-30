@@ -1,21 +1,10 @@
 <template name="sidebar">
-	<ul class="nav nav-list">
-		<li class>
-		<a href="/home">News Feeds</a></li>
-		<li><a href="/member">Members</a></li>
-		{{#if membermgt}}
-		<li><a href="/membermgt">Members Profile Management</a></li>	
-		{{/if}}	
-		<li><a href="/eventpage">Events</a></li>
-		{{#if eventmgt}}
-		<li><a href="/eventmgt">Events Management</a></li>
-		{{/if}}
-		<li><a href="/myduties">My Duties</a></li>
-		{{#if dutiemgt}}
-		<li><a href="/duties">Duties</a></li>
-		<li><a href="/dutiesmgt">Duties Managenent</a></li>
-		{{/if}}
-    		<li><a href="">Chat</a></li>
-		<li><a href="">Groups</a></li>
-    	</ul>
+
+<div class="list-group">
+
+	{{#each navList}}
+		<a href="/{{this.[0]}}" class="list-group-item {{#if isActive}}active{{/if}}">{{this.[1]}}</a>
+	{{/each}}
+
+</div>
 </template>
