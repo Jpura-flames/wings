@@ -1,11 +1,4 @@
 <template name="dutiesmgt">
-{{#if showdutieform}}
-		{{>dutiesmgtForm}}
-{{/if}}
-
-{{#if dutiedelete}}
-	{{>dutiedeleteprompt}}
-{{/if}}
 		<div class="span7">
 			<div class="container-fluid">
 			 				
@@ -45,10 +38,10 @@
 		
 		</li>
 	        
-		<a herf="" name="photo" id="photo" class="btn-sm btn-info photo">Assign Photographer</a>
-		<a herf="" name="aw" id="aw" class="btn-sm btn-warning aw">Assign Aritcle Writer</a>
-		<a herf="" name="gd" id="gd" class="btn-sm btn-success gd">Assign Graphic Designer</a>
-		<a herf="" name="cordi" id="cordi" class="btn-sm btn-primary cordi">Assign Cordinator</a>
+		<a herf="#" name="photo" id="photo" class="btn-sm btn-info photo">Assign Photographer</a>
+		<a herf="#" name="aw" id="aw" class="btn-sm btn-warning aw">Assign Aritcle Writer</a>
+		<a herf="#" name="gd" id="gd" class="btn-sm btn-success gd">Assign Graphic Designer</a>
+		<a herf="#" name="cordi" id="cordi" class="btn-sm btn-primary cordi">Assign Cordinator</a>
 	</ul>	
 		
 			{{#each eventDutie}}
@@ -64,20 +57,20 @@
 			<li>
 
 {{#if checkdutiestat}}
-	<a herf="" name="del" id="del" class="btn-small btn-warning del">Not Ready</a>	
+	<a herf="#" name="del" id="del" class="btn-small btn-warning del">Not Ready</a>	
 	{{else}}
 		{{#if showdutiestat}}
-			<a herf="" name="del" id="del" class="btn-sm btn-success del">{{showdutiestatus}}</a>
+			<a herf="#" name="del" id="del" class="btn-sm btn-success del">{{showdutiestatus}}</a>
 		{{else}}
-			<a herf="" name="del" id="del" class="btn-sm btn-danger del">{{showdutiestatus}}</a>
+			<a herf="#" name="del" id="del" class="btn-sm btn-danger del">{{showdutiestatus}}</a>
 		{{/if}}
 {{/if}}		
 
 				{{dutiename}}
 				{{dutieMem.name}}
 				
-<a herf="" name="delete" id="delete" class="btn-sm btn-danger delete pull-right">Delete </a>							
-<a herf="" name="update" id="update" class="btn-sm btn-warning update pull-right">Update</a>
+<a herf="#" name="delete" id="delete" class="btn-sm btn-danger delete pull-right">Delete </a>							
+<a herf="#" name="update" id="update" class="btn-sm btn-warning update pull-right">Update</a>
 
 
 			
@@ -86,24 +79,8 @@
 			
 	</div>
 </template>
-
-
 <template name="dutiesmgtForm">
 	<form action="" method="POST" role="form">
-		<div class="modal-header">
-
-				<a class="close" data-dismiss="modal">x</a>
-
-				{{#if updateDutie}}
-					<h4>Update Dutie</h4>
-				{{else}}
-					{{#if job}}
-						<h4>{{assignType}}</h4>
-					{{else}}
-						<h4>Add Dutie</h4>
-					{{/if}}
-				{{/if}}			
-			</div>
 		<div class="form-group">
 		<label for="name">Dutie Type </label>
 			<select name="dutietype" id="dutietype" class="dutietype">
@@ -118,16 +95,16 @@
 			</select>
 	</div>
 
+
+		<div class="form-group">
+			<label for="">Dutie Name</label>
+			<input type="text" class="form-control" name="eventname" value="{{profile.eventname}}" id="eventname" >
+		</div>
 		<div class="form-group">
 			<label for="">Dutie Description</label>
 			<input type="text" class="form-control dutiedesc" name="dutiedesc" value="{{profile.dutiedesc}}" id="dutiedesc" >
 		</div>
 
-		<div class="form-group">
-			<label for="">Dutie Description</label>
-			<input type="text" class="form-control eventid" name="eventid" value="{{profile.eventid}}" id="eventid" >
-			<input type="text" class="form-control eventname" name="eventname" value="{{profile.eventname}}" id="eventname" >
-		</div>
 
 		{{#if editing_dutie_data}}
 		<div class="form-group">

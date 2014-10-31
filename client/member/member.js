@@ -34,7 +34,7 @@ Template.memberProfile.thisuser= function(){
 		}
 		else
 		{
-			var memId = This.id;
+			var memId = this.id;
 		}
 
 		return memId;	  

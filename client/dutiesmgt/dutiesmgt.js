@@ -19,11 +19,12 @@ Template.dutiesmgtForm.rendered = function(){
 	Meteor.subscribe("Members");	
 	})
 
-	var dutie = Duties.findOne({_id:Session.get('updateDutie')});
-	
-	$('.dutietype').val(dutie.dutiename);
-	$('.dutiestatus').val(dutie.dutiestatus);
-	$('.member').val(dutie.member);
+	var dutie = Duties.findOne({_id:Session.get('updateDutie')}) ;
+	if(dutie){
+		$('.dutietype').val(dutie.dutiename);
+		$('.dutiestatus').val(dutie.dutiestatus);
+		$('.member').val(dutie.member);	
+	}
 }
 
 Template.dutiesmgtinforow.job= function(){
@@ -130,95 +131,35 @@ Template.assigndutiesmgt.showdutiestatus = function(){
 		
 		return dutie.dutiestatus;
 }
-Template.dutiedeleteprompt.events({
+// Template.dutiedeleteprompt.events({
 
-	'click .del':function(evt, tmpl){
-	var id = Session.get('dutiedeleteid');
-	Meteor.call('deleteDutie',id);	
-	alert('Dutie Successfully Updated');
+// 	'click .del':function(evt, tmpl){
+// 	var id = Session.get('dutiedeleteid');
+// 	Meteor.call('deleteDutie',id);	
+// 	alert('Dutie Successfully Updated');
 
-	Session.set('dutiedelete', false);
+// 	Session.set('dutiedelete', false);
 
-},
+// },
 
-	'click .cancel':function(evt, tmpl){
+// 	'click .cancel':function(evt, tmpl){
 
-	Session.set('dutiedelete', false);
+// 	Session.set('dutiedelete', false);
 
-},
+// },
 	
-	'click .close':function(evt, tmpl){
+// 	'click .close':function(evt, tmpl){
 
-	Session.set('dutiedelete', false);
+// 	Session.set('dutiedelete', false);
 
-}
+// }
 
-})
+// })
 
 Template.dutiesmgtForm.events({
 
 	'click .save':function(evt, tmpl){
-	
-	var dutiename;
 
-	if(Session.get('job')==='pg')
-	{
-		dutiename ='Photographer';
-	}
-	if(Session.get('job')==='aw')
-	{
-		dutiename ='Aritcle Writer';
-	}
-	if(Session.get('job')==='coordi')
-	{
-		dutiename ='Coordinator';
-
-	}
-	if(Session.get('job')==='gd')
-	{
-		dutiename ='Graphic Designer';
-	
-	}
-	if(Session.get('job')=== null)
-	{
-		dutiename = tmpl.find('.dutietype').value;
-	}
-	var dutiedesc = tmpl.find('.dutiedesc').value;
-	var event = tmpl.find('.eventid').value;
-	var member = tmpl.find('.member').value;
-	var datetime = tmpl.find('.datentime').value;
-	var eventData = Events.findOne({_id:event});
-	var memberdata = Members.findOne({parent:member});
-
-	alert(eventData.eventname);
-	alert(memberdata.mobile);
-
-	var msg ='You are assign to event '+eventData.eventname +', Date:'+ datetime+ ' Duration: ' +dutiedesc+'.' ;
-	var phnnumber= memberdata.mobile;
-	
-	var dutiedesc = tmpl.find('.dutiedesc').value;
-	
-	var datetime = tmpl.find('.datentime').value;
-	var member = tmpl.find('.member').value;
-	var dutiestatus = null;
-	var addeddate = new Date();
-	
-	var userid = Meteor.userId();
-	var options = {dutiename:dutiename,
-			dutiedesc:dutiedesc,
-			event:event,
-			datetime:datetime,
-			member:member,
-			dutiestatus:dutiestatus,
-			addeddate:addeddate
-			};
-	
-		Meteor.call('addDutie',options);
-		Meteor.call('sendsms',msg,phnnumber);
-		alert('Dutie Successfully Added');
-		Session.set('showdutieform',false);
-		Session.set('editing_dutie_data',null);
-		Session.set('job',null);
 },
 
 	'click .cancel':function(evt, tmpl){
@@ -266,38 +207,41 @@ Template.dutiesmgtForm.events({
 
 	
 
-})
-
-
-
+});
 
 Template.dutiesmgtinforow.events({
 	'dblclick .dutieinforow':function(evt, tmpl){
-	Session.set('editing_dutie_data',tmpl.data._id);
+	Session.set('editing_dutie_data',this._id);
 	Session.set('showdutieform',true);
+	rd.show();
 },
 	'click .photo':function(evt, tmpl){
-	Session.set('editing_dutie_data',tmpl.data._id);
+	Session.set('editing_dutie_data',this._id);
 	Session.set('job','pg');
 	Session.set('showdutieform',true);
+	rd.show();
 },
 
 	'click .aw':function(evt, tmpl){
-	Session.set('editing_dutie_data',tmpl.data._id);
+		console.log(this)
+	Session.set('editing_dutie_data',this._id);
 	Session.set('job','aw');
 	Session.set('showdutieform',true);
+	rd.show();
 },
 
 	'click .gd':function(evt, tmpl){
-	Session.set('editing_dutie_data',tmpl.data._id);
+	Session.set('editing_dutie_data',this._id);
 	Session.set('job','gd');
 	Session.set('showdutieform',true);
+	rd.show();
 },
 
 	'click .cordi':function(evt, tmpl){
-	Session.set('editing_dutie_data',tmpl.data._id);
+	Session.set('editing_dutie_data',this._id);
 	Session.set('job','coordi');	
 	Session.set('showdutieform',true);
+	rd.show();
 }
 
 })
@@ -311,13 +255,15 @@ Template.assigndutiesmgt.events({
 
 	'click .update':function(evt, tmpl){
 	Session.set('showdutieform',true);
-	Session.set('updateDutie',tmpl.data._id);
+	Session.set('updateDutie',this._id);
+	rd.show();
 },	
 
 	'click .delete':function(evt, tmpl){
 	Session.set('dutiedelete', true);
-	var id = tmpl.data._id;
-	Session.set('dutiedeleteid', tmpl.data._id);
+	var id = this._id;
+	Meteor.call('deleteDutie',id);	
+	Session.set('dutiedeleteid', this._id);
 	
 	
 }	
@@ -348,11 +294,93 @@ Template.dutiesmgt.showdutieform = function(){
 	return Session.get('showdutieform');
 }	
 
+		Meteor.startup(function(){
+	  var shareDialogInfo = {
+	    template: Template.dutiesmgtForm,
+	    title: "Add Dutie",
+	    buttons: {
+	      "ok": {
+	        class: 'btn-info',
+	        label: 'Ok'
+	      },
+	      "cancel": {
+	        class: 'btn-danger',
+	        label: 'Cancel'
+	      }
+	    }
+	  }
+	  rd = ReactiveModal.initDialog(shareDialogInfo);
+	  rd.buttons.ok.on('click', function(button){
+			var dutiename;
+
+			if (Session.get('job') === 'pg') {
+			  dutiename = 'Photographer';
+			}
+			if (Session.get('job') === 'aw') {
+			  dutiename = 'Aritcle Writer';
+			}
+			if (Session.get('job') === 'coordi') {
+			  dutiename = 'Coordinator';
+
+			}
+			if (Session.get('job') === 'gd') {
+			  dutiename = 'Graphic Designer';
+			}
+			
+			dutiename = $('#dutietype').val();
+
+			var dutiedesc = $('.dutiedesc').val();
+
+			var event = Session.get('editing_dutie_data');
+
+			var member = $('.member').val();
+			var datetime = $('.datentime').val();
+			var eventData = Events.findOne({
+			  _id: event
+			});
+			var memberdata = Members.findOne({
+			  parent: member
+			});
+			if(memberdata){
+				var msg = 'You are assign to event ' + dutiename + ', Date:' + datetime + ' Duration: ' + dutiedesc + '.';
+				var phnnumber = memberdata.mobile;
+				Meteor.call('sendsms', msg, phnnumber);
+			}
+
+			var dutiedesc = $('.dutiedesc').val();
+
+			var datetime = $('.datentime').val();
+			var member = $('.member').val();
+			var dutiestatus = null;
+			var addeddate = new Date();
+
+			var userid = Meteor.userId();
+			var options = {
+			  dutiename: dutiename,
+			  dutiedesc: dutiedesc,
+			  event: event,
+			  datetime: datetime,
+			  member: member,
+			  dutiestatus: dutiestatus,
+			  addeddate: addeddate
+			};
+
+			Meteor.call('addDutie', options, function(err, result){
+				if(!err){
+					toastr.success('Dutie Successfully Added')
+				} else {
+					toastr.error('Dutie not Added')
+				}
+
+			});
+		});
+	  
+	});
+
 
 Template.dutiesmgt.events({
-	'click .adddutiebtn':function(evt, tmpl){
-	Session.set('showdutieform',true);
-	
+	'click .adddutiebtn':function(e, tmpl){
+		rd.show();
 }	
 })
 

@@ -210,7 +210,7 @@ Meteor.methods({
 			admin:Meteor.userId(),
 			confirmation: confirm
 			};
-
+			console.log(dutie)
 			Duties.insert(dutie);
 		},
 
