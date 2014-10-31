@@ -1,3 +1,6 @@
-btn-default{
+.btn-default{
 display:none;
+}
+#login-buttons-open-change-password{
+	display:none;
 }

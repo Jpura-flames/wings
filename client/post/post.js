@@ -19,6 +19,9 @@ Template.postcomment.rendered = function(){
 	})	
 }
 
+Template.post.relativeTime = function(){
+  return RelativeTime(new Date(), this.createdAt);
+};
 
 
 Template.post.events({
