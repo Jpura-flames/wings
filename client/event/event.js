@@ -39,7 +39,6 @@ Template.eventinforow.eventYear = function(){
 Template.eventinforow.eventTime = function(){
 	var showevent = Events.findOne({_id:this._id});
 	var eventdatetime = showevent.eventdatetime.length;
-
 	var eventTime = showevent.eventdatetime.substring(10);		
 	return eventTime;
 }

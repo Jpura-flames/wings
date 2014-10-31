@@ -11,7 +11,7 @@ Template.eventmgt.rendered = function(){
 Template.eventmgtForm.rendered = function(){
 	
 	var eve = Events.findOne({_id:Session.get('editing_event_data')})
-	$('.status').val(eve.eventstatus);
+	// $('.status').val(eve.eventstatus);
 }
 
 Template.eventmgt.eventList = function(){
@@ -23,6 +23,59 @@ Template.eventmgt.eventList = function(){
 Template.eventmgtForm.events({
 	'click .save':function(e, tmpl){
 
+
+},
+	'click .cancel':function(evt, tmpl){
+		Session.set('showeventform',false);
+},
+	'click .close':function(evt, tmpl){
+	Session.set('showeventform',false);
+},	
+
+	'click .delete':function(evt, tmpl){
+	var id = Session.get('editing_event_data');
+	Meteor.call('removeEvent',id);
+	alert('Event Successfully Deleted');
+	Session.set('showeventform',false);
+}
+
+
+})
+
+
+Template.eventmgtinforow.events({
+	'click .updateform':function(evt, tmpl){
+
+	Session.set('showeventform',true);
+}
+
+})
+
+// Template.eventmgtForm.events = function(){
+// 	return Events.findOne({_id:Session.get('editing_event_data')});
+// }
+
+Template.eventmgtForm.editing_event_data= function(){
+		
+	return Session.get('editing_event_data');
+}
+
+
+
+Template.eventmgtForm.rendered = function () {
+	var eventInfo = Events.findOne({_id:Session.get('editing_event_data')});
+	$('#datentime').val(eventInfo.eventdatetime)
+};
+
+Template.eventmgt.showeventform = function(){
+
+	return Session.get('showeventform');
+}	
+
+Template.eventmgt.events({
+	'click .addevenbtn':function(e, tmpl){
+		var id = this._id;
+		Session.set('editing_event_data', id)
 		e.preventDefault();
 		 var shareDialogInfo = {
 	    template: Template.eventmgtForm,
@@ -44,6 +97,10 @@ Template.eventmgtForm.events({
 	    }
 	  };
 
+
+		var rd = ReactiveModal.initDialog(shareDialogInfo);
+	  
+	  	rd.buttons.ok.on('click', function(button){
 	var eventname = $('#eventname').val();
 	var eventdatentime = $('#datentime').val();
 	var venue = $('#venue').val();
@@ -65,13 +122,10 @@ Template.eventmgtForm.events({
 			addeddate:addeddate,
 			userid:userid		
 			};
-		var rd = ReactiveModal.initDialog(shareDialogInfo);
-	  
-	  	rd.buttons.ok.on('click', function(button){
 
-	if(Session.get('editing_event_data'))
+	if(id)
 	{
-		var id = Session.get('editing_event_data');
+
 		Meteor.call('updateEvent',options,id,function(err, result){
 			    	if(!err){
 			    		rd.hide();
@@ -97,82 +151,31 @@ Template.eventmgtForm.events({
 	 })
 
 	  	rd.show();
-		Session.set('editing_event_data',null);
-},
-	'click .cancel':function(evt, tmpl){
-		Session.set('showeventform',false);
-		Session.set('editing_event_data',null);
-},
-	'click .close':function(evt, tmpl){
-	Session.set('showeventform',false);
-},	
-
-	'click .delete':function(evt, tmpl){
-	var id = Session.get('editing_event_data');
-	Meteor.call('removeEvent',id);
-	alert('Event Successfully Deleted');
-	Session.set('showeventform',false);
-}
-
-
-})
-
-
-Template.eventmgtinforow.events({
-	'click .updateform':function(evt, tmpl){
-	
-	Session.set('editing_event_data',tmpl.data._id);
-	Session.set('showeventform',true);
-}
-
-})
-
-Template.eventmgtForm.events = function(){
-
-	return Events.findOne({_id:Session.get('editing_event_data')});
-}
-
-Template.eventmgtForm.editing_event_data= function(){
-		
-	return Session.get('editing_event_data');
-}
-
-
-
-
-Template.eventmgt.showeventform = function(){
-
-	return Session.get('showeventform');
-}	
-
-Template.eventmgt.events({
-	'click .addevenbtn':function(evt, tmpl){
-	Session.set('showeventform',true);
 	
 }	
 })
 
-var updateEvent = function(options){
+// var updateEvent = function(options){
 	
-	var event = {
-			eventname:options.eventname,
-			eventdatetime:options.eventdatetime,
-			venue:options.venue,
-			client:options.client,
- 			contact:options.contact,
-			eventcordinator:options.eventcordinator,
-			eventstatus:options.eventstatus,
-			addeddate:options.addeddate,
-			userId:options.userid
+// 	var event = {
+// 			eventname:options.eventname,
+// 			eventdatetime:options.eventdatetime,
+// 			venue:options.venue,
+// 			client:options.client,
+//  			contact:options.contact,
+// 			eventcordinator:options.eventcordinator,
+// 			eventstatus:options.eventstatus,
+// 			addeddate:options.addeddate,
+// 			userId:options.userid
 			
 			
-						};
+// 						};
 			
-	Meteor.call('updateProject',event);
+// 	Meteor.call('updateProject',event);
 				
-			return true;
+// 			return true;
 
-}
+// }
 
 Template.eventmgtinforow.eventDay = function(){
 	var showevent = Events.findOne({_id:this._id});

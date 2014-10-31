@@ -77,7 +77,7 @@ var navs = {
   "eventmgt":"Events Management",
   "myduties":"My Duties",
   "duties":"Duties",
-  "dutiesmgt":"Duties Managenent",
+  "dutiesmgt":"Duties Management",
   "chat":"Chat",
   "groups":"Groups"
 };
