@@ -103,7 +103,7 @@ Template.membermgt.events({
 			var repassword = $('#password2').val();
 
 			if (uname === "" || email === '' || password === '' || repassword === '') {
-			  alert("Form Data Cannot be null!!");
+			  toastr.error('Form Data Cannot be null');
 			} else {
 			  if (password === repassword) {
 			    var profile = {
@@ -124,56 +124,93 @@ Template.membermgt.events({
 			    Session.set('showaddmemform', false);
 
 			  } else {
-			    alert("Password Mismatch");
+			  	toastr.error('Password Mismatch')
+			   
 			  }
 			}
 
 		});
 	  rd.show();
 
-
-		  // var name = $('#name').value;
-		  // var mobile = $('#mobile').value;
-		  // var twitterid = $('#twitterid').value;
-		  // var faculty = $('#faculty').value;
-		  // var adminrole = $('#adminroles').value;
-		  // var addeddate = new Date();
-		  // var id = Session.get('memberdata');
-		  
-		  // var photo = $('#pg').checked;
-		  // var aw = $('#aw').checked;
-		  // var it = $('#it').checked;
-		  // var hr = $('#hr').checked;
-		  // var mkt = $('#mkt').checked;
-		  // var fin = $('#fin').checked;
-
-		  // var profile = {
-		  // 	name:name,
-	   //    mobile:mobile,
-	   //    twitterid:twitterid,
-	   //    faculty:faculty,
-	   //    job:{photo: photo,
-	   //    aw : aw, it :it,
-	   //    hr:hr, mkt:mkt,
-	   //    fin:fin},
-	   //    adminrole:adminrole,
-	   //    addeddate:addeddate,
-	   //    parent:id 
-		  //  };
-		  //  Meteor.call('saveProfile',profile);
-
-
-
-		// Session.set('showaddmemform',true);
 }
 
 })
 
 Template.membermgtProfile.events({
 
-	'click .save':function(evt, tmpl){
-		Session.set('memberdata',tmpl.data._id);
+	'click .save':function(e, tmpl){
+		
+	e.preventDefault();
+		 var shareDialogInfo = {
+	    template: Template.profileForm,
+	    title: "Add Member Information",
+	    modalDialogClass: "share-modal-dialog", //optional
+	    modalBodyClass: "share-modal-body", //optional
+	    modalFooterClass: "share-modal-footer",//optional
+	    removeOnHide: true, //optional. If this is true, modal will be removed from DOM upon hiding
+	    buttons: {
+	      "ok": {
+	        class: 'btn-info',
+	        closeModalOnClick: false,
+	        label: 'Ok'
+	      },
+	      "cancel": {
+	        class: 'btn-danger',
+	        label: 'Cancel'
+	      }
+	    }
+	  }
+
+	  	Session.set('memberdata',tmpl.data._id);
 		Session.set('showprofform',true);
+
+		 var rd = ReactiveModal.initDialog(shareDialogInfo);
+	  		
+	  		rd.buttons.ok.on('click', function(button){
+
+	  		  var name = $('#membername').val();
+			  var mobile = $('#mobile').val();
+			  var twitterid = $('#twitterid').val();
+			  var faculty = $('#faculty').val();
+			  var adminrole = $('#adminroles').val();
+			  var addeddate = new Date();
+			  var id = Session.get('memberdata');
+		  
+
+			  var photo = $('#pg').checked;
+			  var aw = $('#aw').checked;
+			  var it = $('#it').checked;
+			  var hr = $('#hr').checked;
+			  var mkt = $('#mkt').checked;
+			  var fin = $('#fin').checked;
+			 console.log(name,moblie);
+			  var profile = {
+			  	name:name,
+		      	mobile:mobile,
+		      	twitterid:twitterid,
+		      	faculty:faculty,
+		      	job:{
+		      	photo: photo,
+		      	aw : aw, it :it,
+		      	hr:hr, mkt:mkt,
+		      	fin:fin
+		     	},
+		      adminrole:adminrole,
+		      addeddate:addeddate,
+		      parent:id 
+			  };
+			   Meteor.call('saveProfile',profile,function(err, result){
+			    	if(!err){
+			    		rd.hide();
+			    		toastr.success('User Information Added successfully')
+			    	} else {
+			    		toastr.error('User Information Not Added')
+			    		
+			    	}
+			    });
+			    Session.set('showaddmemform', false);
+		});
+	  rd.show();
 },
 
 	'click .update':function(evt, tmpl){
@@ -181,14 +218,101 @@ Template.membermgtProfile.events({
 		Session.set('showprofform',true);
 },
 
-	'click .chngpw':function(evt, tmpl){
+	'click .chngpw':function(e, tmpl){
 				
 		Session.set('memberdeldata',tmpl.data._id);
+
+		e.preventDefault();
+		 var shareDialogInfo = {
+	    template: Template.changepasswordform,
+	    title: "Change Password",
+	    modalDialogClass: "share-modal-dialog", //optional
+	    modalBodyClass: "share-modal-body", //optional
+	    modalFooterClass: "share-modal-footer",//optional
+	    removeOnHide: true, //optional. If this is true, modal will be removed from DOM upon hiding
+	    buttons: {
+	      "ok": {
+	        class: 'btn-info',
+	        closeModalOnClick: false,
+	        label: 'Ok'
+	      },
+	      "cancel": {
+	        class: 'btn-danger',
+	        label: 'Cancel'
+	      }
+	    }
+	  };
+
+
+	   var password = $('#changepassword').val();
+	   var password2 = $('#changepassword2').val();
+
+	  
+	  var rd = ReactiveModal.initDialog(shareDialogInfo);
+	  
+	  	rd.buttons.ok.on('click', function(button){
+
+	  			 Meteor.call('changeuserpassword',password,Session.get('memberdeldata'),function(err, result){
+			    	if(!err){
+			    		rd.hide();
+			    		toastr.success('Password Changed Successfully')
+			    	} else {
+			    		toastr.error('Password Not Changed')
+			    	}
+	  	})
+
+	  			 
+	  })
+
+	  	rd.show();
+
+
 		Session.set('showchangepwform',true);
 },
-	'click .close':function(evt, tmpl){
+	'click .close':function(e, tmpl){
 		Session.set('memberdelform',tmpl.data._id);
-}
+
+			e.preventDefault();
+		 var shareDialogInfo = {
+	    template: Template.userdeleteprompt,
+	    title: "Remove Member",
+	    modalDialogClass: "share-modal-dialog", //optional
+	    modalBodyClass: "share-modal-body", //optional
+	    modalFooterClass: "share-modal-footer",//optional
+	    removeOnHide: true, //optional. If this is true, modal will be removed from DOM upon hiding
+	    buttons: {
+	      "ok": {
+	        class: 'btn-info',
+	        closeModalOnClick: false,
+	        label: 'Ok'
+	      },
+	      "cancel": {
+	        class: 'btn-danger',
+	        label: 'Cancel'
+	      }
+	    }
+	  };
+
+	  var rd = ReactiveModal.initDialog(shareDialogInfo);
+
+	  	rd.buttons.ok.on('click', function(button){
+
+	  			 Meteor.call('removeUser',Session.get('memberdelform'),function(err, result){
+			    	if(!err){
+			    		rd.hide();
+			    		toastr.success('Member Deleted successfully')
+			    	} else {
+			    		toastr.error('Member Not Deleted')
+			    		
+			    	}
+	  	})
+
+	  			 
+	  })
+
+	  	rd.show();		
+	
+	}
 	
 })
 

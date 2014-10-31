@@ -1,19 +1,9 @@
 <template name="membermgt">
-{{#if showprofform}}
-		{{>profileForm}}
-{{/if}}
-	
 {{#if showaddmemform}}
 		{{>addMemberForm}}
 {{/if}}
 
-{{#if memberdelform}}
-		{{>userdeleteprompt}}
-{{/if}}
 
-{{#if showchangepwform}}
-		{{>changepasswordform}}
-{{/if}}
 
 		<div class="page-header span9">
 				<h1>Member Profile <small>Management</small></h1>
@@ -102,7 +92,7 @@
 <template name="memberprofinfo">
 				
 					<div class="media-body span3">
-					<a class="close" data-dismiss="modal">x</a>
+					
 						<h4 class="media-heading"></h4>
 					  		<p></p>
 				
@@ -114,7 +104,7 @@
 <form action="" method="POST" role="form">
 	<div class="form-group">
 		<label for="">Name</label>
-		<input type="text" class="form-control name" name="name" value="{{profile.name}}" id="name" >
+		<input type="text" class="form-control membername" name="name" value="{{profile.name}}" id="membername" >
 	</div>
 
 	<div class="form-group">
@@ -124,12 +114,12 @@
 
 <div class="form-group">
 		<label for="">twitter Id</label>
-		<input type="text" class="form-control twitterid" name="mobile" value="{{profile.twitterid}}" id="twitterid" >
+		<input type="text" class="form-control twitterid" name="twitterid" value="{{profile.twitterid}}" id="twitterid" >
 	</div>
 
 <div class="form-group">
 		<label for="name">Faculty </label>
-		<select name="faculty"  class="form-control faculty" required="required">
+		<select name="faculty"  id ="faculty" class="form-control faculty" required="required">
 				<option value="fmsc">FMSC</option>
 				<option value="fas">FAS</option>
 				<option value="fms">FMS</option>
@@ -138,16 +128,16 @@
 </div>
 	
 	<div class="checkbox">
-		<label for="name"><input type="checkbox" class="pg"> Photographer</label>
-		<label for="name"> <input type="checkbox" class="aw">Article Writer</label>
-		<label for="name"><input type="checkbox" class="it"> IT</label>
-		<label for="name"><input type="checkbox" class="hr"> HR</label>
-		<label for="name"><input type="checkbox" class="mkt"> MKT</label>
-		<label for="name"><input type="checkbox" class="fin"> Finance</label>
+		<label for="name"><input type="checkbox" id="pg"> Photographer</label>
+		<label for="name"> <input type="checkbox" id="aw">Article Writer</label>
+		<label for="name"><input type="checkbox" id="it"> IT</label>
+		<label for="name"><input type="checkbox" id="hr"> HR</label>
+		<label for="name"><input type="checkbox" id="mkt"> MKT</label>
+		<label for="name"><input type="checkbox" id="fin"> Finance</label>
 	</div>
 <div class="form-group">
 		<label for="name">Admin Role </label>
-		<select name="adminroles"  class="form-control adminroles" required="required">				
+		<select name="adminroles"  class="form-control adminroles" id="adminroles" required="required">				
 				<option value="pg">PG</option>
 				<option value="aw">AW</option>
 				<option value="it">IT</option>
@@ -165,7 +155,7 @@
 	<form action="" method="POST" role="form" id="addMemberForm">
 		<div class="form-group">
 			<label for="">Username</label>
-			<input type="text" class="form-control" name="uname" value="" id="uname" >
+			<input type="text" class="form-control" name="uname" value="" id="name" >
 		</div>
 	
 	<div class="form-group">
@@ -186,59 +176,26 @@
 </template>
 
 <template name="userdeleteprompt">
-	<div id="deluser" name="deluser" class="modal-backdrop deluser span4 ">
-			<div class="modal-header">
-				<a class="close" data-dismiss="modal">x</a>
-				<h4>Delete User</h4>				
-			</div>
-		<div class="modal-body">
-	<ul class="unstyled">
-		<li>
-				
-				
-		</li>
-	</ul>
-		<div class="modal-footer">
-					<label for="name">Are you sure want to delete this user?</label><br><br>
-					<a herf="" name="del" id="del" class="btn btn-danger del">Delete</a>
-				
-					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
-			</div>
+	<form action="" method="POST" role="form">
+	<div class="form-group">
+		
+					<label for="name">Are you sure want to delete this user?</label>
 		</div>
-	</div>
+	</form> 
 </template>
 
 
 <template name="changepasswordform">
-	<div id="profileinfo2" name="profileinfo2" class="modal-backdrop profileinfo2 span4 ">
-			<div class="modal-header">
-				<a class="close" data-dismiss="modal">x</a>
-				<h4>Change Username & Password</h4>				
-			</div>
-		<div class="modal-body">
-	<ul class="unstyled">
-		<li>
-				<label for="name">Username </label>
-				<input class="input input-xlarge textarea2 uname" type="text" name="uname" value="{{userData.username}}" id="">
-		</li>
-		
-		<li>
-				<label for="name">Enter New Password </label>
-				<input class="input input-xlarge pword password newpassword" type="password" name="newpassword" value="" id="">
-		</li>
-		<li>
-				<label for="name">Re-Enter Password </label>
-				<input class="input input-xlarge pword password renewpassword" type="password" name="renewpassword" value="" id="">
-		</li>
-	</ul>
-		
-	</div>
-		<div class="modal-footer">
-					
-					<a herf="" name="chngepw" id="chngepw" class="btn btn-info chngepw">Confirm</a>
-				
-					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
-			</div>
-		
-	</div>
+	<form action="" method="POST" role="form" id="addMemberForm">
+		<div class="form-group">
+			<label for="">Password</label>
+			<input type="password" class="form-control password" name="password" value="" id="changepassword" >
+		</div>
+
+		<div class="form-group">
+			<label for="">Re-Enter Password</label>
+			<input type="password" class="form-control password2" name="password2" value="" id="changepassword2" >
+		</div>
+
+	</form>	
 </template>

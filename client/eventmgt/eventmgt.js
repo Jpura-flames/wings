@@ -6,16 +6,12 @@ Template.eventmgt.rendered = function(){
 	Meteor.subscribe("Events");
 		
 	})
-
-	
 }
 
 Template.eventmgtForm.rendered = function(){
 	
 	var eve = Events.findOne({_id:Session.get('editing_event_data')})
 	$('.status').val(eve.eventstatus);
-
-
 }
 
 Template.eventmgt.eventList = function(){
@@ -25,15 +21,36 @@ Template.eventmgt.eventList = function(){
 
 
 Template.eventmgtForm.events({
-	'click .save':function(evt, tmpl){
-	
-	var eventname = tmpl.find('.eventname').value;
-	var eventdatentime = tmpl.find('.datentime').value;
-	var venue = tmpl.find('.venue').value;
-	var client = tmpl.find('.client').value;
-	var contact = tmpl.find('.contact').value;
-	var eventcordinator = tmpl.find('.eventcor').value;
-	var eventstatus = tmpl.find('.status').value;
+	'click .save':function(e, tmpl){
+
+		e.preventDefault();
+		 var shareDialogInfo = {
+	    template: Template.eventmgtForm,
+	    title: "Add Event",
+	    modalDialogClass: "share-modal-dialog", //optional
+	    modalBodyClass: "share-modal-body", //optional
+	    modalFooterClass: "share-modal-footer",//optional
+	    removeOnHide: true, //optional. If this is true, modal will be removed from DOM upon hiding
+	    buttons: {
+	      "ok": {
+	        class: 'btn-info',
+	        closeModalOnClick: false,
+	        label: 'Ok'
+	      },
+	      "cancel": {
+	        class: 'btn-danger',
+	        label: 'Cancel'
+	      }
+	    }
+	  };
+
+	var eventname = $('#eventname').val();
+	var eventdatentime = $('#datentime').val();
+	var venue = $('#venue').val();
+	var client = $('#client').val();
+	var contact = $('#contact').val();
+	var eventcordinator = $('#eventcor').val();
+	var eventstatus = 'future';
 	var addeddate = new Date();
 	
 	
@@ -48,19 +65,39 @@ Template.eventmgtForm.events({
 			addeddate:addeddate,
 			userid:userid		
 			};
+		var rd = ReactiveModal.initDialog(shareDialogInfo);
+	  
+	  	rd.buttons.ok.on('click', function(button){
+
 	if(Session.get('editing_event_data'))
 	{
 		var id = Session.get('editing_event_data');
-		Meteor.call('updateEvent',options,id);
-		alert('Event Successfully Updated');
-		Session.set('showeventform',false);
+		Meteor.call('updateEvent',options,id,function(err, result){
+			    	if(!err){
+			    		rd.hide();
+			    		toastr.success('Event Updated')
+			    	} else {
+			    		toastr.error('Event Not Updated')
+			    	}
+	  			});
 	}
 	else{
-		Meteor.call('addEvent',options);
-	}
+			Meteor.call('addEvent',options,function(err, result){
+			    	if(!err){
+			    		rd.hide();
+			    		toastr.success('Add New Event Successfully')
+			    	} else {
+			    		toastr.error('Event Not Added')
+			    	}
+	  			});
+		}
 	
-	Session.set('showeventform',false);
-	Session.set('editing_event_data',null);
+	
+  			 
+	 })
+
+	  	rd.show();
+		Session.set('editing_event_data',null);
 },
 	'click .cancel':function(evt, tmpl){
 		Session.set('showeventform',false);

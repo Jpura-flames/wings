@@ -66,58 +66,47 @@
 </template>
 
 <template name="eventmgtForm">
-	<div id="addevent" name="addevent" class="modal-backdrop addevent">
-			<div class="modal-header">
-				<a class="close" data-dismiss="modal">x</a>
-				<h4>Add Event</h4>				
-			</div>
-			<div class="modal-body">
-	<ul class="unstyled">
-				<label for="name">Event Name </label>
-				<input class="input input-xlarge textarea2 eventname" type="text" name="eventname" value="{{events.eventname}}" id="eventname">
 
-				<label for="name">Date & Time </label>
-<div class="form-group">
+	<form action="" method="POST" role="form">
+		<div class="form-group">
+			<label for="">Event Name </label>
+			<input type="text" class="form-control eventname" name="name" value="{{events.eventname}}" id="eventname" required />
+		</div>
+
+		<div class="form-group">
+		<label for="name">Date & Time </label>
+			<div class="form-group">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control datentime" name="datentime" value="{{events.eventdatetime}}"/>
+                    <input type='text' class="form-control datentime" name="datentime" id ="datentime" value="{{events.eventdatetime}}" required/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
             </div>
 
-<script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-        </script>
+			<script type="text/javascript">
+            		$(function () {
+                	$('#datetimepicker1').datetimepicker();
+            					});
+        	</script>
+        </div>
 
-				
-				<label for="name">Venue</label>
-				<input class="input input-xlarge textarea2 venue" type="text" name="venue" value="{{events.venue}}" id="venue">
-				<label for="name">Client </label>
-				<input class="input input-xlarge textarea2 client" type="text" name="Client" value="{{events.client}}" id="Client">		
-				<label for="name">Contact</label>
-				<input class="input input-xlarge textarea2 contact" type="text" name="contact" value="{{events.contact}}" id="contact">
-				<label for="name">Event Cordinator </label>
-				<input class="input input-xlarge textarea2 eventcor" type="text" name="eventcor" value="{{events.eventcordinator}}" id="eventcor">	
-			<label for="name">Event Status </label>
-			<select name="status" id="status" class="status">
-				<option value="Future">Future</option>
-				<option value="Coverd">Coverd</option>
-			</select>
-	
-	</ul>
-				
-			</div>
+        <div class="form-group">
+        	<label for="name">Venue</label>
+        	<input type="text" class="form-control venue" name="venue" value="{{events.venue}}" id="venue" required />
+        </div>
 
-			<div class="modal-footer">
-				{{#if editing_event_data}}
-					<a herf="" name="delete" id="delete" class="btn btn-danger delete">Delete</a>
-					<a herf="" name="save" id="save" class="btn btn-warning save">Update</a>
-				{{else}}
-					<a herf="" name="save" id="save" class="btn btn-success save">Save</a>
-				{{/if}}
-					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
-			</div>
-	</div>
+        <div class="form-group">
+        	<label for="name">Client</label>
+        	<input type="text" class="form-control client" name="client" value="{{events.client}}" id="client" required />
+        </div>
+         <div class="form-group">
+        	<label for="name">Contact</label>
+        	<input type="text" class="form-control contact" name="contact" value="{{events.contact}}" id="contact" />
+        </div>
+         <div class="form-group">
+        	<label for="name">Event Cordinator</label>
+        	<input type="text" class="form-control eventcor" name="eventcor" value="{{events.eventcor}}" id="eventcor" >
+        </div>
+
+	</form>
 </template>

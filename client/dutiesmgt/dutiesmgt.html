@@ -45,10 +45,10 @@
 		
 		</li>
 	        
-		<a herf="" name="photo" id="photo" class="btn-small btn-info photo">Assign Photographer</a>
-		<a herf="" name="aw" id="aw" class="btn-small btn-warning aw">Assign Aritcle Writer</a>
-		<a herf="" name="gd" id="gd" class="btn-small btn-success gd">Assign Graphic Designer</a>
-		<a herf="" name="cordi" id="cordi" class="btn-small btn-inverse cordi">Assign Cordinator</a>
+		<a herf="" name="photo" id="photo" class="btn-sm btn-info photo">Assign Photographer</a>
+		<a herf="" name="aw" id="aw" class="btn-sm btn-warning aw">Assign Aritcle Writer</a>
+		<a herf="" name="gd" id="gd" class="btn-sm btn-success gd">Assign Graphic Designer</a>
+		<a herf="" name="cordi" id="cordi" class="btn-sm btn-primary cordi">Assign Cordinator</a>
 	</ul>	
 		
 			{{#each eventDutie}}
@@ -67,17 +67,17 @@
 	<a herf="" name="del" id="del" class="btn-small btn-warning del">Not Ready</a>	
 	{{else}}
 		{{#if showdutiestat}}
-			<a herf="" name="del" id="del" class="btn-small btn-success del">{{showdutiestatus}}</a>
+			<a herf="" name="del" id="del" class="btn-sm btn-success del">{{showdutiestatus}}</a>
 		{{else}}
-			<a herf="" name="del" id="del" class="btn-small btn-danger del">{{showdutiestatus}}</a>
+			<a herf="" name="del" id="del" class="btn-sm btn-danger del">{{showdutiestatus}}</a>
 		{{/if}}
 {{/if}}		
 
 				{{dutiename}}
 				{{dutieMem.name}}
 				
-<a herf="" name="delete" id="delete" class="btn-small btn-danger delete pull-right">Delete </a>							
-<a herf="" name="update" id="update" class="btn-small btn-warning update pull-right">Update</a>
+<a herf="" name="delete" id="delete" class="btn-sm btn-danger delete pull-right">Delete </a>							
+<a herf="" name="update" id="update" class="btn-sm btn-warning update pull-right">Update</a>
 
 
 			
@@ -89,9 +89,8 @@
 
 
 <template name="dutiesmgtForm">
-	
-	<div id="adddutie" name="adddutie" class="modal-backdrop adddutie dutiesmgtForm">
-			<div class="modal-header">
+	<form action="" method="POST" role="form">
+		<div class="modal-header">
 
 				<a class="close" data-dismiss="modal">x</a>
 
@@ -105,12 +104,8 @@
 					{{/if}}
 				{{/if}}			
 			</div>
-			<div class="modal-body">
-	<ul class="unstyled">
-
-				{{#if job}}
-				{{else}}
-				<label for="name">Dutie Type </label><br>
+		<div class="form-group">
+		<label for="name">Dutie Type </label>
 			<select name="dutietype" id="dutietype" class="dutietype">
 				
 				<option value="Photography">Photography</option>
@@ -121,8 +116,22 @@
 				<option value="Finance">Finance</option>
 				<option value="Cordinator">Coordinator</option>
 			</select>
+	</div>
+
+		<div class="form-group">
+			<label for="">Mobile</label>
+			<input type="text" class="form-control mobile" name="mobile" value="{{profile.mobile}}" id="mobile" >
+		</div>
+
+
+	</form>
+
+	<div id="adddutie" name="adddutie" class="modal-backdrop adddutie dutiesmgtForm">
+			
+			<div class="modal-body">
+	<ul class="unstyled">
+
 				
-				{{/if}}	
 				
 				<label for="name">Dutie Description </label>
 				<input class="input input-xlarge textarea2 dutiedesc" type="text" name="dutiedesc" value="{{updateDutieinfo.dutiedesc}}" id="eventname">
