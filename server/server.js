@@ -117,25 +117,25 @@ Meteor.methods({
 		Events.remove({});
 	},
 
-	'saveProfile' : function(profile){
+	// 'saveProfile' : function(profile){
 	
-	var profile = {
-			name:profile.name,
-			mobile:profile.mobile,
-			twitterid:profile.twitterid,
-			faculty:profile.faculty,
-			job:{photo: profile.job.photo,
-			aw : profile.job.aw, it :profile.job.it,
-			hr:profile.job.hr, mkt:profile.job.mkt,
-			fin:profile.job.fin},
-			adminrole:profile.adminrole,
-			addeddate:profile.addeddate,
-			parent:profile.parent
-			};
+	// var profile = {
+	// 		name:profile.name,
+	// 		mobile:profile.mobile,
+	// 		twitterid:profile.twitterid,
+	// 		faculty:profile.faculty,
+	// 		job:{photo: profile.job.photo,
+	// 		aw : profile.job.aw, it :profile.job.it,
+	// 		hr:profile.job.hr, mkt:profile.job.mkt,
+	// 		fin:profile.job.fin},
+	// 		adminrole:profile.adminrole,
+	// 		addeddate:profile.addeddate,
+	// 		parent:profile.parent
+	// 		};
 			
-			Members.insert(profile);
-			return true;
-	},
+	// 		Members.insert(profile);
+	// 		return true;
+	// },
 
 	'updateProfile' : function(profile){
 	var id = profile.id;
@@ -154,7 +154,7 @@ Meteor.methods({
 			parent:profile.parent
 			};
 			
-			Members.update(id,profile);
+			Members.update(id,profile, {upsert: true});
 			return true;
 	},
 
@@ -164,16 +164,8 @@ Meteor.methods({
 	},
 
 	'addUser' : function(profile){
-		check(profile, Match.Any)
-
-			var profile = {
-				username:profile.uname,
-				email:profile.email,
-				password:profile.password,			
-			};
-
-						
-			Accounts.createUser(profile);
+		check(profile, Match.Any)	
+		Accounts.createUser(profile);
 		return true;
 },
 

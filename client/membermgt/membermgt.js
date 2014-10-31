@@ -102,7 +102,7 @@ Template.membermgt.events({
 			var password = $('#password').val();
 			var repassword = $('#password2').val();
 
-			if (uname === "" || email === '' || password === '' || repassword === '') {
+			if (!uname|| !email|| !password || !repassword ) {
 			  toastr.error('Form Data Cannot be null');
 			} else {
 			  if (password === repassword) {
@@ -111,8 +111,6 @@ Template.membermgt.events({
 			      email: email,
 			      password: password,
 			    };
-
-
 			    Meteor.call('addUser', profile, function(err, result){
 			    	if(!err){
 			    		rd.hide();
@@ -121,7 +119,6 @@ Template.membermgt.events({
 			    		
 			    	}
 			    });
-			    Session.set('showaddmemform', false);
 
 			  } else {
 			  	toastr.error('Password Mismatch')
@@ -160,8 +157,8 @@ Template.membermgtProfile.events({
 	      }
 	    }
 	  }
-
-	  	Session.set('memberdata',tmpl.data._id);
+	  var userId = this._id;
+	  Session.set('memberdata',userId);
 		Session.set('showprofform',true);
 
 		 var rd = ReactiveModal.initDialog(shareDialogInfo);
@@ -174,16 +171,15 @@ Template.membermgtProfile.events({
 			  var faculty = $('#faculty').val();
 			  var adminrole = $('#adminroles').val();
 			  var addeddate = new Date();
-			  var id = Session.get('memberdata');
 		  
 
-			  var photo = $('#pg').checked;
-			  var aw = $('#aw').checked;
-			  var it = $('#it').checked;
-			  var hr = $('#hr').checked;
-			  var mkt = $('#mkt').checked;
-			  var fin = $('#fin').checked;
-			 console.log(name,moblie);
+        var photo = $('#pg').is(':checked');
+        var aw = $('#aw').is(':checked');
+        var it = $('#it').is(':checked');
+        var hr = $('#hr').is(':checked');
+        var mkt = $('#mkt').is(':checked');
+        var fin = $('#fin').is(':checked');
+
 			  var profile = {
 			  	name:name,
 		      	mobile:mobile,
@@ -197,9 +193,9 @@ Template.membermgtProfile.events({
 		     	},
 		      adminrole:adminrole,
 		      addeddate:addeddate,
-		      parent:id 
+		      parent:userId 
 			  };
-			   Meteor.call('saveProfile',profile,function(err, result){
+			   Meteor.call('updateProfile',profile,function(err, result){
 			    	if(!err){
 			    		rd.hide();
 			    		toastr.success('User Information Added successfully')
@@ -220,8 +216,7 @@ Template.membermgtProfile.events({
 
 	'click .chngpw':function(e, tmpl){
 				
-		Session.set('memberdeldata',tmpl.data._id);
-
+		var userId = this._id;
 		e.preventDefault();
 		 var shareDialogInfo = {
 	    template: Template.changepasswordform,
@@ -244,15 +239,15 @@ Template.membermgtProfile.events({
 	  };
 
 
-	   var password = $('#changepassword').val();
-	   var password2 = $('#changepassword2').val();
-
 	  
 	  var rd = ReactiveModal.initDialog(shareDialogInfo);
 	  
 	  	rd.buttons.ok.on('click', function(button){
 
-	  			 Meteor.call('changeuserpassword',password,Session.get('memberdeldata'),function(err, result){
+			  var password = $('#changepassword').val();
+		   	var password2 = $('#changepassword2').val();
+
+	  			 Meteor.call('changeuserpassword',userId, password,function(err, result){
 			    	if(!err){
 			    		rd.hide();
 			    		toastr.success('Password Changed Successfully')
@@ -339,38 +334,38 @@ Template.profileForm.events({
 },
 	'click .update': function(evt, tmpl){
 	
-	var name = tmpl.find('.name').value;
-	var mobile = tmpl.find('.mobile').value;
-	var twitterid = tmpl.find('.twitterid').value;
-	var faculty = tmpl.find('.faculty').value;
-	var addeddate = new Date();
-	var parent = Session.get('memberdata');
-	var adminrole = tmpl.find('.adminroles').value;
-	var profile = Members.findOne({parent:Session.get('memberdata')});
-	var id = profile._id;
+	// var name = tmpl.find('.name').value;
+	// var mobile = tmpl.find('.mobile').value;
+	// var twitterid = tmpl.find('.twitterid').value;
+	// var faculty = tmpl.find('.faculty').value;
+	// var addeddate = new Date();
+	// var parent = Session.get('memberdata');
+	// var adminrole = tmpl.find('.adminroles').value;
+	// var profile = Members.findOne({parent:Session.get('memberdata')});
+	// var id = profile._id;
 
-	var photo = tmpl.find('.pg').checked;
-	var aw = tmpl.find('.aw').checked;
-	var it = tmpl.find('.it').checked;
-	var hr = tmpl.find('.hr').checked;
-	var mkt = tmpl.find('.mkt').checked;
-	var fin = tmpl.find('.fin').checked;
+	// var photo = tmpl.find('.pg').checked;
+	// var aw = tmpl.find('.aw').checked;
+	// var it = tmpl.find('.it').checked;
+	// var hr = tmpl.find('.hr').checked;
+	// var mkt = tmpl.find('.mkt').checked;
+	// var fin = tmpl.find('.fin').checked;
 	
-	var profile = { id:id,
-			name:name,
-			mobile:mobile,
-			twitterid:twitterid,
-			faculty:faculty,
-			job:{photo: photo,
-			aw : aw, it :it,
-			hr:hr, mkt:mkt,
-			fin:fin},
-			adminrole:adminrole,
-			parent:	parent
-			};
+	// var profile = { id:id,
+	// 		name:name,
+	// 		mobile:mobile,
+	// 		twitterid:twitterid,
+	// 		faculty:faculty,
+	// 		job:{photo: photo,
+	// 		aw : aw, it :it,
+	// 		hr:hr, mkt:mkt,
+	// 		fin:fin},
+	// 		adminrole:adminrole,
+	// 		parent:	parent
+	// 		};
 
-		Meteor.call('updateProfile',profile);
-		Session.set('showprofform', false);
+
+	// 	Session.set('showprofform', false);
 		
 		
 },
@@ -396,48 +391,48 @@ Template.membermgtProfile.profile = function(){
 
 Template.profileForm.rendered = function(){
 
-	// var mem = Members.findOne({parent:Session.get('memberdata')});
-	// mem  = mem || {}
-	// $('.faculty').val(mem.faculty);
-	// $('.adminroles').val(mem.adminrole);
+	var mem = Members.findOne({parent:Session.get('memberdata')});
+	mem  = mem || {}
+	$('.faculty').val(mem.faculty);
+	$('.adminroles').val(mem.adminrole);
 
-	// var photo = mem.job.photo;
-	// var aw = mem.job.aw;
-	// var it = mem.job.it;
-	// var hr = mem.job.hr;
-	// var fin = mem.job.fin;
-	// var mkt = mem.job.mkt;	
+	var photo = mem.job.photo;
+	var aw = mem.job.aw;
+	var it = mem.job.it;
+	var hr = mem.job.hr;
+	var fin = mem.job.fin;
+	var mkt = mem.job.mkt;	
 
 
-	// if(photo === true)
-	// {
-	// 	this.find('.pg').checked=true;
-	// }
+	if(photo === true)
+	{
+		this.find('.pg').checked=true;
+	}
 
-	// if(aw === true)
-	// {
-	// 	this.find('.aw').checked=true;
-	// }
+	if(aw === true)
+	{
+		this.find('.aw').checked=true;
+	}
 	
-	// if(it === true)
-	// {
-	// 	this.find('.it').checked=true;
-	// }
+	if(it === true)
+	{
+		this.find('.it').checked=true;
+	}
 	
-	// if(hr === true)
-	// {
-	// 	this.find('.hr').checked=true;
-	// }
+	if(hr === true)
+	{
+		this.find('.hr').checked=true;
+	}
 
-	// if(fin === true)
-	// {
-	// 	this.find('.fin').checked=true;
-	// }
+	if(fin === true)
+	{
+		this.find('.fin').checked=true;
+	}
 
-	// if(mkt === true)
-	// {
-	// 	this.find('.mkt').checked=true;
-	// }
+	if(mkt === true)
+	{
+		this.find('.mkt').checked=true;
+	}
 }
 Template.addMemberForm.events({
 
@@ -542,7 +537,6 @@ Template.changepasswordform.events({
 
 
 Template.membermgtProfile.membersInfo= function(){
-	
  	return Members.find({parent:this._id});	  
 }
 
