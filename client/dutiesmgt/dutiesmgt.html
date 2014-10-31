@@ -119,108 +119,72 @@
 	</div>
 
 		<div class="form-group">
-			<label for="">Mobile</label>
-			<input type="text" class="form-control mobile" name="mobile" value="{{profile.mobile}}" id="mobile" >
+			<label for="">Dutie Description</label>
+			<input type="text" class="form-control dutiedesc" name="dutiedesc" value="{{profile.dutiedesc}}" id="dutiedesc" >
 		</div>
 
+		<div class="form-group">
+			<label for="">Dutie Description</label>
+			<input type="text" class="form-control eventid" name="eventid" value="{{profile.eventid}}" id="eventid" >
+			<input type="text" class="form-control eventname" name="eventname" value="{{profile.eventname}}" id="eventname" >
+		</div>
 
-	</form>
-
-	<div id="adddutie" name="adddutie" class="modal-backdrop adddutie dutiesmgtForm">
-			
-			<div class="modal-body">
-	<ul class="unstyled">
-
-				
-				
-				<label for="name">Dutie Description </label>
-				<input class="input input-xlarge textarea2 dutiedesc" type="text" name="dutiedesc" value="{{updateDutieinfo.dutiedesc}}" id="eventname">
-
-			{{#if editing_dutie_data}}
-
-
-			<label for="name">Event</label>
-			 	<input class="input input-xlarge textarea2 eventid" for="exampleInputEmail2" id="eventid" type="text" value="{{events._id}}">
-				<input class="input input-xlarge textarea2 eventname" type="text" name="eventname" value="{{events.eventname}}" id="eventname2">
-				<label for="name">Date & Time </label>
-				
-<div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control textarea2 datentime" name="datentime" value="{{events.eventdatetime}}"/>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+		{{#if editing_dutie_data}}
+		<div class="form-group">
+			<label for="name">Date & Time </label>
+				<div class="form-group">
+                	<div class='input-group date' id='datetimepicker1'>
+                    	<input type='text' class="form-control datentime" name="datentime" value="{{events.eventdatetime}}"/>
+                    	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    	</span>
                 </div>
             </div>
 
-<script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-</script>
+					<script type="text/javascript">
+            			$(function () {
+                		$('#datetimepicker1').datetimepicker();
+            				});
+					</script>
+		</div>
 
-			{{else}}
+		  {{else}}
+            <div class="form-group">
 				<label for="name">Event</label>
 				<input class="input input-xlarge textarea2 eventname" type="text" id="eventid2" name="eventname" value="{{updateDutieinfo.event}}">
 
 				<label for="name">Date & Time </label>
+			</div>
 				
-<div class="form-group">
+			<div class="form-group">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control textarea2 datentime" name="datentime" value="{{updateDutieinfo.datetime}}"/>
+                    <input type='text' class="form-control datentime" name="datentime" value="{{updateDutieinfo.datetime}}"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
             </div>
 
-<script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-</script>
+			<script type="text/javascript">
+            	$(function () {
+                	$('#datetimepicker1').datetimepicker();
+            	});
+			</script>
 			{{/if}}
-
-				<label for="name">Member</label><br>
+			<div class="form-group">
+			<label for="name">Member</label><br>
 				<select name="member" id="member" class="member">
 					{{#each mem}}
 						<option value="{{parent}}">{{name}}</option>
 					{{/each}}	
-				</select><br>
-				
-	
-	</ul>
-				
+				</select>
 			</div>
+	</form>
 
-			<div class="modal-footer">
-					{{#if updateDutie}}
-					<a herf="" name="update" id="update" class="btn btn-warning update">Update</a>
-					{{else}}
-					<a herf="" name="save" id="save" class="btn btn-success save">Save</a>
-					{{/if}}
-					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
-			</div>
-	</div>
 </template>
 
 <template name="dutiedeleteprompt">
-	<div id="deluser" name="deluser" class="modal-backdrop deluser span4 ">
-			<div class="modal-header">
-				<a class="close" data-dismiss="modal">x</a>
-				<h4>Delete User</h4>				
-			</div>
-		<div class="modal-body">
-	<ul class="unstyled">
-		<li>
-				
-				
-		</li>
-	</ul>
-		<div class="modal-footer">
-					<label for="name">Are you sure want to delete this dutie?</label><br><br>
-					<a herf="" name="del" id="del" class="btn btn-danger del">Delete</a>
-				
-					<a herf="" name="cancel" id="cancel" class="btn cancel" data-dismiss="modal">Cancel</a>			
-			</div>
+	<form action="" method="POST" role="form">
+		<div class="form-group">	
+					<label for="name">Are you sure want to delete this dutie?</label>
 		</div>
-	</div>
+	</form> 
 </template>
