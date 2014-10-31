@@ -32,7 +32,7 @@
 <template name="eventmgtinforow">
 	<div class="eventinforow" id="eventinforow">
 	
-		<li class="well">
+		<li class=" well">
 
 			<dl class="dl-horizontal">
 			<dt>
@@ -70,14 +70,14 @@
 	<form action="" method="POST" role="form">
 		<div class="form-group">
 			<label for="">Event Name </label>
-			<input type="text" class="form-control" name="name" value="{{events.eventname}}" id="eventname" required />
+			<input type="text" class="form-control" name="name" value="" id="eventname" required />
 		</div>
 
 		<div class="form-group">
 		<label for="name">Date & Time </label>
 			<div class="form-group">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control datentime" name="datentime" id ="datentime" value="{{events.eventdatetime}}" required/>
+                    <input type='text' class="form-control datentime" name="datentime" id ="datentime" value="" required/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
@@ -92,20 +92,20 @@
 
         <div class="form-group">
         	<label for="name">Venue</label>
-        	<input type="text" class="form-control venue" name="venue" value="{{events.venue}}" id="venue" required />
+        	<input type="text" class="form-control venue" name="venue" value="" id="venue" required />
         </div>
 
         <div class="form-group">
         	<label for="name">Client</label>
-        	<input type="text" class="form-control client" name="client" value="{{events.client}}" id="client" required />
+        	<input type="text" class="form-control client" name="client" value="" id="client" required />
         </div>
          <div class="form-group">
         	<label for="name">Contact</label>
-        	<input type="text" class="form-control contact" name="contact" value="{{events.contact}}" id="contact" />
+        	<input type="text" class="form-control contact" name="contact" value="" id="contact" />
         </div>
          <div class="form-group">
         	<label for="name">Event Cordinator</label>
-        	<input type="text" class="form-control eventcor" name="eventcor" value="{{events.eventcor}}" id="eventcor" >
+        	<input type="text" class="form-control eventcor" name="eventcor" value="" id="eventcor" >
         </div>
 
 	</form>

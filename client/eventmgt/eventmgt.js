@@ -64,7 +64,12 @@ Template.eventmgtForm.editing_event_data= function(){
 
 Template.eventmgtForm.rendered = function () {
 	var eventInfo = Events.findOne({_id:Session.get('editing_event_data')});
-	$('#datentime').val(eventInfo.eventdatetime)
+	$('#datentime').val(eventInfo.eventdatetime);
+	$('#eventname').val(eventInfo.eventname);
+	$('#venue').val(eventInfo.venue);
+	$('#client').val(eventInfo.client);
+	$('#contact').val(eventInfo.contact);
+	$('#eventcor').val(eventInfo.eventcordinator);
 };
 
 Template.eventmgt.showeventform = function(){

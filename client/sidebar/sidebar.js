@@ -78,8 +78,7 @@ var navs = {
   "myduties":"My Duties",
   "duties":"Duties",
   "dutiesmgt":"Duties Management",
-  "chat":"Chat",
-  "groups":"Groups"
+  "chat":"Chat"
 };
 
 Template.sidebar.navList = function(){

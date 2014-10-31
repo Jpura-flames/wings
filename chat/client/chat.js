@@ -1,3 +1,11 @@
+Template.chat.rendered = function(){
+
+  Deps.autorun(function(){
+ 
+  Meteor.subscribe("Members");  
+  })
+}
+
 Template.chat.events({
   'click #chat-submit': function (e) {
     var chatMessage = $('#chat-message').val();
@@ -15,3 +23,9 @@ Template.chat.messages = function(){
 Template.chat.relativeTime = function(){
   return RelativeTime(new Date(), this.createdAt);
 };
+
+Template.chat.member = function(){
+  
+    var memberdata = Members.findOne({_id:this.userId});
+    return memberdata;
+  }
