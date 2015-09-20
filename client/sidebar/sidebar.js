@@ -73,10 +73,10 @@ var navs = {
   "home":"News Feeds",
   "member":"Members",
   "membermgt":"Members Profile Management",
-  "eventpage":"Events",
-  "eventmgt":"Events Management",
+  "upcomingevents":"Events",
+  "eventmanagement":"Events Management",
   "myduties":"My Duties",
-  "duties":"Duties",
+  "dueduties":"Duties",
   "dutiesmgt":"Duties Management",
   "chat":"Chat"
 };
@@ -88,4 +88,3 @@ Template.sidebar.navList = function(){
 Template.sidebar.isActive = function(){
 	return Router.current().path == "/"+ this[0]
 }
-

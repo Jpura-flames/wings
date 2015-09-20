@@ -1,3 +1,6 @@
+if (Meteor.isServer) {
+ 
+
 Meteor.publish("Posttexts",function(userid){
 
 	return Posttexts.find({});
@@ -35,6 +38,11 @@ Meteor.publish('chats', function(){
 Meteor.publish("Messages",function(){
 	return Messages.find({});
 })
+
+}
+
+
+
 Meteor.methods({
 	
 		'addPost':function(options){
@@ -70,45 +78,24 @@ Meteor.methods({
 		Posttexts.remove({});
 	},
 
-	'addEvent':function(options){
-	
-	var event = {
-			eventname:options.eventname,
-			eventdatetime:options.eventdatetime,
-			venue:options.venue,
-			client:options.client,
- 			contact:options.contact,
-			eventcordinator:options.eventcordinator,
-			eventstatus:options.eventstatus,
-			addeddate:options.addeddate,
-			userId:options.userid
-						};
+	'addEvent':function(newevent){
 
-			Events.insert(event);
+			Events.insert(newevent);
 		} ,
 
 	'removeEvent':function(id){
 		
 		Events.remove(id);
 	},
+	'removeallEvent' :  function(){
+	
+			Events.update({});
+
+},
 
 	'updateEvent' : function(event,id){
 	
-	var event = {
-			eventname:event.eventname,
-			eventdatetime:event.eventdatetime,
-			venue:event.venue,
-			client:event.client,
- 			contact:event.contact,
-			eventcordinator:event.eventcordinator,
-			eventstatus:event.eventstatus,
-			addeddate:event.addeddate,
-			userId:event.userid
-						};
-	
 			Events.update(id,event);
-	
-						return true;
 
 },
 
@@ -210,32 +197,31 @@ Meteor.methods({
 			admin:Meteor.userId(),
 			confirmation: confirm
 			};
-			console.log(dutie)
 			Duties.insert(dutie);
 		},
 
-	'updateDutie':function(options,id){
+	'updateDutie':function(id,dutie){
 
-	var updatedatadutie = {dutiename:options.dutiename,
-			dutiedesc:options.dutiedesc,
-			event:options.event,
-			datetime:options.datetime,
-			member:options.member,
-			dutiestatus:options.dutiestatus,
-			addeddate:options.addeddate
+	var updatedatadutie = {dutiename:dutie.dutiename,
+			dutiedesc:dutie.dutiedesc,
+			event:dutie.event,
+			datetime:dutie.datetime,
+			member:dutie.member,
+			dutiestatus:dutie.dutiestatus,
+			addeddate:dutie.addeddate
 			};
 	
 			Duties.update(id,updatedatadutie);
 },
 
-'updateDutie2':function(id,duti){
-		var updatedutie ={dutiename:duti.dutiename,
-			dutiedesc:duti.dutiedesc,
-			event:duti.event,
-			datetime:duti.datetime,
-			member:duti.member,
-			dutiestatus:duti.dutiestatus,
-			addeddate:duti.addeddate
+'updateDutie2':function(id,dutie){
+		var updatedutie ={dutiename:dutie.dutiename,
+			dutiedesc:dutie.dutiedesc,
+			event:dutie.event,
+			datetime:dutie.datetime,
+			member:dutie.member,
+			dutiestatus:dutie.dutiestatus,
+			addeddate:dutie.addeddate
 		};
 			Duties.update(id,updatedutie);
 },

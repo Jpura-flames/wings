@@ -1,9 +1,7 @@
 <template name="duties">
-	{{#if confirmation}}
-			{{>confirmationdialog}}
-	{{/if}}
-		<div class="span7">
-			<div class="container-fluid">
+	
+		<div class="container">
+			<div class="col-md-8">
 			 				
 					<div class="row-fluid">
 						
@@ -11,68 +9,127 @@
 							<h1>Duties</h1>
 					 	</div>	
 						
-								{{#each dutieList}}
-									{{>dutiesinforow}}
-								{{/each}}
-							
+								
+
+						<ul class="list-group list-unstyled">
+							<table class="table table-striped">
+			        		    <thead>
+			        		        <tr>
+			        		        	<th>Member Name</th>
+			        		            <th>Dutie</th>
+			        		            <th>Event Name</th>	      
+			        		            <th>Start Time</th>
+			        		            <th>Venue</th>
+			        		            <th>Status</th>
+			        		        </tr>
+			        		    </thead>
+			        		    <tbody>
+			                        {{#each dutieList}}
+					
+								           <tr>
+								             <td>{{memberData.name}}</td>
+								             <td>{{dutiename}}</td>
+								             <td>{{dutieEvent.eventname}}</td>
+								             <td>{{dutieEvent.eventdatentimestart}}</td>
+								             <td>{{dutieEvent.venue}}</td>
+								             <td>{{dutiestatus}}</td>	
+								             <td> <a herf="" name="save" id="view" class="btn btn-primary pull-right confirm">Change</a></td>	
+								             <td> <a herf="" name="save" id="view" class="btn btn-danger pull-right del">Delete</a></td>			            
+								           </tr>
+			                        {{/each}}
+			        		    </tbody>
+			        		</table>        			
+						</ul>			
 				</div>
-			
 	   		</div>
-			
 		</div>
 </template>
 
-
-<template name="dutiesinforow">
-	<div class="well">
-		<a class="close" data-dismiss="modal">x</a>	
-		<div class="page-header">
-	  			<h3>{{memberData.name}} <small>{{dutiename}}</small></h3>
+<template name="dutieconfirmationdialog">
+	<form action="" method="POST" role="form">
+		<div class="form-group">
+			<label for="name">Are you sure want to do this job?</label>
 		</div>
-		
-		<dl class="dl-horizontal">
-  				<dt>Dutie Description 	:</dt> <dd>{{dutiedesc}}</dd>
-  				<dt>Event Name 			: </dt> <dd>{{dutieEvent.eventname}}</dd>
-  				<dt>Date-time			: </dt> <dd>{{dutieEvent.eventdatetime}}</dd>
-  				<dt>Venue 				: </dt> <dd>{{dutieEvent.venue}}</dd>
-  				<dt>Dutie Status 		: </dt> <dd>{{dutiestatus}}</dd>
-		</dl>
+	</form> 
+</template>
 
-		{{#if chekdutieStat}}
-		Are you want to do this job ??
-		<a herf="" name="addmember" id="addmember" class="btn btn-success btn-sm confirm">Yes</a>
+<template name="dutiedeldialog">
+	<form action="" method="POST" role="form">
+		<div class="form-group">
+			<label for="name">Are you sure want to delete this job?</label>
+		</div>
+	</form> 
+</template>
 
-		<a herf="" name="addmember" id="addmember" class="btn btn-danger btn-sm reject">No</a>	
-		
-		{{/if}}
-
-		
-		
+<template name="dutiehome">
+	<div>
+								<ul class="nav nav-tabs">
+  									<li role="presentation" class="active"><a href="/dueduties"> Due Duties  </a></li>
+  									<li role="presentation"><a href="/coveredduties">Covered Duties</a></li>
+  									
+								</ul>
+								<div>
+									{{>duties}}			
+								</div>
 	</div>
-
 </template>
-
-<template name='confirmationdialog'>
-	<div id="deluser" name="deluser" class="modal-backdrop deluser span4 ">
-			<div class="modal-header">
-				<a class="close" data-dismiss="modal">x</a>
-				<h4>Change Job Status User</h4>				
-			</div>
-		<div class="modal-body">
-	<ul class="unstyled">
-		<li>
-				
-				
-		</li>
-	</ul>
-	<div class="modal-footer">
-					<label for="name">Are you sure want to do this job?</label><br><br>
-					<a herf="" name="addmember" id="addmember" class="btn btn-success btn-sm confirm">Yes</a>
-					<a herf="" name="addmember" id="addmember" class="btn btn-danger btn-sm reject">No</a>			
-			
-			</div>
-		</div>
+<template name="coveredduties">
+	<div>
+								<ul class="nav nav-tabs">
+  									<li role="presentation" ><a href="/dueduties"> Due Duties  </a></li>
+  									<li role="presentation" class="active"><a href="/coveredduties">Covered Duties</a></li>
+  									
+								</ul>
+								<div>
+									{{>duties}}
+									
+								</div>
 	</div>
 </template>
 
+<template name="coveredduties">
+	
+		<div class="container">
+			<div class="col-md-8">
+			 				
+					<div class="row-fluid">
+						
+						<div class="page-header">
+							<h1>Duties</h1>
+					 	</div>	
+						
+								
 
+						<ul class="list-group list-unstyled">
+							<table class="table table-striped">
+			        		    <thead>
+			        		        <tr>
+			        		        	<th>Member Name</th>
+			        		            <th>Dutie</th>
+			        		            <th>Event Name</th>	      
+			        		            <th>Start Time</th>
+			        		            <th>Venue</th>
+			        		            <th>Status</th>
+			        		        </tr>
+			        		    </thead>
+			        		    <tbody>
+			                        {{#each dutieList}}
+					
+								           <tr>
+								             <td>{{memberData.name}}</td>
+								             <td>{{dutiename}}</td>
+								             <td>{{dutieEvent.eventname}}</td>
+								             <td>{{dutieEvent.eventdatentimestart}}</td>
+								             <td>{{dutieEvent.venue}}</td>
+								             <td>{{dutiestatus}}</td>	
+								             <td> <a herf="" name="save" id="view3" class="btn btn-primary pull-right confirm">Change</a></td>	
+								             <td> <a herf="" name="save" id="view3" class="btn btn-danger pull-right del">Delete</a></td>			            
+								           </tr>
+			                        {{/each}}
+			        		    </tbody>
+			        		</table>        			
+						</ul>			
+				</div>
+	   		</div>
+		</div>
+</template>

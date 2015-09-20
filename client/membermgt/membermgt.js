@@ -1,9 +1,9 @@
-
 Session.setDefault('showprofform', false);
 Session.setDefault('showaddmemform', false);
 Session.setDefault('memberdelform',false);
 Session.setDefault('memberprofeditstate',true);
 Session.setDefault('showchangepwform',false);
+
 Template.membermgt.rendered = function(){
 
 	Deps.autorun(function(){
@@ -44,7 +44,6 @@ Template.membermgt.memberdelform = function(){
 Template.membermgt.memberprofeditstate = function(){
 	Session.set('memberprofeditstate',true);
 	var fan = Session.get('memberprofeditstate');
-	alert(fan);
 	return Session.get('memberprofeditstate');
 }
 Template.membermgtProfile.membersInfoAll= function(){
@@ -70,21 +69,14 @@ Template.membermgtProfile.membersInfocheck= function(){
 	return check;
 		  
 }
+Meteor.startup(function(){
+var shareDialogInfo = {
 
-Template.membermgt.events({
-	'click #addmember':function(e, tmpl){
-		e.preventDefault();
-		 var shareDialogInfo = {
 	    template: Template.addMemberForm,
-	    title: "Add new member",
-	    modalDialogClass: "share-modal-dialog", //optional
-	    modalBodyClass: "share-modal-body", //optional
-	    modalFooterClass: "share-modal-footer",//optional
-	    removeOnHide: true, //optional. If this is true, modal will be removed from DOM upon hiding
+	    title: "Add New Member",
 	    buttons: {
 	      "ok": {
 	        class: 'btn-info',
-	        closeModalOnClick: false,
 	        label: 'Ok'
 	      },
 	      "cancel": {
@@ -93,10 +85,9 @@ Template.membermgt.events({
 	      }
 	    }
 	  }
-
-
-	  var rd = ReactiveModal.initDialog(shareDialogInfo);
-	  rd.buttons.ok.on('click', function(button){
+	  rd2 = ReactiveModal.initDialog(shareDialogInfo);
+	  rd2.buttons.ok.on('click', function(button){
+		
 			var uname = $('#uname').val();
 			var email = $('#e-mail').val();
 			var password = $('#password').val();
@@ -106,31 +97,37 @@ Template.membermgt.events({
 			  toastr.error('Form Data Cannot be null');
 			} else {
 			  if (password === repassword) {
-			    var profile = {
-			      uname: uname,
-			      email: email,
-			      password: password,
-			    };
-			    Meteor.call('addUser', profile, function(err, result){
+				    var profile = {
+				      uname: uname,
+				      email: email,
+				      password: password,
+				    };
+
+				     Meteor.call('addUser', profile, function(err, result){
 			    	if(!err){
 			    		rd.hide();
-			    		toastr.success('created new user successfully')
+			    		toastr.success('New User Created ')
 			    	} else {
 			    		
 			    	}
 			    });
 
-			  } else {
-			  	toastr.error('Password Mismatch')
-			   
-			  }
+				}
+				else{
+						toastr.error('Password Mismatch')
+					}
 			}
 
+			
 		});
-	  rd.show();
+	  
+	});
 
-}
+Template.membermgt.events({
+	'click #addmember':function(e, tmpl){
 
+		rd2.show()
+	}				
 })
 
 Template.membermgtProfile.events({
@@ -140,7 +137,7 @@ Template.membermgtProfile.events({
 	e.preventDefault();
 		 var shareDialogInfo = {
 	    template: Template.profileForm,
-	    title: "Add Member Information",
+	    title: "update Member Information",
 	    modalDialogClass: "share-modal-dialog", //optional
 	    modalBodyClass: "share-modal-body", //optional
 	    modalFooterClass: "share-modal-footer",//optional
@@ -159,7 +156,6 @@ Template.membermgtProfile.events({
 	  }
 	  var userId = this._id;
 	  Session.set('memberdata',userId);
-		Session.set('showprofform',true);
 
 		 var rd = ReactiveModal.initDialog(shareDialogInfo);
 	  		
@@ -250,7 +246,7 @@ Template.membermgtProfile.events({
 	  			 Meteor.call('changeuserpassword',userId, password,function(err, result){
 			    	if(!err){
 			    		rd.hide();
-			    		toastr.success('Password Changed Successfully')
+			    		toastr.success('Password Changed')
 			    	} else {
 			    		toastr.error('Password Not Changed')
 			    	}
@@ -392,7 +388,7 @@ Template.membermgtProfile.profile = function(){
 Template.profileForm.rendered = function(){
 
 	var mem = Members.findOne({parent:Session.get('memberdata')});
-	mem  = mem || {}
+	//mem  = mem || {}
 	$('.faculty').val(mem.faculty);
 	$('.adminroles').val(mem.adminrole);
 
@@ -456,7 +452,6 @@ Template.userdeleteprompt.events({
 
 	var uid = Session.get('memberdelform');
 	Meteor.call('removeUser',uid);
-	alert('User Succesfuly Deleted');
 	Session.set('memberdelform', false);
 	
 },

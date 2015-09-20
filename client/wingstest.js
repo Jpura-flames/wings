@@ -23,16 +23,30 @@ Router .map( function () {
     path: '/post'
   });
 
-  this.route('eventpage', {
-    path: '/eventpage'
+
+  this.route('eventhome', {
+    path: '/upcomingevents'
   });
 
-this.route('eventmgt', {
-    path: '/eventmgt'
+
+  this.route('coveredevents', {
+    path: '/coveredevents'
   });
 
-  this.route('duties', {
-    path: '/duties'
+this.route('eventmanagement', {
+    path: '/eventmanagement'
+  });
+
+this.route('coveredeventsmgt', {
+    path: '/coveredeventsmgt'
+  });
+
+  this.route('dutiehome', {
+    path: '/dueduties'
+  });
+
+   this.route('coveredduties', {
+    path: '/coveredduties'
   });
 
 this.route('dutiesmgt', {
@@ -49,15 +63,19 @@ this.route('dutiesmgt', {
 
   this.route('messages', {
     path: '/messages'
-  }),
+  });
 
   this.route('myduties', {
     path: '/myduties'
-  })
+  });
   this.route('chat', {
     path: '/chat',
     waitOn: function(){
       this.subscribe('chats')
     }
+  });
+
+  this.route('eventcalendar', {
+    path: '/eventcalendar'
   });
 })

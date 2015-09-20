@@ -2,29 +2,27 @@
 {{#if showaddmemform}}
 		{{>addMemberForm}}
 {{/if}}
-
-
-
-		<div class="page-header span9">
-				<h1>Member Profile <small>Management</small></h1>
-		<a herf="" name="addmember" id="addmember" class="btn btn-info addmember">Add New Member</a>	
-		</div>	
-		<div class="span7">
+<div class="container">
+	<div class="page-header col-md-8">
+			<h1>Member Profile <small>Management</small></h1>
+			<a herf="" name="addmember" id="addmember" class="btn btn-info addmember">Add New Member</a>	
+	</div>	
+	<div class="col-md-8">
 		<ul class="unstyled" id="postlist">
 			{{#each Users}}
 				{{>membermgtProfile}}
 			 {{/each}}
 			
 		</ul>
-		</div>
-		
+	</div>
+</div>		
 			
 			
 		
 </template>
 
 <template name="membermgtProfile">
-		<div class="media well span3 membermgtProfile">
+		<div class="media well col-md-5 membermgtProfile">
 			<a class="close" data-dismiss="modal">x</a>
   			<div class="pull-left">
     			{{#if profile}}
@@ -36,7 +34,7 @@
   			</div>
   			<div class="media-body">
 				{{#if profile}}
-							{{profile.parent}}
+							
 					<h4 class="media-heading">{{profile.name}}</h4>
 					
 				{{#each membersInfoAll}}
@@ -75,7 +73,7 @@
 
 					{{#if profile}}
 					
-					<a herf="" name="chngpw" id="chngpw" class="btn btn-info btn-xs chngpw">Change Username & Password</a>
+					<a herf="" name="chngpw" id="chngpw" class="btn btn-info btn-xs chngpw">Change Password</a>
 					<a herf="" name="save" id="save" class="btn btn-primary btn-xs save">Update Member Info</a>
 							
 							{{else}}
@@ -155,22 +153,22 @@
 	<form action="" method="POST" role="form" id="addMemberForm">
 		<div class="form-group">
 			<label for="">Username</label>
-			<input type="text" class="form-control" name="uname" value="" id="uname" >
+			<input type="text" class="form-control" name="uname" value="" id="uname" required>
 		</div>
 	
 	<div class="form-group">
 		<label for="">E-mail</label>
-		<input type="email" class="form-control e-mail" name="e-mail" id="e-mail" >
+		<input type="email" class="form-control e-mail" name="e-mail" id="e-mail" required >
 	</div>
 
 	<div class="form-group">
 		<label for="">Password</label>
-		<input type="password" class="form-control password" name="password" id="password" >
+		<input type="password" class="form-control password" name="password" id="password" required >
 	</div>
 
 	<div class="form-group">
 			<label for="">Re-Enter Password</label>
-			<input type="password" class="form-control password password2" name="password2" id="password2" >
+			<input type="password" class="form-control password password2" name="password2" id="password2" required>
 	</div>		
 	</form>
 </template>

@@ -119,20 +119,32 @@ Template.mydutiesinforow.events({
 
 	'click .edit': function(evt,tmpl){
 
-		Session.set('confirmation',true);
+		rd3.show();
 		Session.set('dutiedata',tmpl.data._id);
 }
 
 })
 
-Template.mydutieconfirmationdialog.events({  
-	'click .close': function(evt,tmpl){
-		Session.set('confirmation',false);
-},
+Meteor.startup(function(){
+	  var shareDialogInfo = {
 
-	'click .confirm': function(evt,tmpl){
+	    template: Template.mydutieconfirmationdialog,
+	    title: "Dutie Confirmation",
+	    buttons: {
+	      "yes": {
+	        class: 'btn-success',
+	        label: 'Yes'
+	      },
+	      "no": {
+	        class: 'btn-danger',
+	        label: 'No'
+	      }
+	    }
+	  }
+	  rd3 = ReactiveModal.initDialog(shareDialogInfo);
+	  rd3.buttons.yes.on('click', function(button){
 
-		var duti = Duties.findOne({_id:Session.get('dutiedata')});
+	  		var duti = Duties.findOne({_id:Session.get('dutiedata')});
 		var dutiestat = 'doing';
 		var updatedutie ={dutiename:duti.dutiename,
 			dutiedesc:duti.dutiedesc,
@@ -143,12 +155,20 @@ Template.mydutieconfirmationdialog.events({
 			addeddate:duti.addeddate
 		};
 		
-		Meteor.call('updateDutie2',Session.get('dutiedata'),updatedutie);
-		Session.set('confirmation',false);
-	},
 
-	'click .reject': function(evt,tmpl){
-		var duti = Duties.findOne({_id:Session.get('dutiedata')});
+			Meteor.call('updateDutie2',Session.get('dutiedata'), updatedutie, function(err, result){
+				if(!err){
+					toastr.success('Dutie Confirmed')
+				} else {
+					toastr.error('Dutie Not Confirmed')
+				}
+
+			});
+		});
+
+	  rd3.buttons.no.on('click', function(button){
+	  	var dutieid = Session.get('dutiedata');
+	  	var duti = Duties.findOne({_id:Session.get('dutiedata')});
 		var dutieStatus = 'not doing';
 		var updatedutie ={dutiename:duti.dutiename,
 			dutiedesc:duti.dutiedesc,
@@ -159,12 +179,15 @@ Template.mydutieconfirmationdialog.events({
 			addeddate:duti.addeddate
 		};
 
-		Meteor.call('updateDutie2',Session.get('dutiedata'),updatedutie);
-		Session.set('confirmation',false);
-	}
-})
+			Meteor.call('updateDutie2',dutieid, updatedutie, function(err, result){
+				if(!err){
+					toastr.warning('Dutie Reject')
+				} else {
+					toastr.success('Dutie Confirmed')
+				}
 
-
-
-
+			});
+		});
+	  
+	});
 }

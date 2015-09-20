@@ -10,7 +10,7 @@ Template.member.rendered = function(){
 }
 
 Template.member.Users= function(){
-// ,{sort:{date:-1}
+
  	return Meteor.users.find({});   	
 }
 

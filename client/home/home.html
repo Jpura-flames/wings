@@ -1,16 +1,16 @@
 <template name="home">
-	
-		<div class="span8 well">
+	<div class="container">
+		<div class="col-md-8 well">
 			<label for="posttext "> Post Notice</label>
 			<input class="input-xxlarge textarea posttexts" type="text" name="posttexts" placeholder="What is newest?" value="" id="posttext">
 		</div>
-		<div class ="span5">
-		<ul class="unstyled" id="postlist">
-			{{#each Posttexts}}
-				{{>post}}
-			 {{/each}}
-		</ul>
-			 		
+		<div class ="col-md-7">
+			<ul class="list-unstyled" id="postlist">
+				{{#each Posttexts}}
+					{{>post}}
+				 {{/each}}
+			</ul> 		
+		</div>
 	</div>	
 </template>
 

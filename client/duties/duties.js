@@ -1,7 +1,7 @@
 if(Meteor.isClient){
 	Session.setDefault('appName','Event Manager');
 	Session.setDefault('showeventform', false);	
-	Session.setDefault('confirmation', false);	
+	Session.setDefault('dutiid', false);	
 Template.duties.rendered = function(){
 
 	Deps.autorun(function(){
@@ -12,7 +12,7 @@ Template.duties.rendered = function(){
 }
 
 
-Template.dutiesinforow.chekdutieStat = function(){
+Template.duties.chekdutieStat = function(){
 
 	var dutie = Duties.findOne({_id:this._id});
 		if(dutie.dutiestatus === null)
@@ -37,7 +37,12 @@ Template.duties.dutieList = function(){
 	return Duties.find();
 }
 
-Template.dutiesinforow.memberData = function(){
+Template.coveredduties.dutieList2 = function(){
+
+	return Duties.find();
+}
+
+Template.duties.memberData = function(){
 
 	var mem = Duties.findOne({_id:this._id});
 	var memid= mem.member;
@@ -46,7 +51,7 @@ Template.dutiesinforow.memberData = function(){
 	return showmember; 
 }
 
-Template.dutiesinforow.adminData = function(){
+Template.duties.adminData = function(){
 
 	var duti = Duties.findOne({_id:this._id});
 	var eventId= duti.event;
@@ -54,7 +59,7 @@ Template.dutiesinforow.adminData = function(){
 	
 	return showevent; 
 }
-Template.dutiesinforow.dutieEvent = function(){
+Template.duties.dutieEvent = function(){
 
 	var duti = Duties.findOne({_id:this._id});
 	var eventId= duti.event;
@@ -62,89 +67,128 @@ Template.dutiesinforow.dutieEvent = function(){
 	
 	return showevent; 
 }
-Template.dutiesinforow.events({  
+Template.duties.events({  
 	'click .close': function(evt,tmpl){
 		Meteor.call('deleteDutie',tmpl.data._id);
 	},
 
 	'click .confirm': function(evt,tmpl){
 
-		var duti = Duties.findOne({_id:tmpl.data._id});
+		Session.set('dutiid', this._id);	
+
+		 var shareDialogInfo = {
+
+	    template: Template.dutieconfirmationdialog,
+	    title: "Dutie Confirmation",
+	    buttons: {
+	      "yes": {
+	        class: 'btn-success',
+	        label: 'Yes'
+	      },
+	      "no": {
+	        class: 'btn-danger',
+	        label: 'No'
+	      }
+	    }
+	  }
+
+	  rd4 = ReactiveModal.initDialog(shareDialogInfo);
+	  rd4.buttons.yes.on('click', function(button){
+
+		var dutieid = Session.get('dutiid');
+	  	var duti = Duties.findOne({_id:dutieid});
 		var dutiestat = 'doing';
 		var updatedutie ={dutiename:duti.dutiename,
-			dutiedesc:duti.dutiedesc,
-			event:duti.event,
-			datetime:duti.datetime,
-			member:duti.member,
-			dutiestatus:dutiestat,
-			addeddate:duti.addeddate
+		dutiedesc:duti.dutiedesc,
+		event:duti.event,
+		datetime:duti.datetime,
+		member:duti.member,
+		dutiestatus:dutiestat,
+		addeddate:duti.addeddate
 		};
 		
-		Meteor.call('updateDutie2',tmpl.data._id,updatedutie);
-		
-	},
 
-	'click .reject': function(evt,tmpl){
-		var duti = Duties.findOne({_id:tmpl.data._id});
-		var dutieStatus = 'not doing';
+			Meteor.call('updateDutie2',dutieid, updatedutie, function(err, result){
+				if(!err){
+					toastr.success('Dutie Confirmed')
+				} else {
+					toastr.error('Dutie Not Confirmed')
+				}
+
+			});
+		});
+
+	  rd4.buttons.no.on('click', function(button){
+ 	
+	  	var dutieid = Session.get('dutiid');
+	  	var duti = Duties.findOne({_id:dutieid});
+		var dutiestatus = 'not doing';
 		var updatedutie ={dutiename:duti.dutiename,
 			dutiedesc:duti.dutiedesc,
 			event:duti.event,
 			datetime:duti.datetime,
 			member:duti.member,
-			dutiestatus:dutieStatus,
+			dutiestatus:dutiestatus,
 			addeddate:duti.addeddate
 		};
 
-		Meteor.call('updateDutie2',tmpl.data._id,updatedutie);
+			Meteor.call('updateDutie2',dutieid, updatedutie, function(err, result){
+				if(!err){
+					toastr.warning('Dutie Reject')
+				} else {
+					toastr.success('Dutie Not Rejected')
+				}
+
+			});
+		});
+
+		rd4.show();	
 		
 	},
 
-	'click .edit': function(evt,tmpl){
+	'click .del': function(evt,tmpl){
+	Session.set('dutiid', this._id);	
 
-		Session.set('confirmation',true);
-		Session.set('dutiedata',tmpl.data._id);
+		 var shareDialogInfo = {
+
+	    template: Template.dutiedeldialog,
+	    title: "Dutie Confirmation",
+	    buttons: {
+	      "yes": {
+	        class: 'btn-success',
+	        label: 'Yes'
+	      },
+	      "no": {
+	        class: 'btn-danger',
+	        label: 'No'
+	      }
+	    }
+	  }
+
+	  rd5 = ReactiveModal.initDialog(shareDialogInfo);
+	  rd5.buttons.yes.on('click', function(button){
+
+		var dutieid = Session.get('dutiid');
+	  	
+		
+			Meteor.call('deleteDutie',dutieid, function(err, result){
+				if(!err){
+					toastr.success('Dutie Deleted')
+				} else {
+					toastr.error('Dutie Not Deleted')
+				}
+
+			});
+		});
+
+	  rd5.buttons.no.on('click', function(button){
+ 	
+	  		rd5.hide();
+			});
+
+		rd5.show();
 }
 
-})
-
-Template.confirmationdialog.events({  
-	'click .close': function(evt,tmpl){
-		Session.set('confirmation',false);
-},
-
-	'click .confirm': function(evt,tmpl){
-
-		var duti = Duties.findOne({_id:Session.get('dutiedata')});
-		var dutiestat = 'doing';
-		var updatedutie ={dutiename:duti.dutiename,
-			dutiedesc:duti.dutiedesc,
-			event:duti.event,
-			datetime:duti.datetime,
-			member:duti.member,
-			dutiestatus:dutiestat,
-			addeddate:duti.addeddate
-		};
-		
-		Meteor.call('updateDutie2',Session.get('dutiedata'),updatedutie);
-		Session.set('confirmation',false);
-	},
-
-	'click .reject': function(evt,tmpl){
-		var duti = Duties.findOne({_id:Session.get('dutiedata')});
-		var dutieStatus = 'not doing';
-		var updatedutie ={dutiename:duti.dutiename,
-			dutiedesc:duti.dutiedesc,
-			event:duti.event,
-			datetime:duti.datetime,
-			member:duti.member,
-			dutiestatus:dutieStatus,
-			addeddate:duti.addeddate
-		};
-
-		Meteor.call('updateDutie2',Session.get('dutiedata'),updatedutie);
-		Session.set('confirmation',false);
-	}
 })
 
 }

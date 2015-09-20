@@ -10,14 +10,13 @@
 								
 					 	</div>	
 						
-						<div class="well">
 								{{#each eventList}}
 									<div class="" >
 										{{>dutiesmgtinforow}}
 									</div>
 								{{/each}}
 							
-						</div>
+						
 				</div>
 			
 	   		</div>
@@ -28,20 +27,27 @@
 
 
 <template name="dutiesmgtinforow">
-	<div class="dutieinforow" id="dutieinforow">
-	<ul class="unstyled well">
-		<li>
+	<div class="dutieinforow well" id="dutieinforow">
+	<ul class="" style='list-style-type: none;'>
 
-			<p class="eventname">{{eventname}}</p>
-	
-			<p class="muted commentText"> {{eventdatetime}} </p>
+		<table class="table table-striped">
+			        		    <thead>
+			        		        <tr>
+			        		        	<th>Event Name</th>
+			        		        	<th>Date Time</th>
+			        		        </tr>
+			        		    </thead>
+			        		    <tbody>
+			        		        <tr>
+			        		        	<td>{{eventname}}</td>
+			        		        	<td>{{eventdatetime}}</td>
+			        		        	<td><a herf="#" name="photo" id="photo" class="btn-sm btn-info photo">Assign Member</a></td>
+			        		        </tr>
+			        		    </tbody>
 		
-		</li>
-	        
-		<a herf="#" name="photo" id="photo" class="btn-sm btn-info photo">Assign Photographer</a>
-		<a herf="#" name="aw" id="aw" class="btn-sm btn-warning aw">Assign Aritcle Writer</a>
-		<a herf="#" name="gd" id="gd" class="btn-sm btn-success gd">Assign Graphic Designer</a>
-		<a herf="#" name="cordi" id="cordi" class="btn-sm btn-primary cordi">Assign Cordinator</a>
+		</table>   
+		
+		
 	</ul>	
 		
 			{{#each eventDutie}}
@@ -53,24 +59,59 @@
 
 <template name="assigndutiesmgt">
 	<div class="assigndutiesmgt" id="assigndutiesmgt">
-		<ul class="unstyled well">
+		<ul class="unstyled" style='list-style-type: none;'>
 			<li>
 
-{{#if checkdutiestat}}
-	<a herf="#" name="del" id="del" class="btn-small btn-warning del">Not Ready</a>	
-	{{else}}
+
+				<ul class="list-group list-unstyled">
+							<table class="table table-striped">
+			        		    <thead>
+			        		        <tr>
+			        		        	<th>Status</th>
+			        		        	<th>Member Name</th>
+			        		            <th>Dutie</th>
+			        		            <th>Event Name</th>	      
+			        		            <th>Start Time</th>
+			        		            <th>Venue</th>
+			        		            <th>Status</th>
+			        		        </tr>
+			        		    </thead>
+			        		    <tbody>
+			                      
+					
+								     <tr>
+								     <td>
+								           		{{#if checkdutiestat}}
+		
 		{{#if showdutiestat}}
 			<a herf="#" name="del" id="del" class="btn-sm btn-success del">{{showdutiestatus}}</a>
 		{{else}}
 			<a herf="#" name="del" id="del" class="btn-sm btn-danger del">{{showdutiestatus}}</a>
 		{{/if}}
-{{/if}}		
 
-				{{dutiename}}
-				{{dutieMem.name}}
+{{else}}
+		<a herf="#" name="del" id="del" class="btn-small btn-warning del">Not Ready</a>	
+{{/if}}		
+																	</td>
+
+								             <td>{{memberData.name}}</td>
+								             <td>{{dutiename}}</td>
+								             <td>{{dutieEvent.eventname}}</td>
+								             <td>{{dutieEvent.eventdatentimestart}}</td>
+								             <td>{{dutieEvent.venue}}</td>
+								             <td>{{dutiestatus}}</td>	
+								             <td> <a herf="" name="save" id="view" class="btn btn-primary pull-right confirm">Change</a></td>	
+								             <td> <a herf="" name="save" id="view" class="btn btn-danger pull-right del">Delete</a></td>			            
+								           </tr>
+
+
+			        		    </tbody>
+			        		</table>        			
+						</ul>		
 				
-<a herf="#" name="delete" id="delete" class="btn-sm btn-danger delete pull-right">Delete </a>							
-<a herf="#" name="update" id="update" class="btn-sm btn-warning update pull-right">Update</a>
+
+						
+<!-- <a herf="#" name="update" id="update" class="btn-sm btn-warning update pull-right">Update</a> -->
 
 
 			
@@ -79,6 +120,7 @@
 			
 	</div>
 </template>
+
 <template name="dutiesmgtForm">
 	<form action="" method="POST" role="form">
 		<div class="form-group">
@@ -119,7 +161,7 @@
 
 					<script type="text/javascript">
             			$(function () {
-                		$('#datetimepicker1').datetimepicker();
+                		this.$('#datetimepicker1').datetimepicker();
             				});
 					</script>
 		</div>
@@ -160,8 +202,8 @@
 
 <template name="dutiedeleteprompt">
 	<form action="" method="POST" role="form">
-		<div class="form-group">	
-					<label for="name">Are you sure want to delete this dutie?</label>
+		<div class="form-group">
+			<label for="name">Are you sure want to delete this dutie?</label>
 		</div>
 	</form> 
 </template>

@@ -16,20 +16,27 @@ Template.dutiesmgtForm.rendered = function(){
 
 	Deps.autorun(function(){
 	Meteor.subscribe("Events");
-	Meteor.subscribe("Members");	
+	Meteor.subscribe("Members");
+	Meteor.subscribe("Duties");		
 	})
+	var dutietype = Session.get('assignType');
 
-	var dutie = Duties.findOne({_id:Session.get('updateDutie')}) ;
+	//alert(dutietype);
+	$('#dutietype').val(dutietype);
+
+	var dutie = Duties.findOne({_id:Session.get('updateDutie')});
 	if(dutie){
-		$('.dutietype').val(dutie.dutiename);
-		$('.dutiestatus').val(dutie.dutiestatus);
-		$('.member').val(dutie.member);	
+		$('#dutietype').val(dutie.dutiename);
+		$('#dutiestatus').val(dutie.dutiestatus);
+		
+		$('#member').val();	
 	}
+
 }
 
-Template.dutiesmgtinforow.job= function(){
+Template.dutiesmgtinforow.job2= function(){
 		
-		return Session.get('job');
+		return Session.get('job2');
 }
 
 Template.dutiesmgtForm.job= function(){
@@ -53,29 +60,23 @@ Template.dutiesmgtForm.assignType= function(){
 	var assigndutie
 	if(Session.get('job')==='pg')
 	{
-		assigndutie ='Assign Photographer';
-		return assigndutie;
-		
+		return 'Assign Photographer';
 	}
 	if(Session.get('job')==='aw')
 	{
-		assigndutie ='Assign Aritcle Writer';
-		return assigndutie;
+		return 'Assign Aritcle Writer';
 	}
 	if(Session.get('job')==='coordi')
 	{
-		assigndutie ='Assign Coordinator';
-		return assigndutie;
+		return 'Assign Coordinator';
 	}
 	if(Session.get('job')==='gd')
 	{
-		assigndutie ='Assign Graphic Designer';
-		return assigndutie;
+		return 'Assign Graphic Designer';
 	}
 	if(Session.get('job')=== null)
 	{
-		assigndutie ='Add Dutie';
-		return assigndutie;
+		return 'Add Dutie';
 	}
 }
 
@@ -101,11 +102,11 @@ Template.assigndutiesmgt.checkdutiestat = function(){
 	var dutie = Duties.findOne({_id:this._id});
 		if(dutie.dutiestatus === null)
 		{
-			var dutiestatus = dutie.dutiestatus;
+			var dutiestatus = null;
 		}
 		else
 		{
-			var dutiestatus = null;
+			var dutiestatus = dutie.dutiestatus;
 		}
 		return dutiestatus;
 }
@@ -184,7 +185,7 @@ Template.dutiesmgtForm.events({
 	var dutiedesc = tmpl.find('.dutiedesc').value;
 	var event = tmpl.find('.eventname').value;
 	var datetime = tmpl.find('.datentime').value;
-	var member = tmpl.find('.member').value;
+	var member = tmpl.find('#member').value;
 	var dutiestatus = tmpl.find('.dutiestatus').value;
 	var addeddate = new Date();
 
@@ -214,6 +215,7 @@ Template.dutiesmgtinforow.events({
 	Session.set('editing_dutie_data',this._id);
 	Session.set('showdutieform',true);
 	rd.show();
+
 },
 	'click .photo':function(evt, tmpl){
 	Session.set('editing_dutie_data',this._id);
@@ -223,7 +225,7 @@ Template.dutiesmgtinforow.events({
 },
 
 	'click .aw':function(evt, tmpl){
-		console.log(this)
+		
 	Session.set('editing_dutie_data',this._id);
 	Session.set('job','aw');
 	Session.set('showdutieform',true);
@@ -254,9 +256,83 @@ Template.dutiesmgtForm.events = function(){
 Template.assigndutiesmgt.events({
 
 	'click .update':function(evt, tmpl){
-	Session.set('showdutieform',true);
-	Session.set('updateDutie',this._id);
-	rd.show();
+	
+	var currentdutie = Duties.findOne({_id: this._id});
+	
+
+	
+	 var shareDialogInfo = {
+
+	    template: Template.dutiesmgtForm,
+	    title: "Update Dutie",
+	    buttons: {
+	      "update": {
+	        class: 'btn-info',
+	        label: 'Update'
+	      },
+	      "cancel": {
+	        class: 'btn-danger',
+	        label: 'Cancel'
+	      }
+	    }
+	  }
+	  rd7 = ReactiveModal.initDialog(shareDialogInfo);
+	  rd7.buttons.update.on('click', function(button){
+
+			var dutiid = currentdutie.event;
+			var dutiename = $('#dutietype').val();
+			var dutiedesc = $('.dutiedesc').val();
+			var member = $('#member').val();
+			var datetime = $('.datentime').val();
+			var eventData = Events.findOne({
+			  _id: currentdutie.event
+			});
+
+			alert(member);
+			return;
+			var memberdata = Members.findOne({
+			  parent: member
+			});
+
+			if(memberdata){
+				var msg = 'You are assign to event ' + dutiename + ', Date:' + datetime + ' Duration: ' + dutiedesc + '.';
+				var phnnumber = memberdata.mobile;
+				Meteor.call('sendsms', msg, phnnumber);
+			}
+
+			var dutiedesc = $('.dutiedesc').val();
+
+			var datetime = $('.datentime').val();
+			var member = $('.member').val();
+			var dutiestatus = null;
+			var addeddate = new Date();
+
+			var dutieid = Session.get('updateDutie');
+			
+			var dutie = {
+			  dutiename: dutiename,
+			  dutiedesc: dutiedesc,
+			  event: currentdutie.event,
+			  datetime: datetime,
+			  member: member,
+			  dutiestatus: dutiestatus,
+			  addeddate: addeddate
+			};
+
+
+			Meteor.call('updateDutie', dutieid, dutie, function(err, result){
+				if(!err){
+					toastr.success('Dutie Successfully Updated')
+				} else {
+					toastr.error('Dutie Not Updated')
+				}
+
+			});
+		});
+
+
+
+	rd7.show();
 },	
 
 	'click .delete':function(evt, tmpl){
@@ -269,7 +345,6 @@ Template.assigndutiesmgt.events({
 }	
 
 })
-
 
 
 Template.dutiesmgtForm.updateDutie= function(){
@@ -295,9 +370,22 @@ Template.dutiesmgt.showdutieform = function(){
 }	
 
 		Meteor.startup(function(){
+
+
+		var title = Session.get('assignType')
+		if(title!=="")
+		{
+			title="Add Dutie";
+		}
+		else
+		{
+			
+		}
+
 	  var shareDialogInfo = {
+
 	    template: Template.dutiesmgtForm,
-	    title: "Add Dutie",
+	    title: title,
 	    buttons: {
 	      "ok": {
 	        class: 'btn-info',
@@ -309,6 +397,7 @@ Template.dutiesmgt.showdutieform = function(){
 	      }
 	    }
 	  }
+	  
 	  rd = ReactiveModal.initDialog(shareDialogInfo);
 	  rd.buttons.ok.on('click', function(button){
 			var dutiename;
@@ -317,7 +406,7 @@ Template.dutiesmgt.showdutieform = function(){
 			  dutiename = 'Photographer';
 			}
 			if (Session.get('job') === 'aw') {
-			  dutiename = 'Aritcle Writer';
+			  dutiename = 'Article Writer';
 			}
 			if (Session.get('job') === 'coordi') {
 			  dutiename = 'Coordinator';
@@ -365,6 +454,7 @@ Template.dutiesmgt.showdutieform = function(){
 			  addeddate: addeddate
 			};
 
+
 			Meteor.call('addDutie', options, function(err, result){
 				if(!err){
 					toastr.success('Dutie Successfully Added')
@@ -380,33 +470,18 @@ Template.dutiesmgt.showdutieform = function(){
 
 Template.dutiesmgt.events({
 	'click .adddutiebtn':function(e, tmpl){
-		rd.show();
+		rd7.show();
 }	
 })
 
-Template.dutiesmgtForm.updateDutieinfo = function(){
+
+
+
+Template.dutiesmgtForm.helpers = function(){
 
 	return Duties.findOne({_id:Session.get('updateDutie')});
 }
 
-var updateEvent = function(options){
-	
-	var event = {
-			eventname:options.eventname,
-			eventdatetime:options.eventdatetime,
-			venue:options.venue,
-			client:options.client,
- 			contact:options.contact,
-			eventcordinator:options.eventcordinator,
-			eventstatus:options.eventstatus,
-			addeddate:options.addeddate,
-			userId:options.userid			
-			
-						};
-			
-	Meteor.call('updateProject',event);
-				
-			return true;
-}
+
 
 }

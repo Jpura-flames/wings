@@ -1,4 +1,11 @@
 Session.setDefault('showeventform', false);	
+Session.setDefault("eventnull",false);
+Session.setDefault("eventdatentimestartnull",false);
+Session.setDefault("venuenull",false);
+Session.setDefault("clientnull",false);
+Session.setDefault("contactnull",false);
+Session.setDefault("eventcordinatornull",false);
+	
 
 Template.eventmgt.rendered = function(){
 
@@ -8,69 +15,72 @@ Template.eventmgt.rendered = function(){
 	})
 }
 
-Template.eventmgtForm.rendered = function(){
-	
-	var eve = Events.findOne({_id:Session.get('editing_event_data')})
-	// $('.status').val(eve.eventstatus);
+
+Template.eventmgtForm.rendered = function () {
+
+	var eventInfo = Events.findOne({_id:Session.get('editing_event_data')});
+	$('#dtpdatentimestart').val(eventInfo.eventdatentimestart);
+	$('#dtpdatentimeend').val(eventInfo.eventdatentimeend);
+	$('#addeventname').val(eventInfo.eventname);
+	$('#venue').val(eventInfo.venue);
+	$('#client').val(eventInfo.client);
+	$('#eventcontact').val(eventInfo.contact);
+	$('#eventcor').val(eventInfo.eventcordinator);
+
+	Session.set('showeventform', false);	
+	Session.set("eventnull",false);
+	Session.set("eventdatentimestartnull",false);
+	Session.set("venuenull",false);
+	Session.set("clientnull",false);
+	Session.set("contactnull",false);
+	Session.set("eventcordinatornull",false);
+
 }
 
 Template.eventmgt.eventList = function(){
 
-	return Events.find({}, {sort: {eventdatetime: 1}});
+	return Events.find({}, {sort: {eventdatentimestart: -1}});
+}
+
+Template.coveredeventpagemgt.eventList = function(){
+
+	return Events.find({}, {sort: {eventdatentimestart: -1}});
 }
 
 
-Template.eventmgtForm.events({
-	'click .save':function(e, tmpl){
 
-
-},
-	'click .cancel':function(evt, tmpl){
-		Session.set('showeventform',false);
-},
-	'click .close':function(evt, tmpl){
-	Session.set('showeventform',false);
-},	
-
-	'click .delete':function(evt, tmpl){
-	var id = Session.get('editing_event_data');
-	Meteor.call('removeEvent',id);
-	alert('Event Successfully Deleted');
-	Session.set('showeventform',false);
-}
-
-
-})
-
-
-Template.eventmgtinforow.events({
-	'click .updateform':function(evt, tmpl){
-
-	Session.set('showeventform',true);
-}
-
-})
-
-// Template.eventmgtForm.events = function(){
-// 	return Events.findOne({_id:Session.get('editing_event_data')});
-// }
 
 Template.eventmgtForm.editing_event_data= function(){
 		
 	return Session.get('editing_event_data');
 }
+Template.eventmgtForm.eventnull= function(){
+		
+	return Session.get('eventnull');
+}
+
+Template.eventmgtForm.eventdatentimestartnull= function(){
+		
+	return Session.get('eventdatentimestartnull');
+}
+Template.eventmgtForm.venuenull= function(){
+		
+	return Session.get('venuenull');
+}
+Template.eventmgtForm.clientnull= function(){
+		
+	return Session.get('clientnull');
+}
+Template.eventmgtForm.contactnull= function(){
+		
+	return Session.get('contactnull');
+}
+Template.eventmgtForm.eventcordinatornull= function(){
+		
+	return Session.get('eventcordinatornull');
+}
 
 
-
-Template.eventmgtForm.rendered = function () {
-	var eventInfo = Events.findOne({_id:Session.get('editing_event_data')});
-	$('#datentime').val(eventInfo.eventdatetime);
-	$('#eventname').val(eventInfo.eventname);
-	$('#venue').val(eventInfo.venue);
-	$('#client').val(eventInfo.client);
-	$('#contact').val(eventInfo.contact);
-	$('#eventcor').val(eventInfo.eventcordinator);
-};
 
 Template.eventmgt.showeventform = function(){
 
@@ -80,20 +90,39 @@ Template.eventmgt.showeventform = function(){
 Template.eventmgt.events({
 	'click .addevenbtn':function(e, tmpl){
 		var id = this._id;
-		Session.set('editing_event_data', id)
+		var title;
+		if(id)
+		{
+			title="Update Event";
+			btntype ='btn-warning';
+		}
+		else
+		{
+			title="Add Event";
+			btntype ='hide';
+		}
+
+
+		Session.set('editing_event_data', this._id);
 		e.preventDefault();
 		 var shareDialogInfo = {
 	    template: Template.eventmgtForm,
-	    title: "Add Event",
+	    title: title,
 	    modalDialogClass: "share-modal-dialog", //optional
 	    modalBodyClass: "share-modal-body", //optional
 	    modalFooterClass: "share-modal-footer",//optional
 	    removeOnHide: true, //optional. If this is true, modal will be removed from DOM upon hiding
+
 	    buttons: {
 	      "ok": {
 	        class: 'btn-info',
 	        closeModalOnClick: false,
 	        label: 'Ok'
+	      },
+	      "del": { 
+	        class: btntype,
+	        closeModalOnClick: false,
+	        label: 'Delete'
 	      },
 	      "cancel": {
 	        class: 'btn-danger',
@@ -102,23 +131,82 @@ Template.eventmgt.events({
 	    }
 	  };
 
-
 		var rd = ReactiveModal.initDialog(shareDialogInfo);
 	  
 	  	rd.buttons.ok.on('click', function(button){
-	var eventname = $('#eventname').val();
-	var eventdatentime = $('#datentime').val();
-	var venue = $('#venue').val();
-	var client = $('#client').val();
-	var contact = $('#contact').val();
-	var eventcordinator = $('#eventcor').val();
-	var eventstatus = 'future';
-	var addeddate = new Date();
+		var eventname = $('#addeventname').val();
+		var eventdatentimestart = $('#dtpdatentimestart').val();
+		var eventdatentimeend = $('#dtpdatentimeend').val();
+		var venue = $('#venue').val();
+		var client = $('#client').val();
+		var contact = $('#eventcontact').val();
+		var eventcordinator = $('#eventcor').val();
+		var eventstatus = 'future';
+		var addeddate = new Date();
+		
 	
+	if(eventname==='')
+	{
+		Session.set("eventnull",true);
+
+		if(eventdatentimestart ==='')
+		{
+			Session.set("eventdatentimestartnull",true);
+		
+			if(venue==='')
+			{
+				Session.set("venuenull",true);
+				
+				if(client==='')
+				{
+					Session.set("clientnull",true);
+					
+
+					if(contact==='')
+					{
+						Session.set("contactnull",true);
+						
+
+						if(eventcordinator==='')
+						{
+							Session.set("eventcordinatornull",true);
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+				
+		}
+	}	
+
+
+	if(eventname==='')
+		return;
 	
+	if(eventdatentimestart ==='')
+		return;
+
+	if(venue==='')
+		return;
+
+	if(client==='')
+		return;
+
+	if(contact==='')
+		return;
+
+	if(eventcordinator==='')
+		return;
+
+	
+			
 	var userid = Meteor.userId();
-	var options = {eventname:eventname,
-			eventdatetime:eventdatentime,
+	var eventdata = {eventname:eventname,
+			eventdatentimestart:eventdatentimestart,
+			eventdatetimeend:eventdatentimeend,
 			venue:venue,
 			client:client,
 			contact:contact,
@@ -127,11 +215,11 @@ Template.eventmgt.events({
 			addeddate:addeddate,
 			userid:userid		
 			};
+			//console.log(eventdata)
 
 	if(id)
 	{
-
-		Meteor.call('updateEvent',options,id,function(err, result){
+		Meteor.call('updateEvent',eventdata,id,function(err, result){
 			    	if(!err){
 			    		rd.hide();
 			    		toastr.success('Event Updated')
@@ -141,10 +229,10 @@ Template.eventmgt.events({
 	  			});
 	}
 	else{
-			Meteor.call('addEvent',options,function(err, result){
+			Meteor.call('addEvent',eventdata,function(err, result){
 			    	if(!err){
 			    		rd.hide();
-			    		toastr.success('Add New Event Successfully')
+			    		toastr.success('New Event Added ')
 			    	} else {
 			    		toastr.error('Event Not Added')
 			    	}
@@ -155,116 +243,205 @@ Template.eventmgt.events({
   			 
 	 })
 
+	rd.buttons.cancel.on('click', function(button){
+		Session.set("eventnull",false);
+		rd.hide();
+	})
+
+	rd.buttons.del.on('click', function(button){
+		Meteor.call('removeEvent',id,function(err, result){
+
+			    	if(!err){			    		
+			    		rd.hide();
+			    		toastr.success('Event Deleted')
+			    	} else {
+			    		toastr.error('Event Not Deleted')
+			    	}
+	  			});
+	})
+
 	  	rd.show();
-	
+	  	Session.set('showeventform', false);	
+		Session.set("eventnull",false);
+		Session.set("eventdatentimestartnull",false);
+		Session.set("venuenull",false);
+		Session.set("clientnull",false);
+		Session.set("contactnull",false);
+		Session.set("eventcordinatornull",false);
 }	
 })
 
-// var updateEvent = function(options){
-	
-// 	var event = {
-// 			eventname:options.eventname,
-// 			eventdatetime:options.eventdatetime,
-// 			venue:options.venue,
-// 			client:options.client,
-//  			contact:options.contact,
-// 			eventcordinator:options.eventcordinator,
-// 			eventstatus:options.eventstatus,
-// 			addeddate:options.addeddate,
-// 			userId:options.userid
-			
-			
-// 						};
-			
-// 	Meteor.call('updateProject',event);
-				
-// 			return true;
+/********coveredeventpagemgt********/
 
-// }
+Template.coveredeventpagemgt.events({
 
-Template.eventmgtinforow.eventDay = function(){
-	var showevent = Events.findOne({_id:this._id});
-	var eventdatetime = showevent.eventdatetime.length;
+	'click .view1':function(e, tmpl){
 
-	var eventDay = showevent.eventdatetime.substring(8,10);		
-	return eventDay;
-}
+		var id = this._id;
+		var title;
+		if(id)
+		{
+			title="Update Event";
+			btntype ='btn-warning';
+		}
+		else
+		{
+			title="Add Event";
+			btntype ='hide';
+		}
 
-Template.eventmgtinforow.eventYear = function(){
-	var showevent = Events.findOne({_id:this._id});
-	var eventdatetime = showevent.eventdatetime.length;
 
-	var eventYear = showevent.eventdatetime.substring(0,4);		
-	return eventYear;
-}
+		Session.set('editing_event_data', this._id);
+		e.preventDefault();
+		 var shareDialogInfo = {
+	    template: Template.eventmgtForm,
+	    title: title,
+	    modalDialogClass: "share-modal-dialog", //optional
+	    modalBodyClass: "share-modal-body", //optional
+	    modalFooterClass: "share-modal-footer",//optional
+	    removeOnHide: true, //optional. If this is true, modal will be removed from DOM upon hiding
 
-Template.eventmgtinforow.eventTime = function(){
-	var showevent = Events.findOne({_id:this._id});
-	var eventdatetime = showevent.eventdatetime.length;
+	    buttons: {
+	      "ok": {
+	        class: 'btn-info',
+	        closeModalOnClick: false,
+	        label: 'Ok'
+	      },
+	    
+	      "cancel": {
+	        class: 'btn-danger',
+	        label: 'Cancel'
+	      }
+	    }
+	  };
 
-	var eventTime = showevent.eventdatetime.substring(10);		
-	return eventTime;
-}
-
-Template.eventmgtinforow.eventMonth = function(){
-	var showevent = Events.findOne({_id:this._id});
-	var eventdatetime = showevent.eventdatetime.length;
-
-	
-		var eventMonth = showevent.eventdatetime.substring(5,7);
-
+		var rd = ReactiveModal.initDialog(shareDialogInfo);
+	  
+	  	rd.buttons.ok.on('click', function(button){
+		var eventname = $('#addeventname').val();
+		var eventdatentimestart = $('#dtpdatentimestart').val();
+		var eventdatentimeend = $('#dtpdatentimeend').val();
+		var venue = $('#venue').val();
+		var client = $('#client').val();
+		var contact = $('#eventcontact').val();
+		var eventcordinator = $('#eventcor').val();
+		var eventstatus = 'future';
+		var addeddate = new Date();
 		
-		if(eventMonth === '01')
+	
+	if(eventname==='')
+	{
+		Session.set("eventnull","Enter Event Name");
+
+		if(eventdatentimestart ==='')
 		{
-			var eventMonthstr = 'Jan';
+			Session.set("eventdatentimestartnull","Enter Event Datetime");
+		
+			if(venue==='')
+			{
+				Session.set("venuenull","Enter Event Venue");
+				
+				if(client==='')
+				{
+					Session.set("clientnull","Enter Client Name");
+					
+
+					if(contact==='')
+					{
+						Session.set("contactnull","Enter Contact");
+						
+
+						if(eventcordinator==='')
+						{
+							Session.set("eventcordinatornull","Enter Event Cordinator");
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+				
 		}
-		if(eventMonth === '02')
-		{
-			var eventMonthstr = 'Feb';
-		}
-		if(eventMonth === '03')
-		{
-			var eventMonthstr = 'Mar';
-		}
-		if(eventMonth === '04')
-		{
-			var eventMonthstr = 'Apr';
-		}
-		if(eventMonth === '05')
-		{
-			var eventMonthstr = 'May';
-		}
-		if(eventMonth === '06')
-		{
-			var eventMonthstr = 'June';
-		}
-		if(eventMonth === '07')
-		{
-			var eventMonthstr = 'July';
-		}
-		if(eventMonth === '08')
-		{
-			var eventMonthstr = 'Aug';
-		}
-		if(eventMonth === '09')
-		{
-			var eventMonthstr = 'Sep';
-		}
-		if(eventMonth === '10')
-		{
-			var eventMonthstr = 'Oct';
-		}
-		if(eventMonth === '11')
-		{
-			var eventMonthstr = 'Nov';
-		}
-		if(eventMonth === '12')
-		{
-			var eventMonthstr = 'Dec';
-		}
+	}	
 
 
-		return eventMonthstr;
+	if(eventname==='')
+		return;
+	
+	if(eventdatentimestart ==='')
+		return;
+
+	if(venue==='')
+		return;
+
+	if(client==='')
+		return;
+
+	if(contact==='')
+		return;
+
+	if(eventcordinator==='')
+		return;
 
 	
-}
+			
+	var userid = Meteor.userId();
+	var eventdata = {eventname:eventname,
+			eventdatentimestart:eventdatentimestart,
+			eventdatetimeend:eventdatentimeend,
+			venue:venue,
+			client:client,
+			contact:contact,
+			eventcordinator:eventcordinator,
+			eventstatus:eventstatus,
+			addeddate:addeddate,
+			userid:userid		
+			};
+			//console.log(eventdata)
+
+	if(id)
+	{
+		Meteor.call('updateEvent',eventdata,id,function(err, result){
+			    	if(!err){
+			    		rd.hide();
+			    		toastr.success('Event Updated')
+			    	} else {
+			    		toastr.error('Event Not Updated')
+			    	}
+	  			});
+	}
+	else{
+			Meteor.call('addEvent',eventdata,function(err, result){
+			    	if(!err){
+			    		rd.hide();
+			    		toastr.success('New Event Added ')
+			    	} else {
+			    		toastr.error('Event Not Added')
+			    	}
+	  			});
+		}
+	
+	
+  			 
+	 })
+
+	rd.buttons.cancel.on('click', function(button){
+		Session.set("eventnull",false);
+		rd.hide();
+	})
+
+
+	  	rd.show();
+	  	Session.set('showeventform', false);	
+		Session.set("eventnull",false);
+		Session.set("eventdatentimestartnull",false);
+		Session.set("venuenull",false);
+		Session.set("clientnull",false);
+		Session.set("contactnull",false);
+		Session.set("eventcordinatornull",false);
+}	
+})
+
+

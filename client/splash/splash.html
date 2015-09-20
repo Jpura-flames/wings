@@ -2,13 +2,15 @@
 	<div class="splash">
 		<div class="hero-unit span8">
 			<h1>Welcome to Wings</h1>
-			<p>Login From Your Account ...</p>
+			
+			{{#if currentUser}}
+		  			
+		  	{{else}}
 		  		<ul class="nav navbar-nav navbar-left">
-		  	 		<li> 
-		    				
-						
-		    			</li>
-		  		</ul>	
+		  			<p>Login From Your Account ...</p>
+		  	 		{{> loginButtons}}
+		  		</ul>
+		  	{{/if}}
 		</div>
 		
 

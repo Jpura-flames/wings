@@ -2,84 +2,81 @@
 {{#if showpostdeleteprompt}}
 	{{>postdeleteprompt}}
 {{/if}}
-		<div class="span7">
-		  
-			<div class="media">
-			 	<a class="close close2" data-dismiss="modal">x</a>	
-					<a class="pull-left" href="">
-						{{#if profile}}
-    						<img class="media-object" src="/{{profile.parent}}.png" width="60px">
-    					{{else}}
-    						<img class="media-object" src="/default.png" width="60px">
-    					{{/if}}
-					</a>	
+		<div class="container">
+				<div class="media">
+				 	<a class="close close2" data-dismiss="modal">x</a>	
+						<a class="pull-left" href="">
+							{{#if profile}}
+	    						<img class="media-object" src="/{{profile.parent}}.png" width="60px">
+	    					{{else}}
+	    						<img class="media-object" src="/default.png" width="60px">
+	    					{{/if}}
+						</a>	
 					<div class="media-body">
+							
+							<h4 class="media-heading">{{profile.name}}</h4>
 						
-						<h4 class="media-heading">{{profile.name}}</h4>
-					
-					  	<p>{{text}}</p>
+						  	<p>{{text}}</p>
 						<div class="media">				
-						<span class="badge badge-success"></span>
-						<h4 class="media-heading">
-							
-						{{#if checklike}}	
-							<a class="likebtn muted cursorHand"><small>unlike</small></a>
-						{{else}}
-							<a class="likebtn muted cursorHand"><small>like</small></a>
-						{{/if}}						
-						</h4>	
-										<span class="badge badge-info">{{likeCount}}</span><br> 
-							
+							<span class="badge badge-success"></span>
+							<h4 class="media-heading">
+								
+							{{#if checklike}}	
+								<a class="likebtn muted cursorHand"><small>unlike</small></a>
+							{{else}}
+								<a class="likebtn muted cursorHand"><small>like</small></a>
+							{{/if}}						
+							</h4>	
+											<span class="badge badge-info">{{likeCount}}</span><br> 
+								
 						</div>
 					</div>
-	   		</div>
+	   			</div>
 			
 		
-		<div class="postcomment cmnt">	
-			
-					<input class="comment input-xlarge textarea" type="text" name="comment" placeholder="Write a comment..." id="comment">
-
-					<ul class ="unstyled">
-						{{#each CommentTexts}}
-							{{>postcomment }}
-						{{/each}}
-		  			</ul>
-		</div>
+				<div class="postcomment cmnt">	
+					<input class="comment input-xlarge textarea" type="text" name="comment" 
+					placeholder="Write a comment..." id="comment">
+						<ul class ="list-unstyled">
+							{{#each CommentTexts}}
+								{{>postcomment}}
+							{{/each}}
+			  			</ul>
+				</div>
 			
 			
 		</div>
 </template>
 
 <template name="postcomment">
-
-
-<li class ="well">
-	<a class="close close1" data-dismiss="modal">x</a>
-	<a class ="pull-left" href="">
-		<img src="/{{profile.parent}}.png" width="30px" class="img-rounded" alt=""/>
-	</a>
-								
-	<p class="muted commentUser">{{profile.name}}</p>
-	
-	<p class="muted commentText">{{text}} </p>
-
-	<div class="media">
-											
-						<span class="badge badge-success"></span>
-						<h4 class="media-heading">
-						{{#if checklike}}
-							<a class="commentlikebtn muted cursorHand"><small>unlike</small></a>
-						{{else}}
-							<a class="commentlikebtn muted cursorHand"><small>like</small></a>
-						{{/if}}						
-						</h4>
+	<div class ="well col-md-7">
+		<div>
+			<a class="close close1" data-dismiss="modal">x</a>
+			<a class ="pull-left" href="">
+				<img src="/{{profile.parent}}.png" width="30px" class="img-rounded" alt=""/>
+			</a>
 									
-									{{#if likeCount}}
-										<span class="badge badge-info">{{likeCount}}</span>
-									{{/if}}						 
-						</div>
+			<p class="muted commentUser">{{profile.name}}</p>
+		
+			<p class="muted commentText">{{text}} </p>
+		</div>
+				<div class="media">
+														
+									<span class="badge badge-success"></span>
+									<h4 class="media-heading">
+									{{#if checklike}}
+										<a class="commentlikebtn muted cursorHand"><small>unlike</small></a>
+									{{else}}
+										<a class="commentlikebtn muted cursorHand"><small>like</small></a>
+									{{/if}}						
+									</h4>
+												
+												{{#if likeCount}}
+													<span class="badge badge-info">{{likeCount}}</span>
+												{{/if}}						 
+				</div>
 
-</li>
+	</div>
 </template>
 
 <template name="postdeleteprompt">

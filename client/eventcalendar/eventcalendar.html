@@ -1,0 +1,100 @@
+<template name="eventcalendar">
+	<input type="hidden" name="lastMod" value="{{lastMod}}" id="lastMod">
+		<div class="container">
+			<div class="col-md-8">
+			 				
+					<div class="row-fluid">
+						
+						<div class="page-header">
+							<h1>Event Calendar</h1>
+
+								<div id="calendar">
+
+								</div>
+
+					 	</div>	
+				</div>
+			
+	   		</div>
+			
+		</div>
+</template>
+
+<template name="eventcalmgtForm">
+	<form action="" method="POST" role="form">
+		<div class="form-group">
+			<label for="">Event Name</label>
+			<input type="text" class="form-control" name='name' value='' id='caladdeventname'/>
+			{{#if eventnull}}
+				<label class="req" for="name">Required</label>
+			{{/if}}
+		</div>
+
+		<div class="form-group">
+		<label for="name">Start Date & Time *</label>
+			<div class="form-group">
+                <div class='input-group date' id='caldtpstart'>
+                    <input type='text' class="form-control datentime" name='dtpstart' id ='dtpdatentimestart' />
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                  {{#if eventdatentimestartnull}}
+                  			<br>
+							<label class="req" for="name">Required</label>
+					{{/if}}
+            </div>
+            <script type="text/javascript">
+            		$(function () {
+                	$('#dtpstart').datetimepicker();
+            					});
+        	</script>
+        </div>
+
+        <div class="form-group">
+		<label for="name">End Date & Time </label>
+			<div class="form-group">
+                <div class='input-group date' id='caldatetimepickerend'>
+	                    <input type='text' class="form-control datentime" name="datentime" id ="dtpdatentimeend" />
+	                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	</div>
+            </div>
+			<script type="text/javascript">
+            		$(function () {
+                	$('#caldatetimepickerend').datetimepicker();
+            					});
+        	</script>
+        </div>
+
+        <div class="form-group">
+        	<label for="name">Venue *</label>
+        	<input type="text" class="form-control venue" name="venue" value="" id="calvenue" />
+        	{{#if venuenull}}
+				<label class="req" for="name">Required</label>
+			{{/if}}
+        </div>
+
+        <div class="form-group">
+        	<label for="name">Client *</label>
+        	<input type="text" class="form-control client" name="client" value="" id="calclient"/>
+        	{{#if clientnull}}
+				<label class="req" for="name">Required</label>
+			{{/if}}
+        </div>
+         <div class="form-group">
+        	<label for="name">Contact *</label>
+        	<input type="text" class="form-control contact" name="contact" value="" id="caleventcontact" />
+        	{{#if contactnull}}
+				<label class="req" for="name">Required</label>
+			{{/if}}
+        </div>
+         <div class="form-group">
+        	<label for="name">Event Cordinator *</label>
+        	<input type="text" class="form-control eventcor" name="eventcor" value="" id="caleventcor" >
+        	{{#if eventcordinatornull}}
+				<label class="req" for="name">Required</label>
+			{{/if}}
+        </div>
+
+	</form>
+</template>

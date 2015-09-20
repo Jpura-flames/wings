@@ -9,18 +9,19 @@ accounts-base
 #accounts-ui
 accounts-password
 iron:router
-#mrt:bootstrap-3-timepicker
 meteorhacks:kadira
 #mrt:bootstrap-3
-#deepwell:bootstrap-datepicker2
-#mrt:bootstrap-2-datetimepicker
 mrt:moment
 mrt:twilio-meteor
 #mrt:accounts-ui-bootstrap-dropdown
 mizzao:bootstrap-3
-rajit:accounts-ui-bootstrap-3
 pahans:underscore-helper
 pahans:reactive-modal
 chrismbeckett:toastr
 tsega:bootstrap3-datetimepicker
+mrt:fullcalendar
+cfs:standard-packages
+cfs:gridfs
+mizzao:user-status
 
+accounts-ui

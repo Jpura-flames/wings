@@ -1,26 +1,46 @@
 <template name="eventmgt">
-{{#if showeventform}}
-		{{>eventmgtForm}}
-{{/if}}
-		<div class="span7">
-			<div class="container-fluid">
-			 				
+
+		<div class="container-fluid">
+			<div class="col-md-9">			 				
 					<div class="row-fluid">
-						
 						<div class="page-header">
 							<h1>Events <small>Management</small></h1>
 						<button class="btn btn-large btn-info addevenbtn">Add Event</button>		
 					 	</div>	
 						
-						<div class="">
-							<ul class="unstyled well">
-								{{#each eventList}}
-									
-										{{>eventmgtinforow}}
-									
-								{{/each}}
+						
+							<ul class="list-group list-unstyled">
+
+								<table class="table table-striped">
+        		    <thead>
+        		        <tr>
+        		            <th>Event Name</th>
+        		            <th>Start Time</th>	      
+        		            <th>End Time</th>
+        		            <th>Venue</th>
+        		            <th>Client</th>
+        		            <th>Contact</th>
+        		            <th>Event Coordinator</th>
+        		        </tr>
+        		    </thead>
+        		    <tbody>
+                        {{#each eventList}}
+					           <tr>
+					             <td>{{eventname}}</td>
+					             <td>{{eventdatentimestart}}</td>
+					             <td>{{eventdatetimeend}}</td>
+					             <td>{{venue}}</td>
+					              <td>{{client}}</td>
+					             <td>{{contact}}</td>
+					             <td>{{eventcordinator}}</td>	
+					              <td> <a herf="" name="save" id="view" class="btn btn-primary pull-right addevenbtn">View</a></td>			            
+					           </tr>
+                        {{/each}}
+        		    </tbody>
+        		</table>        
+							
 							</ul>							
-						</div>
+						
 				</div>
 			
 	   		</div>
@@ -29,84 +49,161 @@
 </template>
 
 
-<template name="eventmgtinforow">
-	<div class="eventinforow" id="eventinforow">
-	
-		<li class=" well">
 
-			<dl class="dl-horizontal">
-			<dt>
-			<h2 class='pull-left Dateshow'>
-				<span class="date2">
-					<span class="month">
-						{{eventMonth}}
-					</span>
-					<span class="day">
-						{{eventDay}}
-					</span>
-				</span>  
-			</h2>
-			</dt>
-
-			<dd><p class="eventname">{{eventname}}</p></dd>
-			
-			
-  				<dt>Venue 	 			: </dt> <dd>{{venue}}</dd>
-  				<dt>Time			: </dt> <dd>{{eventTime}}</dd>
-  				<dt>Coordinator 		: </dt> <dd>{{eventcordinator}}</dd>
-  				<dt>Organizer 		: </dt> <dd>{{client}}</dd>
-  				<dt>Contact 		: </dt> <dd>{{contact}}</dd>
-			</dl>
-			<a herf="" name="addevenbtn" id="addevenbtn" class="btn btn-warning addevenbtn">Update</a>
-		</li>
-		
-	
-	</div>
-
-</template>
 
 <template name="eventmgtForm">
-
 	<form action="" method="POST" role="form">
 		<div class="form-group">
-			<label for="">Event Name </label>
-			<input type="text" class="form-control" name="name" value="" id="eventname" required />
+			<label for="">Event Name</label>
+			<input type="text" class="form-control" name='name' value='' id='addeventname'/>
+			{{#if eventnull}}
+				<label class="req" for="name">Required</label>
+			{{/if}}
 		</div>
 
 		<div class="form-group">
-		<label for="name">Date & Time </label>
+		<label for="name">Start Date & Time *</label>
 			<div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control datentime" name="datentime" id ="datentime" value="" required/>
+                <div class='input-group date' id='dtpstart'>
+                    <input type='text' class="form-control datentime" name='dtpstart' id ='dtpdatentimestart' />
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
+                  {{#if eventdatentimestartnull}}
+                  			<br>
+							<label class="req" for="name">{{eventdatentimestartnull}}</label>
+					{{/if}}
             </div>
-
-			<script type="text/javascript">
+            <script type="text/javascript">
             		$(function () {
-                	$('#datetimepicker1').datetimepicker();
+                	$('#dtpstart').datetimepicker();
             					});
         	</script>
         </div>
 
         <div class="form-group">
-        	<label for="name">Venue</label>
-        	<input type="text" class="form-control venue" name="venue" value="" id="venue" required />
+		<label for="name">End Date & Time </label>
+			<div class="form-group">
+                <div class='input-group date' id='datetimepickerend'>
+	                    <input type='text' class="form-control datentime" name="datentime" id ="dtpdatentimeend" />
+	                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	</div>
+            </div>
+			<script type="text/javascript">
+            		$(function () {
+                	$('#datetimepickerend').datetimepicker();
+            					});
+        	</script>
         </div>
 
         <div class="form-group">
-        	<label for="name">Client</label>
-        	<input type="text" class="form-control client" name="client" value="" id="client" required />
+        	<label for="name">Venue *</label>
+        	<input type="text" class="form-control venue" name="venue" value="" id="venue" />
+        	{{#if venuenull}}
+				<label class="req" for="name">{{venuenull}}</label>
+			{{/if}}
+        </div>
+
+        <div class="form-group">
+        	<label for="name">Client *</label>
+        	<input type="text" class="form-control client" name="client" value="" id="client"/>
+        	{{#if clientnull}}
+				<label class="req" for="name">Required</label>
+			{{/if}}
         </div>
          <div class="form-group">
-        	<label for="name">Contact</label>
-        	<input type="text" class="form-control contact" name="contact" value="" id="contact" />
+        	<label for="name">Contact *</label>
+        	<input type="text" class="form-control contact" name="contact" value="" id="eventcontact" />
+        	{{#if contactnull}}
+				<label class="req" for="name">{{contactnull}}</label>
+			{{/if}}
         </div>
          <div class="form-group">
-        	<label for="name">Event Cordinator</label>
+        	<label for="name">Event Cordinator *</label>
         	<input type="text" class="form-control eventcor" name="eventcor" value="" id="eventcor" >
+        	{{#if eventcordinatornull}}
+				<label class="req" for="name">Required</label>
+			{{/if}}
         </div>
 
 	</form>
 </template>
+
+<template name="eventmanagement">
+    <div>
+                                <ul class="nav nav-tabs">
+                                    <li role="presentation" class="active"><a href="/eventmanagement">Upcoming Events </a></li>
+                                    <li role="presentation"><a href="/coveredeventsmgt">Coverd Events</a></li>
+                                    
+                                </ul>
+                                <div>
+                                    {{>eventmgt}}
+                                    
+                                </div>
+    </div>
+</template>
+
+<template name="coveredeventsmgt">
+    <div>
+            <ul class="nav nav-tabs">
+                    <li role="presentation" ><a href="/eventmanagement">Upcoming Events </a></li>
+                    <li role="presentation" class="active"><a href="/coveredeventsmgt">Coverd Events</a></li>
+                
+            </ul>
+            <div>
+                {{>coveredeventpagemgt}}       
+            </div>
+    </div>
+
+</template>
+
+<template name="coveredeventpagemgt">
+
+        <div class="container-fluid">
+            <div class="col-md-9">
+                            
+                    <div class="row-fluid">
+                      
+                        
+                        
+                        <div class="page-header">
+                            <h1>Covered Events</h1>
+
+                            
+                            
+                        
+                        </div>  
+                        <!-- Load all events  -->
+                                    <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Start Time</th>       
+                            <th>End Time</th>
+                            <th>Venue</th>
+                            <th>Client</th>
+                            <th>Contact</th>
+                            <th>Event Coordinator</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each eventList}}
+                               <tr>
+                                 <td>{{eventname}}</td>
+                                 <td>{{eventdatentimestart}}</td>
+                                 <td>{{eventdatetimeend}}</td>
+                                 <td>{{venue}}</td>
+                                  <td>{{client}}</td>
+                                 <td>{{contact}}</td>
+                                 <td>{{eventcordinator}}</td>   
+                                  <td> <a herf="" name="save" id="view1" class="btn btn-primary pull-right view1">View</a></td>                     
+                               </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+</template>
+                                
